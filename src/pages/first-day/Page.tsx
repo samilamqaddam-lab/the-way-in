@@ -20,7 +20,7 @@ function MiniWindow({ tone, title, children }: { tone: 'light' | 'dark'; title: 
         <span className="h-2 w-2 rounded-full bg-blush" aria-hidden="true" />
         <span className="h-2 w-2 rounded-full bg-sun" aria-hidden="true" />
         <span className="h-2 w-2 rounded-full bg-leaf" aria-hidden="true" />
-        <span className={`ml-1 truncate font-mono text-[0.62rem] ${dark ? 'text-on-plum-dim' : 'text-neutral-400'}`}>
+        <span className={`ml-1 truncate font-mono text-[0.62rem] ${dark ? 'text-on-plum-dim' : 'text-neutral-600'}`}>
           {title}
         </span>
       </div>
@@ -69,19 +69,19 @@ function Moment({ n, emoji, title, mock, happening, youDo, breathe }: MomentProp
           <div>{mock}</div>
           <div className="space-y-3.5 text-[0.95rem] leading-relaxed">
             <div>
-              <p className="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-sky">
+              <p className="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-sky-deep">
                 what's happening
               </p>
               <p className="mt-1 text-ink-soft">{happening}</p>
             </div>
             <div>
-              <p className="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-tangerine">
+              <p className="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-tangerine-deep">
                 what you do
               </p>
               <p className="mt-1 text-ink-soft">{youDo}</p>
             </div>
             <div>
-              <p className="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-leaf">breathe</p>
+              <p className="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-leaf-deep">breathe</p>
               <p className="mt-1 text-ink-soft">{breathe}</p>
             </div>
           </div>
@@ -119,7 +119,7 @@ export function FirstDayPage() {
             mock={
               <div className="grid gap-3">
                 <MiniWindow tone="light" title="the app">
-                  <p className="rounded-lg border-2 border-line bg-paper-deep px-2.5 py-1.5 font-sans text-[0.78rem] text-neutral-400">
+                  <p className="rounded-lg border-2 border-line bg-paper-deep px-2.5 py-1.5 font-sans text-[0.78rem] text-neutral-600">
                     Message your agent…
                   </p>
                 </MiniWindow>
@@ -241,7 +241,7 @@ export function FirstDayPage() {
             mock={
               <MiniWindow tone="light" title="your-computer/my-first-site/index.html">
                 <div className="rounded-lg bg-[#FFF1E0] p-3 text-center">
-                  <p className="font-display text-base font-extrabold text-tangerine">Hi, I'm Nadia 👋</p>
+                  <p className="font-display text-base font-extrabold text-tangerine-deep">Hi, I'm Nadia 👋</p>
                   <p className="font-sans text-[0.7rem] text-neutral-600">hiking · Pixel the cat · strong coffee</p>
                 </div>
               </MiniWindow>

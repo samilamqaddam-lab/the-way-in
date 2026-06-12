@@ -27,7 +27,7 @@ export function MissionPicker({ missions, onPick }: MissionPickerProps) {
             </span>
             <span className="mt-3 block font-display text-xl font-bold leading-tight">{mission.label}</span>
             <span className="mt-1 block text-ink-soft">{mission.tagline}</span>
-            <span className="mt-4 block font-mono text-xs font-bold uppercase tracking-[0.14em] text-tangerine">
+            <span className="mt-4 block font-mono text-xs font-bold uppercase tracking-[0.14em] text-tangerine-deep">
               play this one ▸
             </span>
           </motion.button>

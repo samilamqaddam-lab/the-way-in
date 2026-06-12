@@ -233,7 +233,7 @@ export function HelpPage() {
           >
             {Object.entries(glossary).map(([key, entry]) => (
               <motion.div key={key} variants={fadeUp} className="card-pop p-4">
-                <p className="font-mono text-[0.72rem] font-bold uppercase tracking-[0.14em] text-tangerine">
+                <p className="font-mono text-[0.72rem] font-bold uppercase tracking-[0.14em] text-tangerine-deep">
                   {entry.term}
                 </p>
                 <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{entry.def}</p>

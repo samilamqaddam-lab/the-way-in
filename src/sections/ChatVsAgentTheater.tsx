@@ -72,7 +72,7 @@ function Stamp({ show, children, tone }: { show: boolean; children: ReactNode; t
             animate={{ opacity: 1, scale: 1, rotate: -3 }}
             transition={popSpring}
             className={`shadow-pop-sm inline-block rounded-lg border-[2.5px] border-ink px-3.5 py-1.5 text-center font-mono text-xs font-bold ${
-              tone === 'leaf' ? 'bg-leaf text-paper' : 'bg-paper-deep text-ink'
+              tone === 'leaf' ? 'bg-leaf text-ink' : 'bg-paper-deep text-ink'
             }`}
           >
             {children}
@@ -188,7 +188,7 @@ function AgentStage({ phase, blocks, color, burst, onPick }: AgentStageProps) {
       <div className="relative mx-auto mt-2 w-full max-w-60">
         <div className="flex min-h-44 flex-col gap-1.5 rounded-xl border-[2.5px] border-plum-line bg-paper p-2.5">
           {blocks === 0 && (
-            <p className="m-auto font-mono text-[0.65rem] italic text-neutral-400">empty lot — waiting for the okay…</p>
+            <p className="m-auto font-mono text-[0.65rem] italic text-ink-soft">empty lot — waiting for the okay…</p>
           )}
           {blocks >= 1 && (
             <motion.div

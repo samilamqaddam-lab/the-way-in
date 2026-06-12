@@ -4,10 +4,10 @@ type StickerColor = 'sun' | 'tangerine' | 'grape' | 'leaf' | 'sky' | 'blush' | '
 
 const COLORS: Record<StickerColor, string> = {
   sun: 'bg-sun text-ink',
-  tangerine: 'bg-tangerine text-paper',
+  tangerine: 'bg-tangerine text-ink',
   grape: 'bg-grape text-paper',
-  leaf: 'bg-leaf text-paper',
-  sky: 'bg-sky text-paper',
+  leaf: 'bg-leaf text-ink',
+  sky: 'bg-sky text-ink',
   blush: 'bg-blush text-ink',
   paper: 'bg-paper text-ink',
 }

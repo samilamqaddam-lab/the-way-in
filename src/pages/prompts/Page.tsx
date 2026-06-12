@@ -211,6 +211,7 @@ export function PromptsPage() {
           </div>
 
           {/* the shelves */}
+          <h2 className="sr-only">The shelves</h2>
           <motion.div
             key={filter}
             variants={staggerKids}

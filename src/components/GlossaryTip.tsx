@@ -71,7 +71,7 @@ export function GlossaryTip({ k, children }: GlossaryTipProps) {
             transition={popSpring}
             className={`absolute z-30 bottom-full mb-2.5 block w-[17rem] max-w-[calc(100vw-2.5rem)] card-pop p-3.5 text-left text-[0.95rem] leading-snug font-normal normal-case tracking-normal ${alignClass}`}
           >
-            <span className="block font-mono text-[0.68rem] font-bold uppercase tracking-[0.14em] text-tangerine mb-1">
+            <span className="block font-mono text-[0.68rem] font-bold uppercase tracking-[0.14em] text-tangerine-deep mb-1">
               {entry.term}
             </span>
             {entry.def}

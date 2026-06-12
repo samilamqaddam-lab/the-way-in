@@ -1,8 +1,16 @@
 # The Way In
 
-> A free, single-page site that welcomes complete beginners — teenagers to retirees, zero technical background — into agentic AI coding tools. Its message: if you can write a good chat message, you already have the core skill; an agent is an AI that doesn't just answer but does things on your computer, always asking permission first.
+> A free site that welcomes complete beginners — teenagers to retirees, zero technical background — into agentic AI coding tools. Its message: if you can write a good chat message, you already have the core skill; an agent is an AI that doesn't just answer but does things on your computer, always asking permission first.
 
-## What's on the page
+## Pages
+
+- [The Way In](./): the main single-scroll funnel — chat vs agent, a scripted test drive, fear-calming, tool picker, first prompts
+- [The Prompt Pantry](./prompts/): 22 paste-ready prompts organized by life situation, plus a build-your-own Prompt Mixer
+- [The Mission Deck](./missions/): 8 scripted, zero-risk agent test drives to play through
+- [Your First Day](./first-day/): an honest 10-moment walkthrough of a first real session, including errors and coming back tomorrow
+- [It Asked Me Something Weird](./help/): a decoder for confusing moments, plus a plain-words dictionary of every term used
+
+## What's on the main page
 
 - Chat vs. agent, explained side by side with the same request
 - A fully scripted in-browser "test drive" of an agent session (pure theater — nothing executes; the visitor sends a pre-written message and personally grants or denies permission)

@@ -45,6 +45,11 @@
   --color-blush: #ff7e9d;
   --color-alarm: #e03e2d;
 
+  /* darker accent tones — AA-safe for small text on paper */
+  --color-tangerine-deep: #bc3708;
+  --color-sky-deep: #1668d9;
+  --color-leaf-deep: #177a46;
+
   --color-plum: #241836;
   --color-plum-deep: #1a1128;
   --color-plum-line: #3d2c5c;
@@ -268,7 +273,7 @@
 
 .btn-tangerine {
   background: var(--color-tangerine);
-  color: var(--color-paper);
+  color: var(--color-ink);
 }
 
 .btn-sun {

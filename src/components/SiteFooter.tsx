@@ -18,6 +18,7 @@ export function SiteFooter({ from, current }: SiteFooterProps) {
   const roomHref = (r: (typeof ROOMS)[number]) => (from === 'root' ? r.fromRoot : r.fromSub)
   return (
     <>
+      <h2 className="sr-only">Around the site</h2>
       <motion.div
         variants={staggerKids}
         initial="hidden"

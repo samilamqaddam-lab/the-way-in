@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Pip's Quest — a tiny pixel adventure about AI agents · The Way In</title>
+    <meta
+      name="description"
+      content="Walk Pip through a pixel valley: meet the Terminal, find the easy app doors, visit the agent office — and face the Data Snatcher with what you've learned. ~10 minutes, zero risk."
+    />
+    <meta name="theme-color" content="#FBF5EB" />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="preload" href="/src/assets/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/instrument-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/jetbrains-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Pip's Quest — a tiny pixel adventure about AI agents" />
+    <meta
+      property="og:description"
+      content="Collect the five knowledge shards, outsmart the Data Snatcher, earn your certificate."
+    />
+    <meta property="og:image" content="../og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <style>
+      html {
+        background: #fbf5eb;
+      }
+      .boot {
+        min-height: 100svh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-size: 1rem;
+        letter-spacing: 0.12em;
+        color: #1b1611;
+      }
+      .boot em {
+        font-style: normal;
+        color: #f4581c;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot">loading the valley<em>&hellip;</em></div>
+    </div>
+    <script type="module" src="/src/pages/quest/main.tsx"></script>
+  </body>
+</html>

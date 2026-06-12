@@ -19,6 +19,7 @@ export default defineConfig({
         missions: entry('missions/index.html'),
         firstDay: entry('first-day/index.html'),
         help: entry('help/index.html'),
+        quest: entry('quest/index.html'),
       },
     },
   },

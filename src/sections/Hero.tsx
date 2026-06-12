@@ -1,7 +1,6 @@
 import { motion } from 'motion/react'
 import { useTypewriter } from '../lib/useTypewriter'
 import { Pip } from '../components/Pip'
-import { Sticker } from '../components/Sticker'
 import { Squiggle } from '../components/Squiggle'
 import { Marquee } from '../components/Marquee'
 import { Wordmark } from '../components/Wordmark'
@@ -75,19 +74,14 @@ export function Hero() {
 
       <header className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-5 pt-6">
         <Wordmark />
-        <span className="hidden sm:inline-block">
-          <Sticker color="sun" rotate={3}>
-            no signup · nothing to install
-          </Sticker>
-        </span>
       </header>
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-5 py-16 text-center">
         {/* drifting prompt chips — other people's first messages */}
         {/* dashed + flat + muted = "example text", never "tap me" — buttons keep the solid pop look.
             The chips live in their own reserved band above the headline (flow layout), so they can
-            never drift next to the buttons, whatever the viewport. */}
-        <div className="relative mb-6 h-20 w-full max-w-4xl md:mb-8 md:h-24" aria-hidden="true">
+            never drift next to the buttons. Desktop-only: on phones the marquee carries this job. */}
+        <div className="relative mb-8 hidden h-24 w-full max-w-4xl md:block" aria-hidden="true">
           {CHIPS.map((chip) => (
             <span
               key={chip.text}
@@ -99,12 +93,12 @@ export function Hero() {
           ))}
         </div>
 
-        {/* the plain-words promise — visible from the very first paint, no metaphor */}
-        <p className="mb-5 text-balance px-2 font-mono text-[0.8rem] font-semibold text-ink-soft md:text-sm">
+        {/* one short orienting line — visible from the very first paint */}
+        <p className="mb-5 font-mono text-[0.8rem] font-semibold text-ink-soft md:text-sm">
           <span className="text-tangerine-deep" aria-hidden="true">
             ✳{' '}
           </span>
-          a free little guide to AI agents — the kind that builds for you, not just chats
+          a free little guide to AI agents
         </p>
 
         <h1
@@ -135,8 +129,9 @@ export function Hero() {
           transition={{ delay: 0.45, duration: 0.5 }}
           className="mx-auto mt-7 max-w-xl text-balance text-lg text-ink-soft md:text-xl"
         >
-          If you've ever written a good message to ChatGPT or Claude, you already speak the language that builds real
-          things. This site walks you through the door — and nothing here can break.
+          An agent is the AI that doesn't just answer — it builds the thing. If you've ever written a good message to
+          ChatGPT or Claude, you already speak its language. This site walks you through the door, and nothing here
+          can break.
         </motion.p>
 
         <motion.div
@@ -153,27 +148,15 @@ export function Hero() {
           </a>
         </motion.div>
 
-        {/* the contract — the send-off checklist confirms these exact four, as receipts */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+        {/* the contract, whispered — the send-off checklist hands back the receipts */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.85, duration: 0.5 }}
-          className="mt-8 flex max-w-xl flex-wrap items-center justify-center gap-x-2 gap-y-2 px-2"
+          className="mt-7 px-2 font-mono text-[0.72rem] text-ink-soft"
         >
-          <span className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.14em] text-ink-soft">
-            in one visit:
-          </span>
-          {['get what an agent is', 'try one, safely', 'pick your tool & cost', 'leave with a ready prompt'].map(
-            (promise) => (
-              <span
-                key={promise}
-                className="rounded-full border-2 border-ink bg-paper-deep px-3 py-1 text-[0.78rem] font-semibold"
-              >
-                {promise}
-              </span>
-            ),
-          )}
-        </motion.div>
+          free · no signup · ~10 minutes · you leave with a ready-to-paste prompt
+        </motion.p>
 
         <motion.p
           initial={{ opacity: 0 }}

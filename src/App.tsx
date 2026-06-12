@@ -4,6 +4,7 @@ import { Hero } from './sections/Hero'
 import { ChatVsAgent } from './sections/ChatVsAgent'
 import { TestDrive } from './sections/TestDrive'
 import { NothingToBreak } from './sections/NothingToBreak'
+import { QuestInvite, QuestSideTab } from './sections/QuestInvite'
 import { PickYourDoor } from './sections/PickYourDoor'
 import { FirstPrompts } from './sections/FirstPrompts'
 import { SendOff } from './sections/SendOff'
@@ -16,11 +17,13 @@ export default function App() {
       </a>
       <div className="grain" aria-hidden="true" />
       <QuickNav />
+      <QuestSideTab />
       <main>
         <Hero />
         <ChatVsAgent />
         <TestDrive />
         <NothingToBreak />
+        <QuestInvite />
         <PickYourDoor />
         <FirstPrompts />
         <SendOff />

@@ -9,6 +9,7 @@
 - [The Mission Deck](./missions/): 8 scripted, zero-risk agent test drives to play through
 - [Your First Day](./first-day/): an honest 10-moment walkthrough of a first real session, including errors and coming back tomorrow
 - [It Asked Me Something Weird](./help/): a decoder for confusing moments, plus a plain-words dictionary of every term used
+- [Pip's Quest](./quest/): a tiny pixel adventure that teaches the same curriculum by play — meet the Terminal, visit an agent office, answer the Data Snatcher's safety questions, earn a certificate
 
 ## What's on the main page
 

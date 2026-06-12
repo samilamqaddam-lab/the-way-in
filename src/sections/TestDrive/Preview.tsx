@@ -2,6 +2,11 @@ import { ConfettiBurst } from '../../components/ConfettiBurst'
 import { BirthdayPreview } from './previews/BirthdayPreview'
 import { QuizPreview } from './previews/QuizPreview'
 import { RecipePreview } from './previews/RecipePreview'
+import { FlashcardsPreview } from './previews/FlashcardsPreview'
+import { BandPreview } from './previews/BandPreview'
+import { PackingPreview } from './previews/PackingPreview'
+import { HoneyPreview } from './previews/HoneyPreview'
+import { PhotosPreview } from './previews/PhotosPreview'
 import type { Mission } from '../../data/missions'
 
 interface PreviewProps {
@@ -36,6 +41,11 @@ export function Preview({ missionId, folder, stage, burst }: PreviewProps) {
             {missionId === 'birthday' && <BirthdayPreview stage={stage} />}
             {missionId === 'quiz' && <QuizPreview stage={stage} />}
             {missionId === 'recipe' && <RecipePreview stage={stage} />}
+            {missionId === 'flashcards' && <FlashcardsPreview stage={stage} />}
+            {missionId === 'band' && <BandPreview stage={stage} />}
+            {missionId === 'packing' && <PackingPreview stage={stage} />}
+            {missionId === 'honey' && <HoneyPreview stage={stage} />}
+            {missionId === 'photos' && <PhotosPreview stage={stage} />}
           </>
         )}
         <ConfettiBurst trigger={burst} count={20} />

@@ -1,7 +1,7 @@
 import { SectionShell } from '../../components/SectionShell'
 import { Squiggle } from '../../components/Squiggle'
 import { DriveWindow } from './DriveWindow'
-import { missions } from '../../data/missions'
+import { classicMissions } from '../../data/missions'
 
 /** The home-page Test Drive section: intro + the shared drive window with the classic missions. */
 export function TestDrive() {
@@ -22,8 +22,13 @@ export function TestDrive() {
     >
       <div className="mt-12">
         <DriveWindow
-          missions={missions}
+          missions={classicMissions}
           doneCta={() => ({ href: '#first-prompts', label: 'Get your real first prompt ↓' })}
+          extraControls={
+            <a href="./missions/" className="font-mono text-xs underline decoration-2 underline-offset-4 hover:text-tangerine">
+              more missions ↗
+            </a>
+          }
         />
       </div>
     </SectionShell>

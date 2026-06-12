@@ -47,9 +47,11 @@ interface MomentProps {
   happening: ReactNode
   youDo: ReactNode
   breathe: ReactNode
+  /** optional link chips or extra guidance under the three voices */
+  extra?: ReactNode
 }
 
-function Moment({ n, emoji, title, mock, happening, youDo, breathe }: MomentProps) {
+function Moment({ n, emoji, title, mock, happening, youDo, breathe, extra }: MomentProps) {
   return (
     <motion.li variants={fadeUp} className="relative pl-14 sm:pl-16">
       <span
@@ -84,6 +86,7 @@ function Moment({ n, emoji, title, mock, happening, youDo, breathe }: MomentProp
               <p className="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-leaf-deep">breathe</p>
               <p className="mt-1 text-ink-soft">{breathe}</p>
             </div>
+            {extra && <div className="flex flex-wrap gap-2 pt-1">{extra}</div>}
           </div>
         </div>
       </div>
@@ -136,8 +139,35 @@ export function FirstDayPage() {
                 <GlossaryTip k="terminal">terminal</GlossaryTip> is just the chat window with the makeup off.
               </>
             }
-            youDo="Open whichever you picked. If you chose an app, it looks like every chat you've ever used. If you chose the terminal, you'll see a quiet little symbol waiting — that's the whole interface."
-            breathe="An open tool does nothing by itself. You can stare at it as long as you like; nothing moves until you type."
+            youDo={
+              <>
+                One-time honesty: the tool needs to get onto your computer first. <strong>App path:</strong> download,
+                sign in, done. <strong>Terminal path:</strong> one copy-paste install{' '}
+                <GlossaryTip k="command">command</GlossaryTip> from the official guide — about five minutes, once —
+                and from then on, opening your agent is just typing its name.
+              </>
+            }
+            breathe="The official guides below walk you through it click by click. Thousands of beginners did this yesterday; none of them broke anything."
+            extra={
+              <>
+                <a
+                  href="https://code.claude.com/docs/en/overview"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border-[2.5px] border-ink bg-sun px-3 py-1 text-xs font-bold shadow-pop-sm"
+                >
+                  Claude Code — official setup guide ↗
+                </a>
+                <a
+                  href="https://developers.openai.com/codex"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border-[2.5px] border-ink bg-paper px-3 py-1 text-xs font-bold shadow-pop-sm"
+                >
+                  Codex — official setup guide ↗
+                </a>
+              </>
+            }
           />
 
           <Moment

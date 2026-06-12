@@ -59,6 +59,7 @@ export const DIALOGS: Record<string, DialogRun> = {
       { speaker: 'Termi', tone: 'plum', text: '❯ got Claude Pro? Claude Code runs in me. Got ChatGPT Plus? Codex runs in me. Want free? OpenCode is free and open-source, and lives in me too.' },
       { speaker: 'Termi', tone: 'plum', text: "❯ fun fact: I'm older than the computer mouse. Still here. The cursor blinking in me? That's your cousin, by the way." },
       { speaker: 'Termi', tone: 'plum', text: '❯ how it works, simply: you type a message, the agent answers, and before it touches anything it asks you first. Same chat, more muscles.' },
+      { speaker: 'Termi', tone: 'plum', text: "❯ full honesty: moving an agent into me takes ONE copy-paste install command from its official guide. Five minutes, once. After that, you just type its name and we're talking." },
       { speaker: 'Termi', tone: 'plum', text: '❯ take this shard. And if you prefer pretty buttons — no offense taken. Visit the App Stand, west side of the valley.' },
     ],
     {

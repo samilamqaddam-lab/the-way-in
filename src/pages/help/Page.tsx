@@ -122,7 +122,12 @@ export function HelpPage() {
             </p>
             <p>
               If an agent suggests installing something, it's not dangerous — it's just a bigger step than you need
-              today. <em>“Let's do it without installing anything”</em> is a perfectly good reply, and it will adapt.
+              today. <em>”Let's do it without installing anything”</em> is a perfectly good reply, and it will adapt.
+            </p>
+            <p>
+              The one friendly exception: installing <strong>the agent itself</strong>, once — terminal tools arrive
+              via a single copy-paste command from their official guide, and the app versions are a normal download.
+              Five minutes, then never again.
             </p>
           </Accordion>
 

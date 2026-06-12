@@ -16,7 +16,7 @@ interface SendOffCopy {
 export const SEND_OFF_COPY = {
   en: {
     eyebrow: 'the secret',
-    titleA: 'The wall was a door',
+    titleA: 'The door was open',
     titleB: 'the whole time.',
     checklist: [
       'You know what an agent is — a doer, not just an answerer.',
@@ -33,7 +33,7 @@ export const SEND_OFF_COPY = {
   },
   fr: {
     eyebrow: 'le secret',
-    titleA: 'Le mur était une porte',
+    titleA: 'La porte était ouverte',
     titleB: 'depuis le début.',
     checklist: [
       'Tu sais ce qu’est un agent — un faiseur, pas juste un répondeur.',

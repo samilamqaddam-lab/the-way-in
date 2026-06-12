@@ -360,5 +360,10 @@ export const missions: Mission[] = [
   },
 ]
 
-/** The home page shows just the original three. */
-export const classicMissions = missions.slice(0, 3)
+/** The home page's taster trio — one business, one game, one heirloom. */
+const HOME_IDS: Array<Mission['id']> = ['band', 'quiz', 'recipe']
+export const classicMissions = HOME_IDS.map((id) => {
+  const m = missions.find((x) => x.id === id)
+  if (!m) throw new Error(`missing home mission ${id}`)
+  return m
+})

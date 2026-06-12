@@ -283,6 +283,34 @@ Then create a new empty folder called "packing-list" and work only inside it, us
 When you finish, explain how the remembering works, and how I'd ask you for a "camping trip" version later.`,
   },
   {
+    id: 'budget-tracker',
+    category: 'helpers',
+    emoji: '💰',
+    title: 'The pocket budget tracker',
+    forWho: 'for future you',
+    time: '~25 min',
+    what: 'Where does the money go? A private little app that knows — categories, monthly totals, zero judgment.',
+    prompt: `Let's build something genuinely useful: my personal budget tracker. I'm brand new to this — be patient and explain as you go. First ask me, one at a time: the currency I use, my four to six spending categories (food, transport, fun…), whether I want a monthly budget line per category, and if numbers should be celebrated or kept calm and neutral.
+
+Then create a new empty folder called "my-budget" and work only inside it, using plain HTML, CSS and JavaScript — no installs, fully offline. The app: I add an expense in two taps (amount + category), see this month's total per category and overall, with a simple bar per category that fills toward my budget line if I set one. A month switcher to look back. Save everything with localStorage and put it plainly on the page: "your numbers never leave this device." Big readable digits, friendly on a phone.
+
+When you're done, explain how the saving works in plain words, and suggest three upgrades I might want by next month.`,
+  },
+  {
+    id: 'landing-page',
+    category: 'thing',
+    emoji: '💼',
+    title: 'A landing page for your business',
+    forWho: 'for your customers',
+    time: '~25 min',
+    what: 'The slightly-more-official one: what you do, why you, how to reach you — trustworthy and clear.',
+    prompt: `I have a small business and it needs a proper landing page — clear and trustworthy, not flashy. I'm completely new to building websites, so be my guide as well as my builder. Ask me first, one at a time: the business name and what I actually do, who my typical customer is, the three things I most want them to know, how they can reach me or buy (and it's fine if that's "call me" or "visit the shop"), my opening hours or availability if relevant, and the feeling it should give (warm, professional, playful).
+
+Then create a new empty folder called "my-business-page" and work only inside it, using plain HTML, CSS and JavaScript — no installs, no frameworks. Build a clean one-pager: a clear headline saying what I do, the three things as tidy sections, a "how to reach me" block that's impossible to miss, and a simple footer. No fake reviews, no stock-photo energy — honest and readable, great on a phone, because that's where customers will find me.
+
+When it's done, explain each file simply, show me how to open it, and list three improvements worth doing once the first version feels good.`,
+  },
+  {
     id: 'recipe-scaler',
     category: 'helpers',
     emoji: '⚖️',
@@ -383,6 +411,8 @@ const FACETS: Record<string, { form: PromptForm; tags: string[] }> = {
   'club-page': { form: 'page', tags: ['club', 'team', 'sport', 'group', 'schedule'] },
   'plant-tracker': { form: 'app', tags: ['plants', 'home', 'care', 'reminder', 'garden'] },
   'split-bill': { form: 'app', tags: ['dinner', 'money', 'friends', 'restaurant', 'tip'] },
+  'budget-tracker': { form: 'app', tags: ['money', 'budget', 'finance', 'spending', 'tracker', 'savings'] },
+  'landing-page': { form: 'page', tags: ['business', 'landing', 'customers', 'shop', 'service', 'professional'] },
   'packing-list': { form: 'app', tags: ['travel', 'trip', 'vacation', 'holiday', 'packing'] },
   'recipe-scaler': { form: 'app', tags: ['cooking', 'kitchen', 'food', 'servings'] },
   'little-book': { form: 'page', tags: ['poems', 'quotes', 'words', 'gift', 'book'] },

@@ -33,6 +33,24 @@ const MIX_VIBE = [
   { id: 'fancy', label: 'a little fancy', phrase: 'elegant and a little fancy' },
 ] as const
 
+const MIX_PURPOSE = [
+  { id: 'joy', label: '✨ just for joy', phrase: "It's just for joy.", cats: ['hobby', 'words'] },
+  { id: 'celebration', label: '🎉 a celebration', phrase: "It's for a celebration.", cats: ['love'] },
+  {
+    id: 'business',
+    label: '💼 my business',
+    phrase: "It's for my small business — it should feel trustworthy and clear.",
+    cats: ['thing'],
+  },
+  {
+    id: 'money',
+    label: '📊 money & plans',
+    phrase: "It's for keeping my money or my plans organized.",
+    cats: ['helpers'],
+  },
+  { id: 'learning', label: '📚 learning', phrase: "It's for learning or teaching something.", cats: ['school'] },
+] as const
+
 const MIX_COLORS = [
   { id: 'sunset', label: 'warm sunset', dots: ['#F4581C', '#FF7E9D', '#FFC83D'], phrase: 'warm sunset oranges and pinks' },
   { id: 'garden', label: 'fresh garden', dots: ['#1F9D5B', '#7BE0A2', '#FFF6E0'], phrase: 'fresh garden greens' },
@@ -55,12 +73,15 @@ type What = (typeof MIX_WHAT)[number]
 type Who = (typeof MIX_WHO)[number]
 type Vibe = (typeof MIX_VIBE)[number]
 type MixColor = (typeof MIX_COLORS)[number]
+type Purpose = (typeof MIX_PURPOSE)[number]
 type PowerId = (typeof MIX_POWERS)[number]['id']
 
-function mixPrompt(what: What, who: Who, vibe: Vibe, color: MixColor, powers: Set<PowerId>) {
+function mixPrompt(what: What, who: Who, vibe: Vibe, color: MixColor, purpose: Purpose, need: string, powers: Set<PowerId>) {
   const folder = `my-${what.id}-for-${who.slug}`
   const colorLine =
     color.id === 'agent' ? ' Pick colors you think fit — surprise me.' : ` Lean its colors toward ${color.phrase}.`
+  const needLine = need.trim() ? ` In my own words, the need is: ${need.trim().slice(0, 240)}` : ''
+  const needPunct = needLine && !/[.!?]$/.test(needLine) ? '.' : ''
 
   let build = `Then create a new empty folder called "${folder}" and work only inside it, using plain HTML, CSS and JavaScript — no installs, no frameworks. Make it look great on a phone.`
   if (powers.has('offline')) build += ' It should work completely offline once opened.'
@@ -74,9 +95,9 @@ function mixPrompt(what: What, who: Who, vibe: Vibe, color: MixColor, powers: Se
     build +=
       " Hide one small, tasteful surprise in it — a confetti moment or a tiny easter egg — and tell me where it is after you're done."
 
-  return `Hi! I'm brand new to this — please be my friendly guide as well as my builder. I want to make ${what.phrase} for ${who.phrase}, with a ${vibe.phrase} feel.${colorLine}
+  return `Hi! I'm brand new to this — please be my friendly guide as well as my builder. I want to make ${what.phrase} for ${who.phrase}, with a ${vibe.phrase} feel.${colorLine} ${purpose.phrase}${needLine}${needPunct}
 
-Before you write any code, ask me four to six short questions, one at a time, to learn exactly what it should say and contain — the names, the moments or items that matter, and anything only I would know.
+Before you write any code, ask me four to six short questions, one at a time, to sharpen exactly what it should say and contain — the names, the details that matter, and anything only I would know. If my description above is vague, your questions are how we fix that together.
 
 ${build}
 
@@ -107,13 +128,16 @@ function PromptMixer({ onJump }: MixerProps) {
   const [whoId, setWhoId] = useState<string>('love')
   const [vibeId, setVibeId] = useState<string>('cozy')
   const [colorId, setColorId] = useState<string>('sunset')
+  const [purposeId, setPurposeId] = useState<string>('joy')
+  const [need, setNeed] = useState('')
   const [powers, setPowers] = useState<Set<PowerId>>(new Set())
 
   const what = MIX_WHAT.find((o) => o.id === whatId) ?? MIX_WHAT[0]
   const who = MIX_WHO.find((o) => o.id === whoId) ?? MIX_WHO[0]
   const vibe = MIX_VIBE.find((o) => o.id === vibeId) ?? MIX_VIBE[0]
   const color = MIX_COLORS.find((o) => o.id === colorId) ?? MIX_COLORS[0]
-  const mixed = mixPrompt(what, who, vibe, color, powers)
+  const purpose = MIX_PURPOSE.find((o) => o.id === purposeId) ?? MIX_PURPOSE[0]
+  const mixed = mixPrompt(what, who, vibe, color, purpose, need, powers)
 
   const togglePower = (id: PowerId) =>
     setPowers((prev) => {
@@ -129,6 +153,7 @@ function PromptMixer({ onJump }: MixerProps) {
     setWhoId(pick(MIX_WHO).id)
     setVibeId(pick(MIX_VIBE).id)
     setColorId(pick(MIX_COLORS).id)
+    setPurposeId(pick(MIX_PURPOSE).id)
     setPowers(new Set(MIX_POWERS.filter(() => Math.random() < 0.35).map((p) => p.id)))
   }
 
@@ -141,9 +166,11 @@ function PromptMixer({ onJump }: MixerProps) {
       friends: ['helpers', 'hobby', 'school', 'thing'],
     }
     const byForm = pantry.filter((p) => p.form === what.id)
-    const strong = byForm.filter((p) => (WHO_CATS[who.id] ?? []).includes(p.category))
-    return (strong.length ? strong : byForm).slice(0, 3)
-  }, [what.id, who.id])
+    const byPurpose = byForm.filter((p) => (purpose.cats as readonly string[]).includes(p.category))
+    const byWho = byForm.filter((p) => (WHO_CATS[who.id] ?? []).includes(p.category))
+    const pool = byPurpose.length ? byPurpose : byWho.length ? byWho : byForm
+    return pool.slice(0, 3)
+  }, [what.id, who.id, purpose])
 
   return (
     <motion.section
@@ -194,6 +221,33 @@ function PromptMixer({ onJump }: MixerProps) {
             ))}
           </div>
         </fieldset>
+
+        <fieldset>
+          <legend className="mb-2 font-mono text-[0.7rem] font-bold uppercase tracking-[0.16em] text-ink-soft">
+            because…
+          </legend>
+          <div className="flex flex-wrap gap-2">
+            {MIX_PURPOSE.map((o) => (
+              <Chip key={o.id} pressed={purposeId === o.id} onClick={() => setPurposeId(o.id)}>
+                {o.label}
+              </Chip>
+            ))}
+          </div>
+        </fieldset>
+
+        <label className="block">
+          <span className="mb-2 block font-mono text-[0.7rem] font-bold uppercase tracking-[0.16em] text-ink-soft">
+            your need, in a sentence — optional but powerful
+          </span>
+          <input
+            type="text"
+            value={need}
+            maxLength={240}
+            onChange={(e) => setNeed(e.target.value)}
+            placeholder="e.g. customers keep asking my opening hours · I overspend on takeout…"
+            className="w-full rounded-full border-[2.5px] border-ink bg-paper px-4 py-2.5 text-sm font-medium placeholder:text-ink-soft/70"
+          />
+        </label>
 
         <fieldset>
           <legend className="mb-2 font-mono text-[0.7rem] font-bold uppercase tracking-[0.16em] text-ink-soft">

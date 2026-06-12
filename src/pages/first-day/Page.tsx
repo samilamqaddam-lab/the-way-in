@@ -99,7 +99,7 @@ export function FirstDayPage() {
       page="first-day"
       eyebrow="the walkthrough"
       title="Your First Day"
-      kicker="What actually happens between pasting your first prompt and having a real thing — every moment, including the awkward ones."
+      kicker="What actually happens between pasting your first prompt and having a real thing — every moment, including the awkward ones. We follow Nadia, building a landing page for her small ceramics business."
       pip={<Pip size={60} mood="wink" bob />}
     >
       <section className="px-5">
@@ -147,8 +147,8 @@ export function FirstDayPage() {
             mock={
               <MiniWindow tone="light" title="your first message">
                 <YouLine>
-                  Hi! I'm brand new to this — please be my friendly guide as well as my builder. Before you write any
-                  code, ask me five quick questions…
+                  Hi! I'm brand new to this. I have a small business and it needs a proper landing page — clear and
+                  trustworthy. Before you write any code, ask me about it, one question at a time…
                 </YouLine>
               </MiniWindow>
             }
@@ -169,13 +169,13 @@ export function FirstDayPage() {
             mock={
               <MiniWindow tone="light" title="the interview">
                 <p className="font-sans text-[0.78rem]">
-                  <span className="font-bold text-tangerine">❯</span> Lovely — before I build anything: what's your
-                  name, and what are three things you love?
+                  <span className="font-bold text-tangerine">❯</span> Lovely — before I build anything: what's the
+                  business called, and what do you actually do?
                 </p>
-                <YouLine>I'm Nadia. Hiking, my cat Pixel, and very strong coffee.</YouLine>
+                <YouLine>Nadia Ceramics. Handmade bowls and vases, small batches — and I run weekend workshops.</YouLine>
               </MiniWindow>
             }
-            happening="Our starter prompts ask the agent to interview you first — because it can write code, but it can't know your cat's name. This little interview is where your thing becomes yours."
+            happening="Our starter prompts ask the agent to interview you first — because it can write code, but it can't know your business. This little interview is where the page becomes genuinely yours."
             youDo="Answer like you'd text a friend. Short is fine. Honest is better than impressive."
             breathe="There are no wrong answers here. It's your page — the agent is taking notes, not grading."
           />
@@ -190,7 +190,7 @@ export function FirstDayPage() {
                   permission needed
                 </p>
                 <p className="mt-1 font-sans text-[0.8rem] font-semibold text-on-plum">
-                  Create a new folder called my-first-site?
+                  Create a new folder called nadia-ceramics?
                 </p>
                 <div className="mt-2.5 flex gap-2">
                   <span className="rounded-full border-2 border-ink bg-sun px-3 py-1 text-[0.7rem] font-bold text-ink">
@@ -220,7 +220,7 @@ export function FirstDayPage() {
               <MiniWindow tone="dark" title="the agent, busy">
                 <p className="text-term-green">✓ index.html written</p>
                 <p className="text-term-green">✓ style.css written</p>
-                <p className="italic text-on-plum-dim">· now the footer, then your three loves…</p>
+                <p className="italic text-on-plum-dim">· now the workshops section, then how-to-find-you…</p>
               </MiniWindow>
             }
             happening={
@@ -239,10 +239,13 @@ export function FirstDayPage() {
             emoji="🌐"
             title="Open your thing"
             mock={
-              <MiniWindow tone="light" title="your-computer/my-first-site/index.html">
+              <MiniWindow tone="light" title="your-computer/nadia-ceramics/index.html">
                 <div className="rounded-lg bg-[#FFF1E0] p-3 text-center">
-                  <p className="font-display text-base font-extrabold text-tangerine-deep">Hi, I'm Nadia 👋</p>
-                  <p className="font-sans text-[0.7rem] text-neutral-600">hiking · Pixel the cat · strong coffee</p>
+                  <p className="font-display text-base font-extrabold text-tangerine-deep">NADIA CERAMICS</p>
+                  <p className="font-sans text-[0.7rem] text-neutral-600">handmade · small-batch · est. her kitchen</p>
+                  <p className="mt-1 font-sans text-[0.65rem] font-semibold text-neutral-700">
+                    bowls · vases · weekend workshops
+                  </p>
                 </div>
               </MiniWindow>
             }
@@ -263,10 +266,10 @@ export function FirstDayPage() {
             title="Ask for changes — in human words"
             mock={
               <MiniWindow tone="light" title="the actual workflow">
-                <YouLine>Make the headline bigger, and can the whole thing feel… cozier?</YouLine>
+                <YouLine>Can it feel more handmade? And the workshop dates need to jump out — customers keep missing them.</YouLine>
                 <p className="font-sans text-[0.78rem]">
-                  <span className="font-bold text-tangerine">❯</span> Done — warmer colors, rounder corners. Refresh
-                  and tell me what you feel.
+                  <span className="font-bold text-tangerine">❯</span> Done — warmer texture, and the dates now sit in
+                  a sun-yellow card up top. Refresh and tell me what you feel.
                 </p>
               </MiniWindow>
             }
@@ -337,11 +340,12 @@ export function FirstDayPage() {
             title="Coming back tomorrow"
             mock={
               <MiniWindow tone="dark" title="day two">
-                <YouLine>let's continue with my-first-site — where were we?</YouLine>
+                <YouLine>let's continue with nadia-ceramics — where were we?</YouLine>
                 <p>
                   <span className="font-bold text-tangerine">❯</span>{' '}
                   <span className="font-sans text-[0.78rem]">
-                    Welcome back! I see the folder: one page, three loves, one cat. You wanted a photo section next.
+                    Welcome back! I see the folder: the page, the workshops card, the find-me block. You wanted a
+                    price list next.
                   </span>
                 </p>
               </MiniWindow>

@@ -24,12 +24,12 @@ export function TestDrive() {
         <DriveWindow
           missions={classicMissions}
           doneCta={() => ({ href: '#first-prompts', label: 'Get your real first prompt ↓' })}
-          extraControls={
-            <a href="./missions/" className="font-mono text-xs underline decoration-2 underline-offset-4 hover:text-tangerine">
-              more missions ↗
-            </a>
-          }
         />
+        <p className="mt-8 text-center">
+          <a href="./missions/" className="btn-pop text-sm">
+            🕹 see all eight missions — the Mission Deck ↗
+          </a>
+        </p>
       </div>
     </SectionShell>
   )

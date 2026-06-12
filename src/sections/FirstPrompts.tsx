@@ -40,20 +40,25 @@ export function FirstPrompts() {
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mx-auto mt-10 max-w-2xl text-center text-ink-soft"
+        className="mt-8 text-center"
+      >
+        <a href="./prompts/" className="btn-pop text-sm">
+          🧺 browse the whole Prompt Pantry — budgets, businesses, gifts & more ↗
+        </a>
+      </motion.p>
+
+      <motion.p
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={viewportOnce}
+        className="mx-auto mt-8 max-w-2xl text-center text-ink-soft"
       >
         Make them yours — change the folder names, the questions, anything. The agent rolls with it. And if you don't
         have a tool yet,{' '}
         <a href="#pick-your-door" className="font-semibold text-ink underline decoration-tangerine decoration-[3px] underline-offset-4">
           pick your door ↑
         </a>
-        <span className="mt-3 block">
-          Hungry for more? The{' '}
-          <a href="./prompts/" className="font-semibold text-ink underline decoration-grape decoration-[3px] underline-offset-4">
-            Prompt Pantry ↗
-          </a>{' '}
-          holds twenty-plus — for gifts, school, hobbies, and the rest of life.
-        </span>
       </motion.p>
     </SectionShell>
   )

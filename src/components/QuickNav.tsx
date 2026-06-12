@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Pip } from './Pip'
 import { popSpring } from '../lib/motion'
+import { ROOMS } from '../lib/links'
 
 const LINKS = [
   { id: 'start', label: 'start' },
@@ -12,6 +13,14 @@ const LINKS = [
   { id: 'first-prompts', label: 'first prompts' },
   { id: 'send-off', label: 'the door' },
 ]
+
+const ROOM_EMOJI: Record<string, string> = {
+  prompts: '🧺',
+  missions: '🕹',
+  'first-day': '🌅',
+  help: '🛟',
+  quest: '👾',
+}
 
 /**
  * Floating section nav: dots on desktop, a pocket menu on phones.
@@ -56,10 +65,10 @@ export function QuickNav() {
 
   return (
     <>
-      {/* Desktop: side dots */}
+      {/* Desktop: side dots for sections, tiny doors for the rooms */}
       <nav
-        aria-label="Sections"
-        className="fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-3 transition-opacity duration-300 lg:flex"
+        aria-label="Sections and rooms"
+        className="fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-3 transition-opacity duration-300 lg:flex"
         style={hiddenStyle}
       >
         {LINKS.map((link) => (
@@ -79,6 +88,23 @@ export function QuickNav() {
             </span>
           </a>
         ))}
+        <span className="h-px w-4 bg-ink/30" aria-hidden="true" />
+        {ROOMS.map((room) => (
+          <a
+            key={room.id}
+            href={room.fromRoot}
+            aria-label={`Room: ${room.title}`}
+            className="group relative flex h-6 w-5 items-center justify-center"
+          >
+            {/* a tiny door — because that's what the rooms are */}
+            <span className="flex h-5 w-4 items-start justify-center rounded-t-md border-[2.5px] border-ink bg-paper pt-[1px] text-[0.5rem] leading-none transition-colors group-hover:bg-sun">
+              <span aria-hidden="true">{ROOM_EMOJI[room.id] ?? '·'}</span>
+            </span>
+            <span className="card-pop pointer-events-none absolute right-7 whitespace-nowrap rounded-full px-2.5 py-1 font-mono text-[0.7rem] opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+              {room.title} ↗
+            </span>
+          </a>
+        ))}
       </nav>
 
       {/* Mobile: pocket menu */}
@@ -86,13 +112,16 @@ export function QuickNav() {
         <AnimatePresence>
           {open && (
             <motion.nav
-              aria-label="Sections"
+              aria-label="Sections and rooms"
               initial={{ opacity: 0, y: 14, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.97 }}
               transition={popSpring}
-              className="card-pop absolute bottom-16 right-0 flex min-w-44 flex-col gap-1 p-2.5"
+              className="card-pop absolute bottom-16 right-0 flex max-h-[70vh] min-w-48 flex-col gap-1 overflow-y-auto p-2.5"
             >
+              <span className="px-3.5 pt-1 font-mono text-[0.62rem] font-bold uppercase tracking-[0.16em] text-ink-soft">
+                on this page
+              </span>
               {LINKS.map((link) => (
                 <a
                   key={link.id}
@@ -103,6 +132,15 @@ export function QuickNav() {
                   }`}
                 >
                   {link.label}
+                </a>
+              ))}
+              <span className="mt-1 border-t-2 border-line px-3.5 pt-2 font-mono text-[0.62rem] font-bold uppercase tracking-[0.16em] text-ink-soft">
+                the rooms
+              </span>
+              {ROOMS.map((room) => (
+                <a key={room.id} href={room.fromRoot} className="rounded-full px-3.5 py-2 font-mono text-sm">
+                  <span aria-hidden="true">{ROOM_EMOJI[room.id] ?? '·'} </span>
+                  {room.label}
                 </a>
               ))}
             </motion.nav>

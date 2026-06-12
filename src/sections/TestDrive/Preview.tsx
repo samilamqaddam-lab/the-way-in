@@ -14,13 +14,28 @@ interface PreviewProps {
   folder: string
   stage: number
   burst: number
+  /** when set, the preview itself links to the matching starter prompt */
+  href?: string | null
 }
 
 /**
  * A fake browser window. The "result" is a hand-built mockup — no iframe,
  * no rendering of generated code, nothing executed. Theater, on purpose.
  */
-export function Preview({ missionId, folder, stage, burst }: PreviewProps) {
+export function Preview({ missionId, folder, stage, burst, href }: PreviewProps) {
+  const body = (
+    <>
+      {missionId === 'birthday' && <BirthdayPreview stage={stage} />}
+      {missionId === 'quiz' && <QuizPreview stage={stage} />}
+      {missionId === 'recipe' && <RecipePreview stage={stage} />}
+      {missionId === 'flashcards' && <FlashcardsPreview stage={stage} />}
+      {missionId === 'band' && <BandPreview stage={stage} />}
+      {missionId === 'packing' && <PackingPreview stage={stage} />}
+      {missionId === 'honey' && <HoneyPreview stage={stage} />}
+      {missionId === 'photos' && <PhotosPreview stage={stage} />}
+    </>
+  )
+  const linked = href && stage > 0
   return (
     <div className="overflow-hidden rounded-2xl border-[2.5px] border-plum-line bg-plum-deep">
       <div className="flex items-center gap-1.5 border-b-[2.5px] border-plum-line px-3 py-2.5">
@@ -36,17 +51,15 @@ export function Preview({ missionId, folder, stage, burst }: PreviewProps) {
           <div className="flex min-h-52 items-center justify-center bg-plum-deep p-4">
             <p className="font-mono text-xs italic text-on-plum-dim">the page will appear here…</p>
           </div>
+        ) : linked ? (
+          <a href={href} className="group block" aria-label="Open the matching starter prompt in the Pantry">
+            {body}
+            <span className="absolute right-1.5 top-1.5 rounded-full border-2 border-ink bg-paper/90 px-2 py-0.5 font-mono text-[0.6rem] font-bold text-ink opacity-80 transition-opacity group-hover:opacity-100">
+              get this prompt ↗
+            </span>
+          </a>
         ) : (
-          <>
-            {missionId === 'birthday' && <BirthdayPreview stage={stage} />}
-            {missionId === 'quiz' && <QuizPreview stage={stage} />}
-            {missionId === 'recipe' && <RecipePreview stage={stage} />}
-            {missionId === 'flashcards' && <FlashcardsPreview stage={stage} />}
-            {missionId === 'band' && <BandPreview stage={stage} />}
-            {missionId === 'packing' && <PackingPreview stage={stage} />}
-            {missionId === 'honey' && <HoneyPreview stage={stage} />}
-            {missionId === 'photos' && <PhotosPreview stage={stage} />}
-          </>
+          body
         )}
         <ConfettiBurst trigger={burst} count={20} />
       </div>

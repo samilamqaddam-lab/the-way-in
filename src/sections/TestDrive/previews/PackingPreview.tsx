@@ -4,7 +4,7 @@ import { popSpring } from '../../../lib/motion'
 /** Title → the grouped checklist → ticks that stick. */
 export function PackingPreview({ stage }: { stage: number }) {
   return (
-    <div className="flex min-h-52 flex-col items-center justify-center gap-2.5 bg-[#E8F6F1] p-4 text-center">
+    <div className="flex min-h-52 flex-col items-center justify-center gap-2.5 bg-[#E8F6F1] p-4 text-center text-ink">
       {stage >= 1 && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={popSpring}>
           <p className="font-display text-xl font-extrabold leading-tight text-ink">Weekend Trip ✈️</p>
@@ -40,7 +40,7 @@ export function PackingPreview({ stage }: { stage: number }) {
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={popSpring}
-          className="rounded-full border-2 border-ink bg-leaf px-3 py-1 text-[0.68rem] font-bold text-paper shadow-pop-sm"
+          className="rounded-full border-2 border-ink bg-leaf px-3 py-1 text-[0.68rem] font-bold text-ink shadow-pop-sm"
         >
           ✓ remembered for next time
         </motion.span>

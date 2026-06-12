@@ -9,7 +9,7 @@ export function BirthdayPreview({ stage }: { stage: number }) {
   const styled = stage >= 2
   return (
     <div
-      className={`flex min-h-52 flex-col items-center justify-center gap-3 p-4 text-center transition-colors duration-500 ${
+      className={`flex min-h-52 flex-col items-center justify-center gap-3 p-4 text-center text-ink transition-colors duration-500 ${
         styled ? 'bg-[#FFF1E0]' : 'bg-white'
       }`}
     >
@@ -38,9 +38,9 @@ export function BirthdayPreview({ stage }: { stage: number }) {
           className="flex flex-wrap justify-center gap-1.5"
         >
           {[
-            ['kind', 'bg-sun'],
-            ['funny', 'bg-blush'],
-            ['always there', 'bg-sky text-paper'],
+            ['kind', 'bg-sun text-ink'],
+            ['funny', 'bg-blush text-ink'],
+            ['always there', 'bg-sky text-ink'],
           ].map(([label, cls]) => (
             <span
               key={label}
@@ -56,7 +56,7 @@ export function BirthdayPreview({ stage }: { stage: number }) {
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={popSpring}
-          className="shadow-pop-sm rounded-full border-2 border-ink bg-tangerine px-3.5 py-1.5 text-xs font-bold text-paper"
+          className="shadow-pop-sm rounded-full border-2 border-ink bg-tangerine px-3.5 py-1.5 text-xs font-bold text-ink"
         >
           🎉 confetti!
         </motion.span>

@@ -4,7 +4,7 @@ import { popSpring } from '../../../lib/motion'
 /** Gallery title → the wall of frames → a caption with a story. */
 export function PhotosPreview({ stage }: { stage: number }) {
   return (
-    <div className="flex min-h-52 flex-col items-center justify-center gap-2.5 bg-[#FBF1F4] p-4 text-center">
+    <div className="flex min-h-52 flex-col items-center justify-center gap-2.5 bg-[#FBF1F4] p-4 text-center text-ink">
       {stage >= 1 && (
         <motion.p
           initial={{ opacity: 0, y: 8 }}

@@ -26,7 +26,12 @@ export function MissionsPage() {
       <section className="px-5">
         <div className="mx-auto w-full max-w-6xl">
           <div className="mt-12">
-            <DriveWindow missions={missions} initialMissionId={initialMissionId} doneCta={doneCta} />
+            <DriveWindow
+              missions={missions}
+              initialMissionId={initialMissionId}
+              doneCta={doneCta}
+              previewHref={(m) => (m.pantryId ? `../prompts/#${m.pantryId}` : null)}
+            />
           </div>
           <p className="mx-auto mt-14 max-w-2xl text-center text-ink-soft">
             Every finished mission has a real twin in the{' '}

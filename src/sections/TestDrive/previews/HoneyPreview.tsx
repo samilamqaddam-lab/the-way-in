@@ -4,7 +4,7 @@ import { popSpring } from '../../../lib/motion'
 /** Shop name → the jars with prices → find-me-at-the-market. */
 export function HoneyPreview({ stage }: { stage: number }) {
   return (
-    <div className="flex min-h-52 flex-col items-center justify-center gap-2.5 bg-[#FFF6E0] p-4 text-center">
+    <div className="flex min-h-52 flex-col items-center justify-center gap-2.5 bg-[#FFF6E0] p-4 text-center text-ink">
       {stage >= 1 && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={popSpring}>
           <p className="font-display text-xl font-extrabold leading-tight text-ink">Rosa's Honey 🍯</p>

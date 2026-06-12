@@ -4,7 +4,7 @@ import { popSpring } from '../../../lib/motion'
 /** A warm recipe card assembling itself: title → ingredients → tickable steps. */
 export function RecipePreview({ stage }: { stage: number }) {
   return (
-    <div className="flex min-h-52 flex-col items-center justify-center gap-2.5 bg-[#FFFBEB] p-4 text-center">
+    <div className="flex min-h-52 flex-col items-center justify-center gap-2.5 bg-[#FFFBEB] p-4 text-center text-ink">
       {stage >= 1 && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={popSpring}>
           <p className="font-display text-xl font-extrabold leading-tight text-ink">Grandma's Lemon Cake 🍋</p>

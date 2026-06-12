@@ -4,7 +4,7 @@ import { popSpring } from '../../../lib/motion'
 /** Question card → flipped answer with verdict buttons → the score. */
 export function FlashcardsPreview({ stage }: { stage: number }) {
   return (
-    <div className="flex min-h-52 flex-col items-center justify-center gap-3 bg-[#EAF3FF] p-4 text-center">
+    <div className="flex min-h-52 flex-col items-center justify-center gap-3 bg-[#EAF3FF] p-4 text-center text-ink">
       {stage === 1 && (
         <motion.div
           initial={{ opacity: 0, y: 8 }}
@@ -29,7 +29,7 @@ export function FlashcardsPreview({ stage }: { stage: number }) {
           <p className="font-mono text-[0.6rem] font-bold uppercase tracking-[0.14em] text-ink-soft">answer</p>
           <p className="mt-2 font-display text-base font-extrabold leading-snug">Carbon dioxide (CO₂)</p>
           <div className="mt-3 flex justify-center gap-1.5">
-            <span className="rounded-full border-2 border-ink bg-leaf px-2.5 py-1 text-[0.65rem] font-bold text-paper">
+            <span className="rounded-full border-2 border-ink bg-leaf px-2.5 py-1 text-[0.65rem] font-bold text-ink">
               got it ✓
             </span>
             <span className="rounded-full border-2 border-ink bg-white px-2.5 py-1 text-[0.65rem] font-bold">

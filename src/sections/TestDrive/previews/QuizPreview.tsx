@@ -4,7 +4,7 @@ import { popSpring } from '../../../lib/motion'
 /** Three little screens: title → a question → the score. */
 export function QuizPreview({ stage }: { stage: number }) {
   return (
-    <div className="flex min-h-52 flex-col items-center justify-center gap-3 bg-[#F1ECFF] p-4 text-center">
+    <div className="flex min-h-52 flex-col items-center justify-center gap-3 bg-[#F1ECFF] p-4 text-center text-ink">
       {stage === 1 && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={popSpring}>
           <p className="font-display text-xl font-extrabold leading-tight text-grape">

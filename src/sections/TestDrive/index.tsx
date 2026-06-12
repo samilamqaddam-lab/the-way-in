@@ -24,6 +24,7 @@ export function TestDrive() {
         <DriveWindow
           missions={classicMissions}
           doneCta={() => ({ href: '#first-prompts', label: 'Get your real first prompt ↓' })}
+          previewHref={(m) => (m.pantryId ? `./prompts/#${m.pantryId}` : null)}
         />
         <p className="mt-8 text-center">
           <a href="./missions/" className="btn-pop text-sm">

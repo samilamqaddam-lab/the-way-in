@@ -36,6 +36,8 @@ interface DriveWindowProps {
   initialMissionId?: string | null
   /** CTA shown when a mission finishes */
   doneCta?: (mission: Mission) => { href: string; label: string } | null
+  /** link target for the clickable preview pane */
+  previewHref?: (mission: Mission) => string | null
   /** extra element rendered in the controls row (e.g. “more missions ↗”) */
   extraControls?: ReactNode
 }
@@ -45,7 +47,7 @@ interface DriveWindowProps {
  * (terminal + files + preview), annotation line and controls. Pure theater,
  * shared by the home Test Drive section and the Mission Deck page.
  */
-export function DriveWindow({ missions, initialMissionId, doneCta, extraControls }: DriveWindowProps) {
+export function DriveWindow({ missions, initialMissionId, doneCta, previewHref, extraControls }: DriveWindowProps) {
   const [state, dispatch] = useReducer(driveReducer, initialDrive)
   const beat = state.mission?.beats[state.cursor]
 
@@ -120,6 +122,7 @@ export function DriveWindow({ missions, initialMissionId, doneCta, extraControls
                 folder={state.mission.folder}
                 stage={state.stage}
                 burst={state.burst}
+                href={previewHref ? previewHref(state.mission) : null}
               />
             </div>
           </div>

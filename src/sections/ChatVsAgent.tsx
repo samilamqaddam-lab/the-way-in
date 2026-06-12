@@ -48,7 +48,7 @@ export function ChatVsAgent() {
         initial="hidden"
         whileInView="show"
         viewport={viewportOnce}
-        className="mt-12 text-center font-display text-2xl font-extrabold md:text-3xl"
+        className="mt-10 text-center font-display text-2xl font-extrabold md:text-3xl"
       >
         It does the steps.{' '}
         <span className="relative inline-block whitespace-nowrap px-2">

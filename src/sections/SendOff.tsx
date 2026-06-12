@@ -12,7 +12,7 @@ const CHECKLIST = [
 
 export function SendOff() {
   return (
-    <section id="send-off" className="on-dark relative overflow-x-clip border-t-[3px] border-ink bg-plum px-5 py-24 text-on-plum md:py-32">
+    <section id="send-off" className="on-dark relative overflow-x-clip border-t-[3px] border-ink bg-plum px-5 py-16 text-on-plum md:py-24">
       <div className="mx-auto w-full max-w-5xl">
         <motion.header
           variants={staggerKids}

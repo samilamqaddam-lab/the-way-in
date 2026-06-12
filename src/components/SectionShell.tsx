@@ -23,7 +23,7 @@ export function SectionShell({
   children,
 }: SectionShellProps) {
   return (
-    <section id={id} className={`relative overflow-x-clip px-5 py-24 md:py-32 ${className}`}>
+    <section id={id} className={`relative overflow-x-clip px-5 py-16 md:py-24 ${className}`}>
       <div className="relative mx-auto w-full max-w-6xl">
         <motion.header
           variants={staggerKids}

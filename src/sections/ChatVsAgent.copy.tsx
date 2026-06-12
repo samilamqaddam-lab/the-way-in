@@ -86,7 +86,7 @@ export const THEATER_COPY = {
   en: {
     message: 'make a birthday page for my friend Maya',
     chatTitle: 'Chat mode',
-    chatSub: 'answers in words',
+    chatSub: 'Chachapiti — answers in words. so many words.',
     chatReply: "Sure! Here's how:",
     receipt: [
       '1. Install a code editor',
@@ -131,7 +131,7 @@ export const THEATER_COPY = {
   fr: {
     message: 'fais une page d’anniversaire pour mon amie Maya',
     chatTitle: 'Mode chat',
-    chatSub: 'répond avec des mots',
+    chatSub: 'Chachapiti — répond avec des mots. tellement de mots.',
     chatReply: 'Bien sûr ! Voici comment :',
     receipt: [
       '1. Installe un éditeur',

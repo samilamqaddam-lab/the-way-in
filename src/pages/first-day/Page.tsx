@@ -166,6 +166,9 @@ export function FirstDayPage() {
                 >
                   Codex — official setup guide ↗
                 </a>
+                <a href="../tools/" className="rounded-full border-[2.5px] border-ink bg-paper-deep px-3 py-1 text-xs font-bold shadow-pop-sm">
+                  every tool & way in — the Toolshed
+                </a>
               </>
             }
           />

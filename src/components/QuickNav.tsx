@@ -20,6 +20,7 @@ const ROOM_EMOJI: Record<string, string> = {
   'first-day': '🌅',
   help: '🛟',
   quest: '👾',
+  tools: '🧰',
 }
 
 /**

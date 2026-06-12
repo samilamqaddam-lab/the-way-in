@@ -254,6 +254,10 @@ export function PickYourDoor() {
         className="mt-10 text-center text-ink-soft"
       >
         In plain words: two of these come included with chat subscriptions you might already pay for. Two are free.
+        Want every way in, side by side?{' '}
+        <a href="./tools/" className="font-semibold text-ink underline decoration-tangerine decoration-[3px] underline-offset-4">
+          the Toolshed ↗
+        </a>
       </motion.p>
     </SectionShell>
   )

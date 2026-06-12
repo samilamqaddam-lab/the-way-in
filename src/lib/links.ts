@@ -4,7 +4,7 @@
  * `fromSub` on any of the four rooms.
  */
 
-export type RoomId = 'prompts' | 'missions' | 'first-day' | 'help' | 'quest'
+export type RoomId = 'prompts' | 'missions' | 'first-day' | 'help' | 'quest' | 'tools'
 
 export interface Room {
   id: RoomId
@@ -42,6 +42,13 @@ export const ROOMS: Room[] = [
     title: 'It Asked Me Something Weird',
     fromRoot: './help/',
     fromSub: '../help/',
+  },
+  {
+    id: 'tools',
+    label: 'toolshed',
+    title: 'The Toolshed',
+    fromRoot: './tools/',
+    fromSub: '../tools/',
   },
   {
     id: 'quest',

@@ -20,6 +20,7 @@ export default defineConfig({
         firstDay: entry('first-day/index.html'),
         help: entry('help/index.html'),
         quest: entry('quest/index.html'),
+        tools: entry('tools/index.html'),
       },
     },
   },

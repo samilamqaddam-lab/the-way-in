@@ -3,8 +3,12 @@ import { createRoot } from 'react-dom/client'
 import '../../styles/global.css'
 import { HelpPage } from './Page'
 
+import { LocaleProvider, detectLocale } from '../../i18n/locale'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <HelpPage />
+    <LocaleProvider locale={detectLocale()}>
+      <HelpPage />
+    </LocaleProvider>
   </StrictMode>,
 )

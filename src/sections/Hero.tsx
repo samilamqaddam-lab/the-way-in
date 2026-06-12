@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { useTypewriter } from '../lib/useTypewriter'
+import { LangToggle } from '../components/LangToggle'
 import { Pip } from '../components/Pip'
 import { Squiggle } from '../components/Squiggle'
 import { Marquee } from '../components/Marquee'
@@ -110,6 +111,7 @@ export function Hero() {
 
       <header className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-5 pt-6">
         <Wordmark />
+        <LangToggle />
       </header>
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-5 py-16 text-center">

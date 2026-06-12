@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'motion/react'
+import { LangToggle } from '../../components/LangToggle'
 import { Wordmark } from '../../components/Wordmark'
 import { popSpring } from '../../lib/motion'
 import { Game } from './engine/Game'
@@ -256,6 +257,7 @@ export function QuestPage() {
         <a href="../" className="inline-flex items-center gap-1.5">
           <span aria-hidden="true">←</span> <Wordmark />
         </a>
+        <LangToggle />
       </header>
 
       <main className="mx-auto w-full max-w-3xl px-4 pb-16">

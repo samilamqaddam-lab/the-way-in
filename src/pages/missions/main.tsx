@@ -3,8 +3,12 @@ import { createRoot } from 'react-dom/client'
 import '../../styles/global.css'
 import { MissionsPage } from './Page'
 
+import { LocaleProvider, detectLocale } from '../../i18n/locale'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <MissionsPage />
+    <LocaleProvider locale={detectLocale()}>
+      <MissionsPage />
+    </LocaleProvider>
   </StrictMode>,
 )

@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { LangToggle } from './LangToggle'
 import { Wordmark } from './Wordmark'
 import { fadeUp, staggerKids, viewportOnce } from '../lib/motion'
 import { chatLinks, mdnCommandLine, tools } from '../data/tools'
@@ -107,6 +108,7 @@ export function SiteFooter({ from, current }: SiteFooterProps) {
         <Wordmark dark />
         <span>No accounts. No tracking. Nothing for sale.</span>
         <span>Built with one of these tools, naturally.</span>
+        <LangToggle dark />
       </footer>
     </>
   )

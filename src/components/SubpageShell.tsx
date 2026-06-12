@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { MotionConfig, motion } from 'motion/react'
+import { LangToggle } from './LangToggle'
 import { Pip } from './Pip'
 import { SiteFooter } from './SiteFooter'
 import { Wordmark } from './Wordmark'
@@ -30,20 +31,23 @@ export function SubpageShell({ page, eyebrow, title, kicker, pip, children }: Su
         <a href={HOME.fromSub} className="inline-flex items-center gap-1.5 whitespace-nowrap font-mono text-sm font-bold tracking-tight">
           <span aria-hidden="true">←</span> <Wordmark />
         </a>
-        <nav aria-label="Rooms" className="flex max-w-full gap-2 overflow-x-auto pb-1">
-          {ROOMS.map((r) => (
-            <a
-              key={r.id}
-              href={r.id === page ? undefined : r.fromSub}
-              aria-current={r.id === page ? 'page' : undefined}
-              className={`whitespace-nowrap rounded-full border-[2.5px] border-ink px-3.5 py-1.5 font-mono text-xs font-bold ${
-                r.id === page ? 'bg-sun' : 'bg-paper hover:bg-paper-deep'
-              }`}
-            >
-              {r.label}
-            </a>
-          ))}
-        </nav>
+        <div className="flex min-w-0 max-w-full items-center gap-3">
+          <nav aria-label="Rooms" className="flex min-w-0 gap-2 overflow-x-auto pb-1">
+            {ROOMS.map((r) => (
+              <a
+                key={r.id}
+                href={r.id === page ? undefined : r.fromSub}
+                aria-current={r.id === page ? 'page' : undefined}
+                className={`whitespace-nowrap rounded-full border-[2.5px] border-ink px-3.5 py-1.5 font-mono text-xs font-bold ${
+                  r.id === page ? 'bg-sun' : 'bg-paper hover:bg-paper-deep'
+                }`}
+              >
+                {r.label}
+              </a>
+            ))}
+          </nav>
+          <LangToggle />
+        </div>
       </header>
 
       <motion.div

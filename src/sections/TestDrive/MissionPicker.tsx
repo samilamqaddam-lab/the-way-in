@@ -30,7 +30,7 @@ export function MissionPicker({ missions, onPick }: MissionPickerProps) {
             </span>
             <span className="mt-3 block font-display text-xl font-bold leading-tight">{mission.label}</span>
             <span className="mt-1 block text-ink-soft">{mission.tagline}</span>
-            <span className="mt-4 block font-mono text-xs font-bold uppercase tracking-[0.14em] text-tangerine-deep">
+            <span className="btn-pop btn-sun mt-4 inline-block px-4 py-1.5 text-sm transition-transform duration-150 group-hover:-translate-y-0.5">
               {t.playThis}
             </span>
           </motion.button>

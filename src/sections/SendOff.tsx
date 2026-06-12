@@ -84,6 +84,16 @@ export function SendOff() {
           <a href="#first-prompts" className="btn-pop btn-sun mt-6">
             {t.cta}
           </a>
+          <p className="mt-5 text-sm text-on-plum-dim">
+            {t.decoderA}
+            <a
+              href="./help/"
+              className="font-semibold text-on-plum underline decoration-sun decoration-2 underline-offset-4 transition-colors hover:text-sun"
+            >
+              {t.decoderLink}
+            </a>
+            {t.decoderB}
+          </p>
         </motion.div>
 
         <SiteFooter from="root" />

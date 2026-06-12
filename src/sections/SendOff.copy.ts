@@ -8,6 +8,9 @@ interface SendOffCopy {
   finalA: string
   finalB: string
   cta: string
+  decoderA: string
+  decoderLink: string
+  decoderB: string
 }
 
 export const SEND_OFF_COPY = {
@@ -24,6 +27,9 @@ export const SEND_OFF_COPY = {
     finalA: 'Open a tool. Paste a prompt.',
     finalB: 'Make a thing for someone you like.',
     cta: 'Grab a prompt again ↑',
+    decoderA: 'and keep ',
+    decoderLink: '🛟 the decoder',
+    decoderB: ' in your pocket — for the weird moments.',
   },
   fr: {
     eyebrow: 'le secret',
@@ -38,5 +44,8 @@ export const SEND_OFF_COPY = {
     finalA: 'Ouvre un outil. Colle un prompt.',
     finalB: 'Fabrique un truc pour quelqu’un que tu aimes bien.',
     cta: 'Reprendre un prompt ↑',
+    decoderA: 'et garde ',
+    decoderLink: '🛟 le décodeur',
+    decoderB: ' dans ta poche — pour les moments bizarres.',
   },
 } satisfies Record<Locale, SendOffCopy>

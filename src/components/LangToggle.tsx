@@ -23,11 +23,11 @@ export function LangToggle({ dark = false }: { dark?: boolean }) {
   }, [])
 
   if (!href) return null
-  const base = 'rounded-full border-2 px-2 py-0.5 font-mono text-[0.65rem] font-bold'
-  const activeCls = dark ? 'border-sun bg-sun text-ink' : 'border-ink bg-sun text-ink'
+  const base = 'rounded-full border-[2.5px] px-2.5 py-0.5 font-mono text-[0.65rem] font-bold'
+  const activeCls = 'border-ink bg-sun text-ink'
   const idleCls = dark
-    ? 'border-plum-line text-on-plum-dim hover:border-sun hover:text-on-plum'
-    : 'border-ink/40 text-ink-soft hover:border-ink hover:text-ink'
+    ? 'border-plum-line text-on-plum transition-colors hover:border-sun hover:text-sun'
+    : 'border-ink bg-paper text-ink transition-colors hover:bg-paper-deep'
 
   return (
     <span className="inline-flex items-center gap-1" aria-label="Language">

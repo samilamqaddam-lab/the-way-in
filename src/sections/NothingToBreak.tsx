@@ -91,6 +91,19 @@ export function NothingToBreak() {
           </div>
         </motion.div>
       </div>
+
+      <motion.p
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={viewportOnce}
+        className="mx-auto mt-14 max-w-xl text-center text-ink-soft"
+      >
+        {t.walkthroughA}
+        <a href="./first-day/" className="font-semibold text-ink underline decoration-tangerine decoration-[3px] underline-offset-4">
+          {t.walkthroughLink}
+        </a>
+      </motion.p>
     </SectionShell>
   )
 }

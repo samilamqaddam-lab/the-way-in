@@ -11,6 +11,8 @@ interface NothingToBreakCopy {
   stillNervous: string
   buttons: string[]
   toasts: string[]
+  walkthroughA: string
+  walkthroughLink: string
 }
 
 export const NOTHING_TO_BREAK_COPY = {
@@ -55,6 +57,8 @@ export const NOTHING_TO_BREAK_COPY = {
       "Still nothing. That's the whole trick — start empty, and there's nothing to lose.",
       "Okay — you've now officially broken… nothing. You're ready. 💛",
     ],
+    walkthroughA: 'Curious what a real first day actually looks like, moment by moment — awkward bits included? ',
+    walkthroughLink: '🌅 Your First Day ↗',
   },
   fr: {
     eyebrow: 'la grande peur',
@@ -99,5 +103,7 @@ export const NOTHING_TO_BREAK_COPY = {
       'Toujours rien. C’est toute l’astuce — commence vide, et il n’y a rien à perdre.',
       'Bon — officiellement, tu as cassé… rien du tout. Tu es prêt·e. 💛',
     ],
+    walkthroughA: 'Curieux de voir un vrai premier jour en entier, moment par moment — moments gênants compris ? ',
+    walkthroughLink: '🌅 Ton Premier Jour ↗',
   },
 } satisfies Record<Locale, NothingToBreakCopy>

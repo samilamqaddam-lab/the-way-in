@@ -153,7 +153,7 @@ export function Hero() {
           <a href="#test-drive" className="btn-pop btn-ink px-7 py-3.5 text-lg">
             {t.ctaPrimary}
           </a>
-          <a href="./quest/" className="btn-pop">
+          <a href="./quest/" className="btn-pop px-5 py-3.5 text-lg">
             {t.ctaSecondary}
           </a>
         </motion.div>

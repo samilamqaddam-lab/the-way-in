@@ -16,7 +16,7 @@ interface HeroCopy {
 
 export const HERO_COPY = {
   en: {
-    eyebrow: 'a free little guide to AI agents',
+    eyebrow: 'a free little guide to AI agents — made for nervous beginners',
     headA: 'You can already do ',
     headB: 'the hard part.',
     sub: "An agent is the AI that doesn't just answer — it builds the thing. If you've ever written a good message to ChatGPT or Claude, you already speak its language. This site walks you through the door, and nothing here can break.",
@@ -37,7 +37,7 @@ export const HERO_COPY = {
     marqueeSr: 'Things beginners made recently:',
   },
   fr: {
-    eyebrow: 'un petit guide gratuit des agents IA',
+    eyebrow: 'un petit guide gratuit des agents IA — fait pour les débutants inquiets',
     headA: 'Tu sais déjà faire ',
     headB: 'le plus dur.',
     sub: 'Un agent, c’est l’IA qui ne se contente pas de répondre — elle construit la chose. Si tu as déjà écrit un bon message à ChatGPT ou Claude, tu parles déjà sa langue. Ce site t’ouvre la porte, et rien ici ne peut casser.',

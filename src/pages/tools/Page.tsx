@@ -62,6 +62,18 @@ export function ToolsPage() {
             you just type the tool's name. Nothing here needs you to know how to code.
           </motion.p>
 
+          <motion.p
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportOnce}
+            className="mx-auto mt-4 max-w-2xl text-center text-sm text-ink-soft"
+          >
+            A word on the word: out in the wild, “agent” covers many kinds of AI-that-does-things — browsing, research,
+            automations. The ones here are the <em>building</em> kind (you'll see them called “coding agents”) — the
+            friendliest place to start, and everything you learn transfers.
+          </motion.p>
+
           {/* tool cards with ways-in */}
           <motion.div
             variants={staggerKids}

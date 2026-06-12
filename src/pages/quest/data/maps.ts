@@ -23,8 +23,9 @@ export interface QuestMap {
   id: 'valley' | 'office'
   grid: string[]
   entities: EntityDef[]
-  /** char → handler id for step-on triggers */
   spawn: { x: number; y: number }
+  /** baked-in signage */
+  labels?: Array<{ x: number; y: number; text: string }>
 }
 
 class Painter {
@@ -63,9 +64,8 @@ function buildValley(): string[] {
   p.rect(0, 0, 1, 28, 'h')
   p.rect(35, 0, 1, 28, 'h')
 
-  // the exit door, set into the top hedge (north-east)
+  // the exit door, set into the top hedge (north-east) — one door, one guardian
   p.set(30, 0, 'D')
-  p.set(31, 0, 'D')
 
   // the Agent Office building (north-west), door at its south face
   p.rect(3, 2, 11, 6, 'O')
@@ -88,7 +88,7 @@ function buildValley(): string[] {
 
   // the App Stand (west): one open market stall — many doors, one skill
   p.hline(6, 8, 12, 'A')
-  p.hline(6, 8, 13, 'k')
+  p.hline(6, 8, 13, 'n')
 
   // the Chat Gazebo (south-center): sun-wood ring, opening to the north
   p.rect(14, 20, 7, 5, 'f')
@@ -213,6 +213,11 @@ export const VALLEY: QuestMap = {
   id: 'valley',
   grid: buildValley(),
   spawn: { x: 17, y: 22 },
+  labels: [
+    { x: 8.5, y: 4.5, text: 'AGENT & CO.' },
+    { x: 7, y: 11.2, text: 'THE APP STAND' },
+    { x: 30, y: 1.8, text: 'EXIT' },
+  ],
   entities: [
     { id: 'bubbles', sprite: 'bubbles', x: 16, y: 22, dialog: 'bubbles', solid: true, shard: 'language' },
     { id: 'termi', sprite: 'termi', x: 28, y: 9, dialog: 'termi', solid: true, shard: 'terminal' },

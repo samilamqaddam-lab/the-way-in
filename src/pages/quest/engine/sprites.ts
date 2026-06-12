@@ -109,27 +109,25 @@ const flip = (grid: string[]) => grid.map((row) => row.split('').reverse().join(
 const PIP_RIGHT_A = flip(PIP_LEFT_A)
 const PIP_RIGHT_B = flip(PIP_LEFT_B)
 
-/** Termi — a friendly CRT, 16×16. */
+/** Termi — a friendly CRT with its keyboard, 16×14, drawn 1:1. */
 const TERMI = [
   '.KKKKKKKKKKKKK.',
   'KSSSSSSSSSSSSSK',
   'KSGG.SSSSSSSSSK',
   'KSGGG.SSSSSSSSK',
   'KSGG.SSSSSSSSSK',
-  'KSSSSSSSSGGSSSK',
+  'KSSSSSGGSSSSSSK',
   'KSSSSSSSSSSSSSK',
   '.KKKKKKKKKKKKK.',
-  '..KKKKKKKKKKK..',
-  '....KK...KK....',
-  '...KKKKKKKKK...',
-  '...............',
-  '...............',
-  '...............',
-  '...............',
+  '......KKK......',
+  '.....KKKKK.....',
+  '.KKKKKKKKKKKKK.',
+  '.KWWKWWKWWKWWK.',
+  '.KKKKKKKKKKKKK.',
   '...............',
 ]
 
-const TERMI_PALETTE: Palette = { K: PLUM, S: PLUM_DEEP, G: '#7be0a2' }
+const TERMI_PALETTE: Palette = { K: PLUM, S: PLUM_DEEP, G: '#7be0a2', W: PAPER }
 
 /** Bubbles — a chat-bubble creature, 14×14ish. */
 const BUBBLES = [

@@ -3,6 +3,7 @@ import { PLUM_DEEP, bakeSprites } from './sprites'
 import type { SpriteBank } from './sprites'
 import { MAPS } from '../data/maps'
 import type { EntityDef, QuestMap } from '../data/maps'
+import { SHARDS } from '../data/script'
 
 export type Dir = 'down' | 'up' | 'left' | 'right'
 
@@ -138,7 +139,7 @@ export class Game {
 
   loadMap(id: string, at?: { x: number; y: number }) {
     this.map = MAPS[id]
-    this.mapCanvas = prerenderMap(this.map.grid)
+    this.mapCanvas = prerenderMap(this.map.grid, this.map.labels)
     const spawn = at ?? this.map.spawn
     this.pX = spawn.x
     this.pY = spawn.y
@@ -324,8 +325,7 @@ export class Game {
         py: e.py,
         fn: () => {
           if (key === 'termi') {
-            // drawn at 2× so the computer reads as a computer
-            ctx.drawImage(this.sprites.termi, sx - 8, sy - 22, 32, 32)
+            ctx.drawImage(this.sprites.termi, sx, sy - 5)
           } else if (key === 'bubbles') {
             const bob = this.reduced ? 0 : Math.round(Math.sin(this.elapsed * 2.2) * 2)
             ctx.drawImage(this.sprites.bubbles, sx, sy - 2 + bob)
@@ -361,6 +361,12 @@ export class Game {
 
     drawables.sort((a, b) => a.py - b.py)
     for (const d of drawables) d.fn()
+
+    // all five shards? the exit door gets its own ! marker
+    if (this.map.id === 'valley' && this.collected.size === SHARDS.length) {
+      const bob = this.reduced ? 0 : Math.round(Math.sin(this.elapsed * 3) * 2)
+      ctx.drawImage(this.sprites.marker, Math.round(30 * TILE + 5 - camX), Math.round(TILE + 4 - camY + bob))
+    }
 
     // the quest guide arrow
     if (this.guide) {

@@ -3,7 +3,7 @@ import { INK, LEAF, PAPER, PLUM, PLUM_DEEP, SKY, SUN, TANGERINE } from './sprite
 export const TILE = 16
 
 /** tiles the player cannot walk through */
-export const SOLID = new Set(['T', 'h', 'w', 'f', 'P', 'O', 'K', 'X', 'A', 's', 'p', 'm', 'b', 'W', 'd', 'q', 'k', 'j', 'D'])
+export const SOLID = new Set(['T', 'h', 'w', 'f', 'P', 'O', 'K', 'X', 'A', 'n', 's', 'p', 'm', 'b', 'W', 'd', 'q', 'k', 'j', 'D'])
 
 /** tiles that trigger something when stepped on or bumped */
 export const DOOR_OFFICE = 'o'
@@ -146,6 +146,13 @@ export function drawTile(ctx: CanvasRenderingContext2D, ch: string, x: number, y
       px(ctx, x + 13, y + 10, 2, 6, WOOD_DARK)
       break
     }
+    case 'n': {
+      // low stand counter — the vendor stays visible behind it
+      px(ctx, x, y, TILE, TILE, GRASS)
+      px(ctx, x, y + 9, TILE, 6, WOOD)
+      px(ctx, x, y + 9, TILE, 1, WOOD_DARK)
+      break
+    }
     case 'o': {
       px(ctx, x, y, TILE, TILE, WALL)
       px(ctx, x + 2, y + 1, 12, 15, PLUM_DEEP)
@@ -218,8 +225,15 @@ export function drawTile(ctx: CanvasRenderingContext2D, ch: string, x: number, y
   }
 }
 
+export interface MapLabel {
+  /** tile coords of the label's center */
+  x: number
+  y: number
+  text: string
+}
+
 /** Pre-render a whole map once; per frame we only blit the visible part. */
-export function prerenderMap(grid: string[]): HTMLCanvasElement {
+export function prerenderMap(grid: string[], labels: MapLabel[] = []): HTMLCanvasElement {
   const h = grid.length
   const w = grid[0].length
   const c = document.createElement('canvas')
@@ -230,6 +244,22 @@ export function prerenderMap(grid: string[]): HTMLCanvasElement {
     for (let tx = 0; tx < w; tx++) {
       drawTile(ctx, grid[ty][tx], tx * TILE, ty * TILE, tx, ty)
     }
+  }
+  // building name plates — chunky pixel signage
+  ctx.font = 'bold 7px monospace'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  for (const l of labels) {
+    const cx = l.x * TILE + TILE / 2
+    const cy = l.y * TILE + TILE / 2
+    const wpx = ctx.measureText(l.text).width + 8
+    ctx.fillStyle = PAPER
+    ctx.fillRect(Math.round(cx - wpx / 2), cy - 6, Math.round(wpx), 12)
+    ctx.strokeStyle = INK
+    ctx.lineWidth = 1
+    ctx.strokeRect(Math.round(cx - wpx / 2) + 0.5, cy - 5.5, Math.round(wpx) - 1, 11)
+    ctx.fillStyle = INK
+    ctx.fillText(l.text, cx, cy + 0.5)
   }
   return c
 }

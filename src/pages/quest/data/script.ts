@@ -61,7 +61,13 @@ export const DIALOGS: Record<string, DialogRun> = {
       { speaker: 'Termi', tone: 'plum', text: '❯ how it works, simply: you type a message, the agent answers, and before it touches anything it asks you first. Same chat, more muscles.' },
       { speaker: 'Termi', tone: 'plum', text: '❯ take this shard. And if you prefer pretty buttons — no offense taken. Visit the App Stand, west side of the valley.' },
     ],
-    { grantsShard: 'terminal' },
+    {
+      grantsShard: 'terminal',
+      links: [
+        { label: 'What the terminal really is — MDN crash course', url: 'https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line' },
+        { label: 'Claude Code docs — running an agent in me', url: 'https://code.claude.com/docs/en/overview' },
+      ],
+    },
   ),
   termiAfter: D('termiAfter', [
     { speaker: 'Termi', tone: 'plum', text: "❯ back so soon? blink once if you missed me. ...that was a blink. I'm sure of it." },
@@ -76,11 +82,22 @@ export const DIALOGS: Record<string, DialogRun> = {
       { speaker: 'Stand Pip', tone: 'sun', text: 'Fancy editors like Cursor and VS Code can run agents too — a fine road, for later. And the free trail to OpenCode starts just south of here.' },
       { speaker: 'Stand Pip', tone: 'sun', text: "The stand's real secret, free of charge: tools change. The skill — saying what you want, deciding when asked — moves with you. Take a shard!" },
     ],
-    { grantsShard: 'apps' },
+    {
+      grantsShard: 'apps',
+      links: [
+        { label: 'Claude Code', url: 'https://claude.com/product/claude-code' },
+        { label: 'OpenAI Codex', url: 'https://developers.openai.com/codex' },
+        { label: 'Which door fits you? — the picker', url: '../#pick-your-door' },
+      ],
+    },
   ),
-  opencodeMarker: D('opencodeMarker', [
-    { speaker: 'Trail marker', tone: 'leaf', text: 'THE FREE TRAIL — OpenCode: free, open-source, terminal-only. Bring a Claude or ChatGPT subscription you already have, or your own API keys.' },
-  ]),
+  opencodeMarker: D(
+    'opencodeMarker',
+    [
+      { speaker: 'Trail marker', tone: 'leaf', text: 'THE FREE TRAIL — OpenCode: free, open-source, terminal-only. Bring a Claude or ChatGPT subscription you already have, or your own API keys.' },
+    ],
+    { links: [{ label: 'OpenCode', url: 'https://opencode.ai' }] },
+  ),
 
   /* ── valley flavor ───────────────────────────────────────────────────── */
   roamer: D(
@@ -91,7 +108,13 @@ export const DIALOGS: Record<string, DialogRun> = {
       { speaker: 'Wandering Pip', tone: 'leaf', text: 'Rule two: practice in a brand-new empty folder. Empty means nothing to lose. Worst case? Delete the folder — like it never happened.' },
       { speaker: 'Wandering Pip', tone: 'leaf', text: 'Ask first, break nothing. Carry it as a shard — the guardian at the door respects this one most.' },
     ],
-    { grantsShard: 'safety' },
+    {
+      grantsShard: 'safety',
+      links: [
+        { label: 'Your First Day — the honest walkthrough', url: '../first-day/' },
+        { label: 'The decoder — for weird moments', url: '../help/' },
+      ],
+    },
   ),
   mailbox: D('mailbox', [
     { speaker: 'Mailbox', tone: 'tangerine', text: 'A flyer inside: "FIRST PROMPTS, FREE — the Prompt Pantry. Paste, answer questions, own a website by teatime." Sounds made up. It isn\'t.' },

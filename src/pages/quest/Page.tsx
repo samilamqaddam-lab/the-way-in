@@ -61,6 +61,13 @@ export function QuestPage() {
   const [mapId, setMapId] = useState('valley')
   const [fs, setFs] = useState(false)
   const [fsSupported, setFsSupported] = useState(false)
+  const [tutorial, setTutorial] = useState(() => {
+    try {
+      return window.localStorage.getItem('pip-quest-tutorial') !== 'done'
+    } catch {
+      return true
+    }
+  })
   const mapIdRef = useRef(mapId)
   mapIdRef.current = mapId
 
@@ -68,8 +75,17 @@ export function QuestPage() {
   shardsRef.current = shards
   const overlayRef = useRef(false)
 
-  const overlay = !!(dialog || boss || cert || sad !== null)
+  const overlay = !!(dialog || boss || cert || sad !== null || tutorial)
   overlayRef.current = overlay
+
+  const dismissTutorial = () => {
+    setTutorial(false)
+    try {
+      window.localStorage.setItem('pip-quest-tutorial', 'done')
+    } catch {
+      /* fine */
+    }
+  }
 
   /* ── game lifecycle ──────────────────────────────────────────────────── */
 
@@ -206,8 +222,15 @@ export function QuestPage() {
     setDialog(null)
     if (run?.grantsShard && !shards.has(run.grantsShard)) {
       const def = SHARDS.find((s) => s.id === run.grantsShard)
-      setShards((prev) => new Set([...prev, run.grantsShard!]))
-      if (def) {
+      const next = new Set([...shards, run.grantsShard])
+      setShards(next)
+      if (next.size === SHARDS.length) {
+        // the collection is complete — point straight at the guardian's door
+        setToast('✨ all five shards! follow the arrow to the EXIT…')
+        window.setTimeout(() => setToast(null), 3600)
+        if (mapIdRef.current === 'valley') gameRef.current?.setGuide(30, 1)
+        else gameRef.current?.setGuide(10, 13)
+      } else if (def) {
         setToast(`${def.emoji} shard collected — ${def.title}`)
         window.setTimeout(() => setToast(null), 2600)
       }
@@ -265,16 +288,26 @@ export function QuestPage() {
           <div className="absolute left-1/2 top-2 z-10 -translate-x-1/2">
             <ShardBar collected={shards} onGuide={guideTo} />
           </div>
-          {fsSupported && (
+          <div className="absolute right-2 top-2 z-10 flex gap-1.5">
             <button
               type="button"
-              onClick={toggleFullscreen}
-              aria-label={fs ? 'Exit fullscreen' : 'Play fullscreen'}
-              className="absolute right-2 top-2 z-10 grid h-8 w-8 place-items-center rounded-md border-2 border-ink/60 bg-plum-deep/80 font-mono text-sm text-on-plum hover:border-sun"
+              onClick={() => setTutorial(true)}
+              aria-label="How to play"
+              className="grid h-8 w-8 place-items-center rounded-md border-2 border-ink/60 bg-plum-deep/80 font-mono text-sm text-on-plum hover:border-sun"
             >
-              {fs ? '🗗' : '⛶'}
+              ?
             </button>
-          )}
+            {fsSupported && (
+              <button
+                type="button"
+                onClick={toggleFullscreen}
+                aria-label={fs ? 'Exit fullscreen' : 'Play fullscreen'}
+                className="grid h-8 w-8 place-items-center rounded-md border-2 border-ink/60 bg-plum-deep/80 font-mono text-sm text-on-plum hover:border-sun"
+              >
+                {fs ? '🗗' : '⛶'}
+              </button>
+            )}
+          </div>
 
           <TouchPad
             onDir={(dir, downHeld) => gameRef.current?.setHeld(dir, downHeld)}
@@ -305,6 +338,32 @@ export function QuestPage() {
               </motion.p>
             )}
           </AnimatePresence>
+
+          {/* first-launch tutorial — one card, one button, never again */}
+          {tutorial && (
+            <div className="absolute inset-0 z-30 grid place-items-center bg-plum-deep/92 p-4" role="dialog" aria-label="How to play">
+              <div className="w-full max-w-sm rounded-xl border-[3px] border-sun bg-plum p-5 text-on-plum">
+                <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em] text-sun">how to play</p>
+                <ul className="mt-3 space-y-2.5 text-sm leading-snug">
+                  <li>
+                    <strong>🚶 Walk</strong> — arrow keys or WASD <span className="text-on-plum-dim">(or the D-pad on touch)</span>
+                  </li>
+                  <li>
+                    <strong>💬 Talk</strong> — stand face-to-face with someone, press <strong>Enter</strong>, <strong>Space</strong> or the{' '}
+                    <strong>A</strong> button
+                  </li>
+                  <li>
+                    <strong>🎯 Goal</strong> — collect all five knowledge shards. Tap a <strong>?</strong> chip at the top and an
+                    arrow shows you the way.
+                  </li>
+                  <li className="text-on-plum-dim">Then mind the big door. Something lives behind it.</li>
+                </ul>
+                <button type="button" onClick={dismissTutorial} className="btn-pop btn-sun mt-4 w-full">
+                  Got it — let's go ▸
+                </button>
+              </div>
+            </div>
+          )}
 
           {dialog && <Dialogue key={`${dialog.run.id}-${dialog.n}`} run={dialog.run} onClose={closeDialog} />}
           {boss && <BossQuiz shardsAtStart={shardList} onDone={onBossDone} />}

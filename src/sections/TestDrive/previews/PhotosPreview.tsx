@@ -1,8 +1,10 @@
 import { motion } from 'motion/react'
 import { popSpring } from '../../../lib/motion'
+import { useLocale } from '../../../i18n/locale'
 
 /** Gallery title → the wall of frames → a caption with a story. */
 export function PhotosPreview({ stage }: { stage: number }) {
+  const fr = useLocale() === 'fr'
   return (
     <div className="flex min-h-52 flex-col items-center justify-center gap-2.5 bg-[#FBF1F4] p-4 text-center text-ink">
       {stage >= 1 && (
@@ -12,7 +14,7 @@ export function PhotosPreview({ stage }: { stage: number }) {
           transition={popSpring}
           className="font-display text-xl font-extrabold leading-tight text-ink"
         >
-          Grandma's Wall 🖼️
+          {fr ? 'Le Mur de Mamie 🖼️' : "Grandma's Wall 🖼️"}
         </motion.p>
       )}
       {stage >= 2 && (
@@ -41,7 +43,9 @@ export function PhotosPreview({ stage }: { stage: number }) {
           transition={popSpring}
           className="max-w-56 rounded-lg border-2 border-ink bg-white px-3 py-1.5 font-serif text-[0.68rem] italic text-neutral-700"
         >
-          “Summer 1987 — the dog stole the cake and nobody minded.”
+          {fr
+            ? '« Été 1987 — le chien a volé le gâteau et personne n’a protesté. »'
+            : '“Summer 1987 — the dog stole the cake and nobody minded.”'}
         </motion.p>
       )}
     </div>

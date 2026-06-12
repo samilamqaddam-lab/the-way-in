@@ -1,13 +1,15 @@
 import { SectionShell } from '../../components/SectionShell'
 import { Squiggle } from '../../components/Squiggle'
-import { useLocale } from '../../i18n/locale'
+import { pick, useLocale } from '../../i18n/locale'
 import { DriveWindow } from './DriveWindow'
 import { TEST_DRIVE_COPY } from './copy'
 import { classicMissions } from '../../data/missions'
+import { classicMissionsFr } from '../../data/fr/missions'
 
 /** The home-page Test Drive section: intro + the shared drive window with the classic missions. */
 export function TestDrive() {
-  const t = TEST_DRIVE_COPY[useLocale()]
+  const locale = useLocale()
+  const t = TEST_DRIVE_COPY[locale]
   return (
     <SectionShell
       id="test-drive"
@@ -25,7 +27,7 @@ export function TestDrive() {
     >
       <div className="mt-12">
         <DriveWindow
-          missions={classicMissions}
+          missions={pick(locale, classicMissions, classicMissionsFr)}
           doneCta={() => ({ href: '#first-prompts', label: t.doneCta })}
           previewHref={(m) => (m.pantryId ? `./prompts/#${m.pantryId}` : null)}
         />

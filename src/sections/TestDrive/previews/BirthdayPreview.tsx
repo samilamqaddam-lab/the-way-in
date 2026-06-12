@@ -1,11 +1,13 @@
 import { motion } from 'motion/react'
 import { popSpring } from '../../../lib/motion'
+import { useLocale } from '../../../i18n/locale'
 
 /**
  * Stage 1: bare content (just HTML). Stage 2: the CSS arrives and it blooms.
  * Stage 3: the confetti button lands. A tiny lesson in what each file does.
  */
 export function BirthdayPreview({ stage }: { stage: number }) {
+  const fr = useLocale() === 'fr'
   const styled = stage >= 2
   return (
     <div
@@ -24,11 +26,13 @@ export function BirthdayPreview({ stage }: { stage: number }) {
               : 'font-serif text-lg text-neutral-800'
           }
         >
-          Happy birthday, Maya! 🎂
+          {fr ? 'Joyeux anniversaire, Maya ! 🎂' : 'Happy birthday, Maya! 🎂'}
         </motion.p>
       )}
       {stage >= 1 && !styled && (
-        <p className="font-serif text-xs text-neutral-500">kind — funny — always there</p>
+        <p className="font-serif text-xs text-neutral-500">
+          {fr ? 'gentille — drôle — toujours là' : 'kind — funny — always there'}
+        </p>
       )}
       {styled && (
         <motion.div
@@ -38,9 +42,9 @@ export function BirthdayPreview({ stage }: { stage: number }) {
           className="flex flex-wrap justify-center gap-1.5"
         >
           {[
-            ['kind', 'bg-sun text-ink'],
-            ['funny', 'bg-blush text-ink'],
-            ['always there', 'bg-sky text-ink'],
+            [fr ? 'gentille' : 'kind', 'bg-sun text-ink'],
+            [fr ? 'drôle' : 'funny', 'bg-blush text-ink'],
+            [fr ? 'toujours là' : 'always there', 'bg-sky text-ink'],
           ].map(([label, cls]) => (
             <span
               key={label}
@@ -58,7 +62,7 @@ export function BirthdayPreview({ stage }: { stage: number }) {
           transition={popSpring}
           className="shadow-pop-sm rounded-full border-2 border-ink bg-tangerine px-3.5 py-1.5 text-xs font-bold text-ink"
         >
-          🎉 confetti!
+          {fr ? '🎉 confettis !' : '🎉 confetti!'}
         </motion.span>
       )}
     </div>

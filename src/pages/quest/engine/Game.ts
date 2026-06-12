@@ -52,6 +52,7 @@ export class Game {
   private ents: Ent[] = []
   private collected = new Set<string>()
   private reduced: boolean
+  private locale: 'en' | 'fr'
 
   // player
   private pX = 0
@@ -80,7 +81,7 @@ export class Game {
   private running = false
   private cb: GameCallbacks
 
-  constructor(canvas: HTMLCanvasElement, cb: GameCallbacks, reducedMotion: boolean) {
+  constructor(canvas: HTMLCanvasElement, cb: GameCallbacks, reducedMotion: boolean, locale: 'en' | 'fr' = 'en') {
     // 2× internal resolution: pixel art stays chunky (smoothing off),
     // but text and vector shapes rasterize crisp.
     canvas.width = VIEW_W * 2
@@ -92,6 +93,7 @@ export class Game {
     this.ctx.imageSmoothingEnabled = false
     this.cb = cb
     this.reduced = reducedMotion
+    this.locale = locale
     this.sprites = bakeSprites()
     this.loadMap('valley')
   }
@@ -322,17 +324,18 @@ export class Game {
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
       for (const l of this.map.labels) {
+        const text = this.locale === 'fr' ? l.textFr : l.text
         const lx = Math.round(l.x * TILE + TILE / 2 - camX)
         const ly = Math.round(l.y * TILE + TILE / 2 - camY)
         if (lx < -60 || lx > VIEW_W + 60 || ly < -20 || ly > VIEW_H + 20) continue
-        const wpx = Math.ceil(ctx.measureText(l.text).width) + 8
+        const wpx = Math.ceil(ctx.measureText(text).width) + 8
         ctx.fillStyle = PAPER
         ctx.fillRect(lx - wpx / 2, ly - 6, wpx, 12)
         ctx.strokeStyle = INK
         ctx.lineWidth = 1
         ctx.strokeRect(lx - wpx / 2 + 0.5, ly - 5.5, wpx - 1, 11)
         ctx.fillStyle = INK
-        ctx.fillText(l.text, lx, ly + 0.5)
+        ctx.fillText(text, lx, ly + 0.5)
       }
     }
 

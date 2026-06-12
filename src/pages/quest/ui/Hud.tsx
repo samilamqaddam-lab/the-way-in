@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import type { Dir } from '../engine/Game'
 import { SHARDS } from '../data/script'
+import { SHARDS_FR } from '../data/script.fr'
+import { pick, useLocale } from '../../../i18n/locale'
 
 interface HudProps {
   collected: Set<string>
@@ -10,20 +12,27 @@ interface HudProps {
 
 /** Shard slots, in-screen — tap an empty one and an arrow shows the way. */
 export function ShardBar({ collected, onGuide }: HudProps) {
+  const locale = useLocale()
+  const shards = pick(locale, SHARDS, SHARDS_FR)
+  const fr = locale === 'fr'
   return (
     <div
       className="flex items-center gap-1 rounded-xl border-2 border-ink/60 bg-plum-deep/80 p-1"
       role="status"
-      aria-label={`Knowledge shards: ${collected.size} of ${SHARDS.length}. Tap an empty slot to get directions.`}
+      aria-label={
+        fr
+          ? `Éclats de savoir : ${collected.size} sur ${shards.length}. Tape une case vide pour avoir le chemin.`
+          : `Knowledge shards: ${collected.size} of ${shards.length}. Tap an empty slot to get directions.`
+      }
     >
-      {SHARDS.map((s) => {
+      {shards.map((s) => {
         const has = collected.has(s.id)
         return (
           <button
             key={s.id}
             type="button"
-            title={has ? `✓ ${s.title}` : `Where do I get “${s.title}”?`}
-            aria-label={has ? `Collected: ${s.title}` : `Show the way to: ${s.title}`}
+            title={has ? `✓ ${s.title}` : fr ? `Où trouver « ${s.title} » ?` : `Where do I get “${s.title}”?`}
+            aria-label={has ? (fr ? `Récupéré : ${s.title}` : `Collected: ${s.title}`) : fr ? `Montrer le chemin vers : ${s.title}` : `Show the way to: ${s.title}`}
             onClick={() => !has && onGuide(s.id)}
             className={`grid h-7 w-7 place-items-center rounded-md border-2 text-sm ${
               has ? 'border-ink bg-sun' : 'cursor-pointer border-on-plum-dim/50 bg-plum text-on-plum-dim hover:border-sun'
@@ -48,6 +57,7 @@ export function TouchPad({ onDir, onAction }: PadProps) {
   useEffect(() => {
     setTouchy(window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0)
   }, [])
+  const fr = useLocale() === 'fr'
   const hold = (dir: Dir) => ({
     onPointerDown: (e: React.PointerEvent) => {
       e.preventDefault()
@@ -65,24 +75,24 @@ export function TouchPad({ onDir, onAction }: PadProps) {
     <div className="pointer-events-none absolute inset-x-2 bottom-2 z-10 flex items-end justify-between">
       <div className="grid grid-cols-3 gap-1.5">
         <span />
-        <button type="button" className={btn} aria-label="Walk up" {...hold('up')}>
+        <button type="button" className={btn} aria-label={fr ? 'Aller en haut' : 'Walk up'} {...hold('up')}>
           ▲
         </button>
         <span />
-        <button type="button" className={btn} aria-label="Walk left" {...hold('left')}>
+        <button type="button" className={btn} aria-label={fr ? 'Aller à gauche' : 'Walk left'} {...hold('left')}>
           ◀
         </button>
-        <button type="button" className={btn} aria-label="Walk down" {...hold('down')}>
+        <button type="button" className={btn} aria-label={fr ? 'Aller en bas' : 'Walk down'} {...hold('down')}>
           ▼
         </button>
-        <button type="button" className={btn} aria-label="Walk right" {...hold('right')}>
+        <button type="button" className={btn} aria-label={fr ? 'Aller à droite' : 'Walk right'} {...hold('right')}>
           ▶
         </button>
       </div>
       <button
         type="button"
         onClick={onAction}
-        aria-label="Talk / interact"
+        aria-label={fr ? 'Parler / interagir' : 'Talk / interact'}
         className="pointer-events-auto grid h-16 w-16 place-items-center rounded-full border-[3px] border-ink bg-tangerine/95 font-display text-xl font-extrabold text-ink shadow-pop select-none active:translate-y-0.5"
       >
         A

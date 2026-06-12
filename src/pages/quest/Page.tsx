@@ -3,10 +3,13 @@ import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'motion/
 import { LangToggle } from '../../components/LangToggle'
 import { Wordmark } from '../../components/Wordmark'
 import { popSpring } from '../../lib/motion'
+import { pick, useLocale } from '../../i18n/locale'
+import type { Locale } from '../../i18n/locale'
 import { Game } from './engine/Game'
 import type { Dir } from './engine/Game'
 import type { EntityDef } from './data/maps'
 import { DIALOGS, SHARDS } from './data/script'
+import { DIALOGS_FR, SHARDS_FR } from './data/script.fr'
 import type { DialogRun } from './data/script'
 import { Dialogue } from './ui/Dialogue'
 import { ShardBar, TouchPad } from './ui/Hud'
@@ -15,6 +18,120 @@ import type { BossResult } from './ui/BossQuiz'
 import { Certificate } from './ui/Certificate'
 
 const STORE_KEY = 'pip-quest-v1'
+
+interface QuestCopy {
+  h1: string
+  subA: string
+  subB: string
+  canvasAria: string
+  howToPlay: string
+  fsExit: string
+  fsEnter: string
+  toastAll: string
+  toastShard: (emoji: string, title: string) => string
+  tutKicker: string
+  tutWalk: string
+  tutWalkRest: string
+  tutWalkTouch: string
+  tutTalk: string
+  tutTalkA: string
+  tutTalkEnter: string
+  tutTalkSpace: string
+  tutTalkOr: string
+  tutTalkBtn: string
+  tutTalkBtnWord: string
+  tutGoal: string
+  tutGoalA: string
+  tutGoalB: string
+  tutMind: string
+  tutGo: string
+  sadAria: string
+  sadTitle: string
+  sadBody: (n: number) => string
+  sadBack: string
+  hints: string
+  footA: string
+  startOver: string
+  doneA: string
+  doneLink: string
+}
+
+const QUEST_COPY = {
+  en: {
+    h1: "Pip's Quest",
+    subA: 'Collect the five knowledge shards. Mind the door.',
+    subB: 'Nothing here is real — even the monster.',
+    canvasAria: "Pip's Quest — a tiny pixel world. Walk with the arrow keys, talk with Enter.",
+    howToPlay: 'How to play',
+    fsExit: 'Exit fullscreen',
+    fsEnter: 'Play fullscreen',
+    toastAll: '✨ all five shards! follow the arrow to the EXIT…',
+    toastShard: (emoji: string, title: string) => `${emoji} shard collected — ${title}`,
+    tutKicker: 'how to play',
+    tutWalk: 'Walk',
+    tutWalkRest: '— arrow keys or WASD',
+    tutWalkTouch: '(or the D-pad on touch)',
+    tutTalk: 'Talk',
+    tutTalkA: '— stand face-to-face with someone, press',
+    tutTalkEnter: 'Enter',
+    tutTalkSpace: 'Space',
+    tutTalkOr: 'or the',
+    tutTalkBtn: 'A',
+    tutTalkBtnWord: 'button',
+    tutGoal: 'Goal',
+    tutGoalA: '— collect all five knowledge shards. Tap a',
+    tutGoalB: 'chip at the top and an arrow shows you the way.',
+    tutMind: 'Then mind the big door. Something lives behind it.',
+    tutGo: "Got it — let's go ▸",
+    sadAria: 'The sad ending',
+    sadTitle: 'The Snatcher kept your shards.',
+    sadBody: (n: number) =>
+      `Pip trudges out with ${n} shard${n === 1 ? '' : 's'}. The valley folk will gladly share their knowledge again — and the door isn't going anywhere.`,
+    sadBack: 'Back to the valley',
+    hints: 'walk: arrow keys or WASD · talk: Enter, Space or E',
+    footA: 'a game about agents, itself fully scripted · progress saved on this device only · ',
+    startOver: 'start over',
+    doneA: 'Done playing? The real adventure takes one paste: ',
+    doneLink: 'the Prompt Pantry →',
+  },
+  fr: {
+    h1: 'La Quête de Pip',
+    subA: 'Récupère les cinq éclats de savoir. Méfie-toi de la porte.',
+    subB: 'Rien ici n’est réel — même pas le monstre.',
+    canvasAria: 'La Quête de Pip — un petit monde en pixels. Déplace-toi avec les flèches, parle avec Entrée.',
+    howToPlay: 'Comment jouer',
+    fsExit: 'Quitter le plein écran',
+    fsEnter: 'Jouer en plein écran',
+    toastAll: '✨ les cinq éclats ! suis la flèche vers la SORTIE…',
+    toastShard: (emoji: string, title: string) => `${emoji} éclat récupéré — ${title}`,
+    tutKicker: 'comment jouer',
+    tutWalk: 'Marcher',
+    tutWalkRest: '— les flèches ou ZQSD',
+    tutWalkTouch: '(ou la croix tactile)',
+    tutTalk: 'Parler',
+    tutTalkA: '— place-toi face à quelqu’un, appuie sur',
+    tutTalkEnter: 'Entrée',
+    tutTalkSpace: 'Espace',
+    tutTalkOr: 'ou le bouton',
+    tutTalkBtn: 'A',
+    tutTalkBtnWord: '',
+    tutGoal: 'But',
+    tutGoalA: '— récupère les cinq éclats de savoir. Tape une pastille',
+    tutGoalB: 'en haut et une flèche te montre le chemin.',
+    tutMind: 'Ensuite, méfie-toi de la grande porte. Quelque chose vit derrière.',
+    tutGo: 'Compris — c’est parti ▸',
+    sadAria: 'La fin triste',
+    sadTitle: 'Le Chapardeur a gardé tes éclats.',
+    sadBody: (n: number) =>
+      `Pip ressort d’un pas lourd avec ${n} éclat${n === 1 ? '' : 's'}. Les habitants de la vallée partageront volontiers leur savoir à nouveau — et la porte ne va nulle part.`,
+    sadBack: 'Retour dans la vallée',
+    hints: 'marcher : flèches ou ZQSD · parler : Entrée, Espace ou E',
+    footA: 'un jeu sur les agents, lui-même entièrement scénarisé · progression gardée sur cet appareil uniquement · ',
+    startOver: 'recommencer',
+    doneA: 'Fini de jouer ? La vraie aventure tient en un collage : ',
+    doneLink: 'la Réserve à Prompts →',
+  },
+} satisfies Record<Locale, QuestCopy>
 
 function loadShards(): Set<string> {
   try {
@@ -47,6 +164,10 @@ const KEY_DIRS: Record<string, Dir> = {
 }
 
 export function QuestPage() {
+  const locale = useLocale()
+  const t = QUEST_COPY[locale]
+  const dialogs = pick(locale, DIALOGS, DIALOGS_FR)
+  const shardDefs = pick(locale, SHARDS, SHARDS_FR)
   const reduced = useReducedMotion()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameRef = useRef<Game | null>(null)
@@ -101,13 +222,13 @@ export function QuestPage() {
           let id = def.dialog
           if (def.id === 'bubbles' && has('language')) id = 'bubblesAfter'
           if (def.id === 'termi' && has('terminal')) id = 'termiAfter'
-          const run = DIALOGS[id]
+          const run = dialogs[id]
           if (run) setDialog((d) => ({ run, n: (d?.n ?? 0) + 1 }))
         },
         onExitDoor: () => {
           if (overlayRef.current) return
           if (shardsRef.current.size === SHARDS.length) setBoss(true)
-          else setDialog((d) => ({ run: DIALOGS.exitNeedShards, n: (d?.n ?? 0) + 1 }))
+          else setDialog((d) => ({ run: dialogs.exitNeedShards, n: (d?.n ?? 0) + 1 }))
         },
         onMapChange: (id: string) => {
           setMapId(id)
@@ -116,6 +237,7 @@ export function QuestPage() {
         },
       },
       !!reduced,
+      locale,
     )
     game.setShards(shardsRef.current)
     game.start()
@@ -222,17 +344,17 @@ export function QuestPage() {
     const run = dialog?.run
     setDialog(null)
     if (run?.grantsShard && !shards.has(run.grantsShard)) {
-      const def = SHARDS.find((s) => s.id === run.grantsShard)
+      const def = shardDefs.find((s) => s.id === run.grantsShard)
       const next = new Set([...shards, run.grantsShard])
       setShards(next)
       if (next.size === SHARDS.length) {
         // the collection is complete — point straight at the guardian's door
-        setToast('✨ all five shards! follow the arrow to the EXIT…')
+        setToast(t.toastAll)
         window.setTimeout(() => setToast(null), 3600)
         if (mapIdRef.current === 'valley') gameRef.current?.setGuide(30, 1)
         else gameRef.current?.setGuide(10, 13)
       } else if (def) {
-        setToast(`${def.emoji} shard collected — ${def.title}`)
+        setToast(t.toastShard(def.emoji, def.title))
         window.setTimeout(() => setToast(null), 2600)
       }
     }
@@ -262,9 +384,9 @@ export function QuestPage() {
 
       <main className="mx-auto w-full max-w-3xl px-4 pb-16">
         <div className="mt-4 text-center">
-          <h1 className="font-display text-[clamp(1.9rem,6vw,2.8rem)] font-extrabold leading-tight">Pip's Quest</h1>
+          <h1 className="font-display text-[clamp(1.9rem,6vw,2.8rem)] font-extrabold leading-tight">{t.h1}</h1>
           <p className="mx-auto mt-1 max-w-md text-sm text-ink-soft">
-            Collect the five knowledge shards. Mind the door. <span className="whitespace-nowrap">Nothing here is real — even the monster.</span>
+            {t.subA} <span className="whitespace-nowrap">{t.subB}</span>
           </p>
         </div>
 
@@ -283,7 +405,7 @@ export function QuestPage() {
                 ? { imageRendering: 'pixelated', aspectRatio: '4 / 3', height: '100%', maxHeight: '100vh', maxWidth: '100vw' }
                 : { imageRendering: 'pixelated', aspectRatio: '4 / 3', width: '100%' }
             }
-            aria-label="Pip's Quest — a tiny pixel world. Walk with the arrow keys, talk with Enter."
+            aria-label={t.canvasAria}
           />
 
           {/* in-screen quest HUD */}
@@ -294,7 +416,7 @@ export function QuestPage() {
             <button
               type="button"
               onClick={() => setTutorial(true)}
-              aria-label="How to play"
+              aria-label={t.howToPlay}
               className="grid h-8 w-8 place-items-center rounded-md border-2 border-ink/60 bg-plum-deep/80 font-mono text-sm text-on-plum hover:border-sun"
             >
               ?
@@ -303,7 +425,7 @@ export function QuestPage() {
               <button
                 type="button"
                 onClick={toggleFullscreen}
-                aria-label={fs ? 'Exit fullscreen' : 'Play fullscreen'}
+                aria-label={fs ? t.fsExit : t.fsEnter}
                 className="grid h-8 w-8 place-items-center rounded-md border-2 border-ink/60 bg-plum-deep/80 font-mono text-sm text-on-plum hover:border-sun"
               >
                 {fs ? '🗗' : '⛶'}
@@ -343,25 +465,25 @@ export function QuestPage() {
 
           {/* first-launch tutorial — one card, one button, never again */}
           {tutorial && (
-            <div className="absolute inset-0 z-30 grid place-items-center bg-plum-deep/92 p-4" role="dialog" aria-label="How to play">
+            <div className="absolute inset-0 z-30 grid place-items-center bg-plum-deep/92 p-4" role="dialog" aria-label={t.howToPlay}>
               <div className="w-full max-w-sm rounded-xl border-[3px] border-sun bg-plum p-5 text-on-plum">
-                <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em] text-sun">how to play</p>
+                <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em] text-sun">{t.tutKicker}</p>
                 <ul className="mt-3 space-y-2.5 text-sm leading-snug">
                   <li>
-                    <strong>🚶 Walk</strong> — arrow keys or WASD <span className="text-on-plum-dim">(or the D-pad on touch)</span>
+                    <strong>🚶 {t.tutWalk}</strong> {t.tutWalkRest} <span className="text-on-plum-dim">{t.tutWalkTouch}</span>
                   </li>
                   <li>
-                    <strong>💬 Talk</strong> — stand face-to-face with someone, press <strong>Enter</strong>, <strong>Space</strong> or the{' '}
-                    <strong>A</strong> button
+                    <strong>💬 {t.tutTalk}</strong> {t.tutTalkA} <strong>{t.tutTalkEnter}</strong>, <strong>{t.tutTalkSpace}</strong>{' '}
+                    {t.tutTalkOr} <strong>{t.tutTalkBtn}</strong>
+                    {t.tutTalkBtnWord && <> {t.tutTalkBtnWord}</>}
                   </li>
                   <li>
-                    <strong>🎯 Goal</strong> — collect all five knowledge shards. Tap a <strong>?</strong> chip at the top and an
-                    arrow shows you the way.
+                    <strong>🎯 {t.tutGoal}</strong> {t.tutGoalA} <strong>?</strong> {t.tutGoalB}
                   </li>
-                  <li className="text-on-plum-dim">Then mind the big door. Something lives behind it.</li>
+                  <li className="text-on-plum-dim">{t.tutMind}</li>
                 </ul>
                 <button type="button" onClick={dismissTutorial} className="btn-pop btn-sun mt-4 w-full">
-                  Got it — let's go ▸
+                  {t.tutGo}
                 </button>
               </div>
             </div>
@@ -372,18 +494,15 @@ export function QuestPage() {
           {cert && <Certificate gold={cert.gold} score={cert.score} onReplay={() => setCert(null)} />}
 
           {sad !== null && (
-            <div className="absolute inset-0 z-30 grid place-items-center bg-plum-deep/95 p-5" role="dialog" aria-label="The sad ending">
+            <div className="absolute inset-0 z-30 grid place-items-center bg-plum-deep/95 p-5" role="dialog" aria-label={t.sadAria}>
               <div className="max-w-sm text-center text-on-plum">
                 <p className="text-4xl" aria-hidden="true">
                   🌧️
                 </p>
-                <p className="mt-2 font-display text-xl font-extrabold">The Snatcher kept your shards.</p>
-                <p className="mt-2 text-sm text-on-plum-dim">
-                  Pip trudges out with {sad} shard{sad === 1 ? '' : 's'}. The valley folk will gladly share their
-                  knowledge again — and the door isn't going anywhere.
-                </p>
+                <p className="mt-2 font-display text-xl font-extrabold">{t.sadTitle}</p>
+                <p className="mt-2 text-sm text-on-plum-dim">{t.sadBody(sad)}</p>
                 <button type="button" onClick={() => setSad(null)} className="btn-pop btn-sun mt-4">
-                  Back to the valley
+                  {t.sadBack}
                 </button>
               </div>
             </div>
@@ -391,10 +510,10 @@ export function QuestPage() {
         </div>
 
         <p className="mt-4 hidden text-center font-mono text-xs text-ink-soft [@media(pointer:fine)]:block">
-          walk: arrow keys or WASD · talk: Enter, Space or E
+          {t.hints}
         </p>
         <p className="mt-3 text-center font-mono text-[0.68rem] text-ink-soft">
-          a game about agents, itself fully scripted · progress saved on this device only ·{' '}
+          {t.footA}
           <button
             type="button"
             className="underline decoration-dotted underline-offset-2 hover:text-ink"
@@ -403,14 +522,14 @@ export function QuestPage() {
               gameRef.current?.teleport('valley', 17, 22)
             }}
           >
-            start over
+            {t.startOver}
           </button>
         </p>
 
         <p className="mx-auto mt-8 max-w-md text-center text-sm text-ink-soft">
-          Done playing? The real adventure takes one paste:{' '}
+          {t.doneA}
           <a href="../prompts/" className="font-semibold text-ink underline decoration-tangerine decoration-[3px] underline-offset-4">
-            the Prompt Pantry →
+            {t.doneLink}
           </a>
         </p>
       </main>

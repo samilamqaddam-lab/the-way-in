@@ -25,7 +25,7 @@ export interface QuestMap {
   entities: EntityDef[]
   spawn: { x: number; y: number }
   /** baked-in signage */
-  labels?: Array<{ x: number; y: number; text: string }>
+  labels?: Array<{ x: number; y: number; text: string; textFr: string }>
 }
 
 class Painter {
@@ -214,9 +214,9 @@ export const VALLEY: QuestMap = {
   grid: buildValley(),
   spawn: { x: 17, y: 22 },
   labels: [
-    { x: 8.5, y: 4.5, text: 'AGENT & CO.' },
-    { x: 7, y: 11.2, text: 'THE APP STAND' },
-    { x: 30, y: 1.8, text: 'EXIT' },
+    { x: 8.5, y: 4.5, text: 'AGENT & CO.', textFr: 'AGENT & CIE' },
+    { x: 7, y: 11.2, text: 'THE APP STAND', textFr: 'LE STAND DES APPS' },
+    { x: 30, y: 1.8, text: 'EXIT', textFr: 'SORTIE' },
   ],
   entities: [
     { id: 'bubbles', sprite: 'bubbles', x: 16, y: 22, dialog: 'bubbles', solid: true, shard: 'language' },

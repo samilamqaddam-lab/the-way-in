@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { MotionConfig, motion } from 'motion/react'
 import { Pip } from './Pip'
 import { SiteFooter } from './SiteFooter'
+import { Wordmark } from './Wordmark'
 import { fadeUp, staggerKids } from '../lib/motion'
 import { HOME, ROOMS } from '../lib/links'
 import type { RoomId } from '../lib/links'
@@ -26,11 +27,8 @@ export function SubpageShell({ page, eyebrow, title, kicker, pip, children }: Su
       <div className="grain" aria-hidden="true" />
 
       <header className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-5 pt-6">
-        <a href={HOME.fromSub} className="whitespace-nowrap font-mono text-sm font-bold tracking-tight">
-          ← the·way·in{' '}
-          <span className="text-tangerine" aria-hidden="true">
-            ✳
-          </span>
+        <a href={HOME.fromSub} className="inline-flex items-center gap-1.5 whitespace-nowrap font-mono text-sm font-bold tracking-tight">
+          <span aria-hidden="true">←</span> <Wordmark />
         </a>
         <nav aria-label="Rooms" className="flex max-w-full gap-2 overflow-x-auto pb-1">
           {ROOMS.map((r) => (

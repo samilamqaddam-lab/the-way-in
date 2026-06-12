@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { Wordmark } from './Wordmark'
 import { fadeUp, staggerKids, viewportOnce } from '../lib/motion'
 import { chatLinks, mdnCommandLine, tools } from '../data/tools'
 import { HOME, ROOMS } from '../lib/links'
@@ -103,12 +104,7 @@ export function SiteFooter({ from, current }: SiteFooterProps) {
       </motion.div>
 
       <footer className="mt-16 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t-[2.5px] border-plum-line pt-7 font-mono text-xs text-on-plum-dim">
-        <span>
-          the·way·in{' '}
-          <span className="text-sun" aria-hidden="true">
-            ✳
-          </span>
-        </span>
+        <Wordmark dark />
         <span>No accounts. No tracking. Nothing for sale.</span>
         <span>Built with one of these tools, naturally.</span>
       </footer>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
+import { Pip } from './Pip'
 import { popSpring } from '../lib/motion'
 
 const LINKS = [
@@ -109,14 +110,12 @@ export function QuickNav() {
         </AnimatePresence>
         <button
           type="button"
-          className="btn-pop h-14 w-14 rounded-full p-0 text-2xl"
+          className="btn-pop h-14 w-14 rounded-full p-0"
           aria-expanded={open}
           aria-label="Section menu"
           onClick={() => setOpen((o) => !o)}
         >
-          <span className={open ? 'text-tangerine' : ''} aria-hidden="true">
-            ✳
-          </span>
+          <Pip size={30} tone={open ? 'tangerine' : 'ink'} mood={open ? 'wink' : 'idle'} />
         </button>
       </div>
       {open && (

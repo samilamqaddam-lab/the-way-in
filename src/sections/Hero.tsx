@@ -4,6 +4,7 @@ import { Pip } from '../components/Pip'
 import { Sticker } from '../components/Sticker'
 import { Squiggle } from '../components/Squiggle'
 import { Marquee } from '../components/Marquee'
+import { Wordmark } from '../components/Wordmark'
 
 const HEAD_A = 'You can already do '
 const HEAD_B = 'the hard part.'
@@ -73,12 +74,7 @@ export function Hero() {
       />
 
       <header className="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-5 pt-6">
-        <span className="font-mono text-sm font-bold tracking-tight">
-          the·way·in{' '}
-          <span className="text-tangerine" aria-hidden="true">
-            ✳
-          </span>
-        </span>
+        <Wordmark />
         <span className="hidden sm:inline-block">
           <Sticker color="sun" rotate={3}>
             no signup · nothing to install

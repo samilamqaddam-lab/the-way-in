@@ -154,8 +154,8 @@ export function driveReducer(state: DriveState, action: DriveAction): DriveState
 /** ms before auto-advancing past each non-interactive beat */
 export const AUTO_DELAY: Record<string, number> = {
   agentThink: 950,
-  filesAppear: 800,
-  previewStage: 900,
+  filesAppear: 1000,
+  previewStage: 1500,
   celebrate: 1150,
 }
 

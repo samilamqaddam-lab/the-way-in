@@ -29,27 +29,31 @@ export function SubpageShell({ page, eyebrow, title, kicker, pip, children }: Su
       </a>
       <div className="grain" aria-hidden="true" />
 
-      <header className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-5 pt-6">
+      <header className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-4 gap-y-3 px-5 pt-6">
         <a href={HOME.fromSub} className="inline-flex items-center gap-1.5 whitespace-nowrap font-mono text-sm font-bold tracking-tight">
           <span aria-hidden="true">←</span> <Wordmark />
         </a>
-        <div className="flex min-w-0 max-w-full items-center gap-3">
-          <nav aria-label={pick(locale, 'Rooms', 'Pièces')} className="flex min-w-0 gap-2 overflow-x-auto pb-1">
-            {ROOMS.map((r) => (
-              <a
-                key={r.id}
-                href={r.id === page ? undefined : r.fromSub}
-                aria-current={r.id === page ? 'page' : undefined}
-                className={`whitespace-nowrap rounded-full border-[2.5px] border-ink px-3.5 py-1.5 font-mono text-xs font-bold ${
-                  r.id === page ? 'bg-sun' : 'bg-paper hover:bg-paper-deep'
-                }`}
-              >
-                {roomLabel(r, locale)}
-              </a>
-            ))}
-          </nav>
+        {/* phone: toggle joins the wordmark row; the pills get a full row of their own */}
+        <span className="order-2 ml-auto sm:order-3 sm:ml-0">
           <LangToggle />
-        </div>
+        </span>
+        <nav
+          aria-label={pick(locale, 'Rooms', 'Pièces')}
+          className="order-3 flex w-full min-w-0 gap-2 overflow-x-auto pb-1 sm:order-2 sm:ml-auto sm:w-auto"
+        >
+          {ROOMS.map((r) => (
+            <a
+              key={r.id}
+              href={r.id === page ? undefined : r.fromSub}
+              aria-current={r.id === page ? 'page' : undefined}
+              className={`whitespace-nowrap rounded-full border-[2.5px] border-ink px-3.5 py-1.5 font-mono text-xs font-bold ${
+                r.id === page ? 'bg-sun' : 'bg-paper hover:bg-paper-deep'
+              }`}
+            >
+              {roomLabel(r, locale)}
+            </a>
+          ))}
+        </nav>
       </header>
 
       <motion.div

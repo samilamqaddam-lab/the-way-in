@@ -114,7 +114,7 @@ export function BossQuiz({ shardsAtStart, onDone }: BossQuizProps) {
   const shardOf = (id: string) => shardDefs.find((s) => s.id === id)
 
   return (
-    <div className="on-dark absolute inset-0 z-30 flex flex-col bg-plum-deep p-3 text-on-plum sm:p-5" role="dialog" aria-label={t.dialogAria}>
+    <div className="on-dark absolute inset-0 z-30 flex flex-col overflow-y-auto bg-plum-deep p-3 text-on-plum sm:p-5" role="dialog" aria-label={t.dialogAria}>
       {/* arena */}
       <div className="relative flex-none">
         <div className="flex items-start justify-between">

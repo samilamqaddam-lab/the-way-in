@@ -465,10 +465,10 @@ export function QuestPage() {
 
           {/* first-launch tutorial — one card, one button, never again */}
           {tutorial && (
-            <div className="absolute inset-0 z-30 grid place-items-center bg-plum-deep/92 p-4" role="dialog" aria-label={t.howToPlay}>
-              <div className="w-full max-w-sm rounded-xl border-[3px] border-sun bg-plum p-5 text-on-plum">
+            <div className="absolute inset-0 z-30 flex overflow-y-auto bg-plum-deep/92 p-3 sm:p-4" role="dialog" aria-label={t.howToPlay}>
+              <div className="m-auto w-full max-w-sm rounded-xl border-[3px] border-sun bg-plum p-4 text-on-plum sm:p-5">
                 <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em] text-sun">{t.tutKicker}</p>
-                <ul className="mt-3 space-y-2.5 text-sm leading-snug">
+                <ul className="mt-2.5 space-y-2 text-xs leading-snug sm:mt-3 sm:space-y-2.5 sm:text-sm">
                   <li>
                     <strong>🚶 {t.tutWalk}</strong> {t.tutWalkRest} <span className="text-on-plum-dim">{t.tutWalkTouch}</span>
                   </li>
@@ -482,7 +482,7 @@ export function QuestPage() {
                   </li>
                   <li className="text-on-plum-dim">{t.tutMind}</li>
                 </ul>
-                <button type="button" onClick={dismissTutorial} className="btn-pop btn-sun mt-4 w-full">
+                <button type="button" onClick={dismissTutorial} className="btn-pop btn-sun mt-3 w-full sm:mt-4">
                   {t.tutGo}
                 </button>
               </div>
@@ -494,8 +494,8 @@ export function QuestPage() {
           {cert && <Certificate gold={cert.gold} score={cert.score} onReplay={() => setCert(null)} />}
 
           {sad !== null && (
-            <div className="absolute inset-0 z-30 grid place-items-center bg-plum-deep/95 p-5" role="dialog" aria-label={t.sadAria}>
-              <div className="max-w-sm text-center text-on-plum">
+            <div className="absolute inset-0 z-30 flex overflow-y-auto bg-plum-deep/95 p-4 sm:p-5" role="dialog" aria-label={t.sadAria}>
+              <div className="m-auto max-w-sm text-center text-on-plum">
                 <p className="text-4xl" aria-hidden="true">
                   🌧️
                 </p>

@@ -178,8 +178,9 @@ function PromptMixer({ onJump }: MixerProps) {
       initial="hidden"
       whileInView="show"
       viewport={viewportOnce}
+      id="mixer"
       aria-labelledby="mixer-title"
-      className="card-pop mx-auto mt-20 max-w-3xl overflow-hidden"
+      className="card-pop mx-auto mt-20 max-w-3xl scroll-mt-24 overflow-hidden"
     >
       <div className="border-b-[3px] border-ink bg-paper-deep px-6 py-5 md:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -343,22 +344,12 @@ function PromptMixer({ onJump }: MixerProps) {
 
 /* ─── The Pantry page ───────────────────────────────────────────────────── */
 
-const OCCASIONS = ['birthday', 'thank you', 'school', 'travel', 'party', 'family']
-
 export function PromptsPage() {
   const [filter, setFilter] = useState<CategoryId | 'all'>('all')
-  const [search, setSearch] = useState('')
   const [spotId, setSpotId] = useState<string | null>(null)
   const spotTimer = useRef<number | undefined>(undefined)
 
-  const visible = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    return pantry.filter(
-      (p) =>
-        (filter === 'all' || p.category === filter) &&
-        (!q || [p.title, p.what, categoryOf(p).label, ...p.tags].join(' ').toLowerCase().includes(q)),
-    )
-  }, [filter, search])
+  const visible = useMemo(() => (filter === 'all' ? pantry : pantry.filter((p) => p.category === filter)), [filter])
 
   // honor a deep link like /prompts/#plant-tracker
   useEffect(() => {
@@ -384,7 +375,6 @@ export function PromptsPage() {
 
   const jumpFromMixer = (id: string) => {
     setFilter('all')
-    setSearch('')
     spotlight(pantry.find((p) => p.id === id))
   }
 
@@ -393,7 +383,7 @@ export function PromptsPage() {
       page="prompts"
       eyebrow="the library"
       title="The Prompt Pantry"
-      kicker={`${pantry.length} paste-ready prompts, organized by life — not by technology. Search it, browse it, or mix your own.`}
+      kicker={`${pantry.length} paste-ready prompts, organized by life — not by technology. Browse the shelves, or mix your own.`}
       pip={<Pip size={60} hat="chef" bob />}
     >
       <section className="px-5">
@@ -403,44 +393,32 @@ export function PromptsPage() {
             every prompt here starts in a brand-new empty folder — nothing on your computer is at risk.
           </p>
 
-          {/* search + occasions */}
-          <div className="mx-auto mt-12 max-w-xl">
-            <label className="sr-only" htmlFor="pantry-search">
-              Search the pantry
-            </label>
-            <input
-              id="pantry-search"
-              type="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="what's the occasion? try: birthday, exam, trip…"
-              className="w-full rounded-full border-[3px] border-ink bg-paper px-5 py-3 font-mono text-sm shadow-pop placeholder:text-ink-soft/80"
-            />
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-              {OCCASIONS.map((o) => (
-                <button
-                  key={o}
-                  type="button"
-                  onClick={() => setSearch(o)}
-                  className="rounded-full border-2 border-ink bg-paper-deep px-3 py-1 font-mono text-xs font-bold transition-colors hover:bg-sun"
-                >
-                  {o}
-                </button>
-              ))}
-            </div>
+          {/* two ways in: browse, or jump straight to the mixer */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <a href="#mixer" className="btn-pop btn-tangerine">
+              🎛 Mix your own prompt ↓
+            </a>
+            <a href="#shelves" className="btn-pop">
+              browse the shelves ↓
+            </a>
           </div>
 
-          {/* shelf filter */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
+          {/* the shelf toolbar — one quiet control, not confetti */}
+          <div
+            id="shelves"
+            className="mx-auto mt-12 flex max-w-3xl scroll-mt-24 flex-wrap items-center justify-center gap-1.5 rounded-2xl border-2 border-line bg-paper-deep/60 p-2"
+            role="group"
+            aria-label="Filter the shelves"
+          >
             <button
               type="button"
               aria-pressed={filter === 'all'}
               onClick={() => setFilter('all')}
-              className={`rounded-full border-[2.5px] border-ink px-3.5 py-1.5 font-mono text-xs font-bold ${
-                filter === 'all' ? 'bg-sun' : 'bg-paper hover:bg-paper-deep'
+              className={`rounded-full border-2 px-3 py-1 font-mono text-[0.7rem] font-bold ${
+                filter === 'all' ? 'border-ink bg-sun' : 'border-transparent hover:border-ink/40'
               }`}
             >
-              the whole pantry
+              everything
             </button>
             {categories.map((c) => (
               <button
@@ -448,60 +426,47 @@ export function PromptsPage() {
                 type="button"
                 aria-pressed={filter === c.id}
                 onClick={() => setFilter(c.id)}
-                className={`rounded-full border-[2.5px] border-ink px-3.5 py-1.5 font-mono text-xs font-bold ${
-                  filter === c.id ? 'bg-sun' : 'bg-paper hover:bg-paper-deep'
+                className={`rounded-full border-2 px-3 py-1 font-mono text-[0.7rem] font-bold ${
+                  filter === c.id ? 'border-ink bg-sun' : 'border-transparent hover:border-ink/40'
                 }`}
               >
                 {c.emoji} {c.label}
               </button>
             ))}
-            <button type="button" onClick={surprise} className="btn-pop btn-tangerine px-3.5 py-1.5 text-xs">
-              🎲 surprise me
-            </button>
           </div>
 
-          <p className="mt-4 text-center font-mono text-xs text-ink-soft" aria-live="polite">
-            {visible.length === pantry.length
-              ? `all ${pantry.length} prompts`
-              : `${visible.length} of ${pantry.length} prompts`}
+          <p className="mt-3 text-center font-mono text-xs text-ink-soft" aria-live="polite">
+            {visible.length === pantry.length ? `all ${pantry.length} prompts` : `${visible.length} of ${pantry.length} prompts`}{' '}
+            ·{' '}
+            <button type="button" onClick={surprise} className="underline decoration-dotted underline-offset-2 hover:text-ink">
+              🎲 surprise me
+            </button>
           </p>
 
           {/* the shelves */}
           <h2 className="sr-only">The shelves</h2>
-          {visible.length === 0 ? (
-            <div className="card-pop mx-auto mt-10 max-w-md p-6 text-center">
-              <p className="font-display text-xl font-extrabold">Nothing on the shelves for “{search}”.</p>
-              <p className="mt-2 text-ink-soft">The Mixer below can build exactly that — or clear the search.</p>
-              <button type="button" onClick={() => setSearch('')} className="btn-pop mt-4 text-sm">
-                ↺ clear the search
-              </button>
-            </div>
-          ) : (
-            <motion.div
-              key={`${filter}-${search}`}
-              variants={staggerKids}
-              initial="hidden"
-              animate="show"
-              className="mt-10 grid items-stretch gap-7 sm:grid-cols-2 xl:grid-cols-3"
-            >
-              {visible.map((p, i) => (
-                <div
-                  key={p.id}
-                  className={
-                    spotId === p.id ? 'outline outline-4 outline-offset-4 outline-tangerine rounded-blob' : ''
-                  }
-                >
-                  <PromptCard
-                    data={p}
-                    anchorId={p.id}
-                    badge={p.classic ? 'the classic' : undefined}
-                    thumb={<EmojiThumb emoji={p.emoji} tint={categoryOf(p).tint} />}
-                    rotate={[-0.6, 0.5, -0.4, 0.7][i % 4]}
-                  />
-                </div>
-              ))}
-            </motion.div>
-          )}
+          <motion.div
+            key={filter}
+            variants={staggerKids}
+            initial="hidden"
+            animate="show"
+            className="mt-10 grid items-stretch gap-7 sm:grid-cols-2 xl:grid-cols-3"
+          >
+            {visible.map((p, i) => (
+              <div
+                key={p.id}
+                className={spotId === p.id ? 'outline outline-4 outline-offset-4 outline-tangerine rounded-blob' : ''}
+              >
+                <PromptCard
+                  data={p}
+                  anchorId={p.id}
+                  badge={p.classic ? 'the classic' : undefined}
+                  thumb={<EmojiThumb emoji={p.emoji} tint={categoryOf(p).tint} />}
+                  rotate={[-0.6, 0.5, -0.4, 0.7][i % 4]}
+                />
+              </div>
+            ))}
+          </motion.div>
 
           <PromptMixer onJump={jumpFromMixer} />
 

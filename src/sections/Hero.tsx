@@ -34,7 +34,6 @@ function HeroPip({ awake }: { awake: boolean }) {
   return (
     <motion.span
       className="inline-block h-full"
-      // wake-up: a squashy little pop the moment the eyes arrive
       animate={
         !reduced && awake
           ? gesture === 'hop'
@@ -44,16 +43,24 @@ function HeroPip({ awake }: { awake: boolean }) {
       }
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
+      {/* fully invisible until the headline lands — the seat stays reserved
+          (opacity/scale don't move layout), then Pip arrives with a flourish */}
       <motion.span
         className="inline-block h-full"
         initial={false}
-        animate={!reduced && awake ? { rotate: [0, -7, 4, 0], scale: [0.6, 1.18, 1] } : { rotate: 0, scale: 1 }}
-        transition={{ duration: 0.55, ease: 'easeOut' }}
+        animate={
+          awake
+            ? reduced
+              ? { opacity: 1, scale: 1, rotate: 0 }
+              : { opacity: 1, scale: [0, 1.25, 0.9, 1], rotate: [0, -12, 7, 0] }
+            : { opacity: 0, scale: reduced ? 1 : 0, rotate: 0 }
+        }
+        transition={{ duration: 0.6, ease: 'easeOut' }}
       >
         <Pip
           fluid
           tone="ink"
-          eyes={awake}
+          eyes
           mood={gesture === 'wink' ? 'wink' : 'idle'}
           look={gesture === 'left' ? 'left' : gesture === 'right' ? 'right' : 'ahead'}
         />

@@ -223,7 +223,7 @@ const FR: MixerDef = {
 
     return `Salut ! Je débute complètement — sois mon guide bienveillant autant que mon bâtisseur. Je veux faire ${what.phrase} pour ${who.phrase}, avec une ambiance ${vibe.phrase}.${colorLine} ${purpose.phrase}${needLine}${needPunct}
 
-Avant d’écrire le moindre code, pose-moi quatre à six questions courtes, une à la fois, pour préciser exactement ce que ça doit dire et contenir — les prénoms, les détails qui comptent, et tout ce que moi seul peux savoir. Si ma description est vague, tes questions sont notre façon d’arranger ça ensemble.
+Avant d’écrire le moindre code, pose-moi quatre à six questions courtes, une à la fois, pour préciser exactement ce que ça doit dire et contenir — les prénoms, les détails qui comptent, et tout ce que personne d’autre que moi ne sait. Si ma description est vague, tes questions sont notre façon d’arranger ça ensemble.
 
 ${build}
 

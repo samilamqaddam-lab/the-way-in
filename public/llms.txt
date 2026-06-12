@@ -12,6 +12,18 @@
 - [The Toolshed](./tools/): every door to an agent — app, terminal, or inside an app you already have — with honest setup notes per tool, plus editors and beyond
 - [Pip's Quest](./quest/): a tiny pixel adventure that teaches the same curriculum by play — meet the Terminal, visit an agent office, answer the Data Snatcher's safety questions, earn a certificate
 
+## En français
+
+The entire site — including the game — exists in French (tu voice) under `/fr/`:
+
+- [The Way In, en français](./fr/): la page d'accueil
+- [La Réserve à Prompts](./fr/prompts/): les prompts prêts à coller + le Mixeur
+- [Le Deck des Missions](./fr/missions/): les 8 tours d'essai scénarisés
+- [Ton Premier Jour](./fr/first-day/): la visite guidée honnête
+- [Il m'a demandé un truc bizarre](./fr/help/): le décodeur + le petit dictionnaire
+- [La Cabane à Outils](./fr/tools/): toutes les portes vers un agent
+- [La Quête de Pip](./fr/quest/): la petite aventure en pixels, en français
+
 ## What's on the main page
 
 - Chat vs. agent, explained side by side with the same request

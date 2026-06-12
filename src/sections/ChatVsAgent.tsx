@@ -59,7 +59,9 @@ export function ChatVsAgent() {
         viewport={viewportOnce}
         className="mx-auto mt-12 max-w-md"
       >
-        <div className="card-pop rounded-full px-5 py-3 text-center font-mono text-sm">{REQUEST}</div>
+        <div className="rounded-full border-[2.5px] border-dashed border-ink/50 bg-paper-deep/60 px-5 py-3 text-center font-mono text-sm">
+          {REQUEST}
+        </div>
         <p className="mt-2.5 text-center font-mono text-xs text-ink-soft">the same message, sent to two places ↓</p>
       </motion.div>
 

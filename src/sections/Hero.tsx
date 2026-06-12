@@ -21,23 +21,23 @@ const MADE_BY_BEGINNERS = [
 ]
 
 const CHIPS = [
-  { text: 'make me a birthday page', cls: 'bg-sun', pos: 'left-[2%] top-[6%] -rotate-6', delay: '0s' },
-  { text: 'build a chore wheel for us', cls: 'bg-paper-deep', pos: 'right-[2%] top-[10%] rotate-[5deg]', delay: '-2.1s' },
+  { text: 'make me a birthday page', cls: 'bg-sun/40', pos: 'left-[2%] top-[6%] -rotate-6', delay: '0s' },
+  { text: 'build a chore wheel for us', cls: 'bg-paper-deep/70', pos: 'right-[2%] top-[10%] rotate-[5deg]', delay: '-2.1s' },
   {
     text: "explain this like I'm twelve",
-    cls: 'bg-blush',
+    cls: 'bg-blush/35',
     pos: 'left-[5%] bottom-[14%] rotate-[3deg] hidden md:block',
     delay: '-3.4s',
   },
   {
     text: 'turn my notes into a study site',
-    cls: 'bg-paper-deep',
+    cls: 'bg-paper-deep/70',
     pos: 'right-[4%] bottom-[20%] -rotate-[4deg] hidden md:block',
     delay: '-1.2s',
   },
   {
     text: 'a page for my plant babies',
-    cls: 'bg-leaf text-paper',
+    cls: 'bg-leaf/20',
     pos: 'right-[16%] bottom-[6%] rotate-[2deg] hidden lg:block',
     delay: '-4.6s',
   },
@@ -83,11 +83,12 @@ export function Hero() {
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-5 py-16 text-center">
         {/* drifting prompt chips — other people's first messages */}
+        {/* dashed + flat + muted = "example text", never "tap me" — buttons keep the solid pop look */}
         {CHIPS.map((chip) => (
           <span
             key={chip.text}
             aria-hidden="true"
-            className={`anim-ambient pointer-events-none absolute select-none rounded-full border-[2.5px] border-ink px-4 py-1.5 font-mono text-[0.72rem] font-medium shadow-pop-sm ${chip.cls} ${chip.pos}`}
+            className={`anim-ambient pointer-events-none absolute select-none rounded-full border-2 border-dashed border-ink/40 px-4 py-1.5 font-mono text-[0.72rem] font-medium text-ink-soft ${chip.cls} ${chip.pos}`}
             style={{ animation: 'bob 6.5s ease-in-out infinite', animationDelay: chip.delay }}
           >
             {chip.text}

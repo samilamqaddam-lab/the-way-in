@@ -22,13 +22,11 @@ interface PipProps {
   className?: string
 }
 
-/**
- * One Pip, one uniform: ink body, tangerine band at eye level.
- * Non-ink "tones" now mean "I'm on a dark surface" → adds a paper outline.
- */
-const INK = '#1B1611'
-const TANGERINE = '#F4581C'
-const PAPER = '#FBF5EB'
+const BODY: Record<PipTone, string> = {
+  ink: '#1B1611',
+  tangerine: '#F4581C',
+  paper: '#FBF5EB',
+}
 
 const PUPIL_SHIFT: Record<PipLook, { dx: number; dy: number }> = {
   ahead: { dx: 0, dy: 0.6 },
@@ -53,9 +51,9 @@ export function Pip({
   className = '',
 }: PipProps) {
   const reduced = useReducedMotion()
-  const outline = tone !== 'ink'
-  const eyeball = PAPER
-  const pupil = INK
+  const body = BODY[tone]
+  const eyeball = tone === 'paper' ? '#1B1611' : '#FBF5EB'
+  const pupil = tone === 'paper' ? '#FBF5EB' : '#1B1611'
   const { dx, dy } = PUPIL_SHIFT[look]
   const happy = mood === 'cheer'
 
@@ -74,17 +72,7 @@ export function Pip({
         overflow={hat ? 'visible' : undefined}
         fill="none"
       >
-        <rect
-          x="3"
-          y="3"
-          width="42"
-          height="66"
-          rx="13"
-          fill={INK}
-          stroke={outline ? PAPER : undefined}
-          strokeWidth={outline ? 3 : undefined}
-        />
-        {eyes && <rect x="3" y="19" width="42" height="15" fill={TANGERINE} />}
+        <rect x="3" y="3" width="42" height="66" rx="13" fill={body} />
         {(hat === true || hat === 'hard') && (
           <g>
             <path d="M8 2 Q 24 -14 40 2 Z" fill="#FFC83D" stroke="#1B1611" strokeWidth="2.5" strokeLinejoin="round" />

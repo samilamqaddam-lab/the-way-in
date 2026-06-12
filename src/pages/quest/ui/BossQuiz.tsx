@@ -61,9 +61,7 @@ export function BossQuiz({ shardsAtStart, onDone }: BossQuizProps) {
       <div className="relative flex-none">
         <div className="flex items-start justify-between">
           <div className="mt-6 text-center">
-            <span className="inline-block rounded-xl border-2 border-ink bg-paper p-1.5">
-              <img src={pip} alt="" className="block" style={{ imageRendering: 'pixelated', width: 52 }} />
-            </span>
+            <img src={pip} alt="" className="mx-auto block" style={{ imageRendering: 'pixelated', width: 50 }} />
             <p className="mt-1 font-mono text-[0.65rem] text-on-plum-dim">pip</p>
           </div>
           <div className="text-center">

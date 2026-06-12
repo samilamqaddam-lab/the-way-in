@@ -1,13 +1,4 @@
-import { ROOMS } from '../lib/links'
-
-const EMOJI: Record<string, string> = {
-  prompts: '🧺',
-  missions: '🕹',
-  'first-day': '🌅',
-  help: '🛟',
-  quest: '👾',
-  tools: '🧰',
-}
+import { ROOMS, ROOM_EMOJI } from '../lib/links'
 
 /** One quiet line under the hero — the whole house, implicitly. */
 export function RoomsRibbon() {
@@ -17,7 +8,7 @@ export function RoomsRibbon() {
       {ROOMS.map((r, i) => (
         <span key={r.id} className="whitespace-nowrap">
           <a href={r.fromRoot} className="underline decoration-dotted underline-offset-4 transition-colors hover:text-ink">
-            <span aria-hidden="true">{EMOJI[r.id]} </span>
+            <span aria-hidden="true">{ROOM_EMOJI[r.id]} </span>
             {r.label}
           </a>
           {i < ROOMS.length - 1 && <span aria-hidden="true"> · </span>}

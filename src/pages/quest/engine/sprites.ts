@@ -23,16 +23,11 @@ const PIP_PALETTE: Palette = {
   o: INK,
   F: INK,
   A: TANGERINE,
-  B: TANGERINE, // the eye-level band — every pip wears it
 }
 
-/** Paint the uniform: turn body pixels into band pixels around the eye rows. */
-function banded(grid: string[]): string[] {
-  let eyeRow = grid.findIndex((r) => r.includes('O'))
-  if (eyeRow === -1) eyeRow = 4 // the back of the head wears the band too
-  return grid.map((row, i) =>
-    i >= eyeRow - 1 && i <= eyeRow + 1 ? row.replace(/X/g, 'B') : row,
-  )
+/** Slim the 12-wide art to 10 wide — pixel Pip matches the real Pip's proportions. */
+function slim(grid: string[]): string[] {
+  return grid.map((row) => row.slice(1, 11))
 }
 
 /** 12 wide × 16 tall, drawn into a 16×16 cell (2px left offset). */
@@ -241,10 +236,10 @@ export function bake(grid: string[], palette: Palette, scale = 1): HTMLCanvasEle
 function pipWith(palette: Palette): Record<string, HTMLCanvasElement[]> {
   const p = { ...PIP_PALETTE, ...palette }
   return {
-    down: [bake(banded(PIP_DOWN_A), p), bake(banded(PIP_DOWN_B), p)],
-    up: [bake(banded(PIP_UP_A), p), bake(banded(PIP_UP_B), p)],
-    left: [bake(banded(PIP_LEFT_A), p), bake(banded(PIP_LEFT_B), p)],
-    right: [bake(banded(PIP_RIGHT_A), p), bake(banded(PIP_RIGHT_B), p)],
+    down: [bake(slim(PIP_DOWN_A), p), bake(slim(PIP_DOWN_B), p)],
+    up: [bake(slim(PIP_UP_A), p), bake(slim(PIP_UP_B), p)],
+    left: [bake(slim(PIP_LEFT_A), p), bake(slim(PIP_LEFT_B), p)],
+    right: [bake(slim(PIP_RIGHT_A), p), bake(slim(PIP_RIGHT_B), p)],
   }
 }
 
@@ -264,10 +259,10 @@ export function spriteDataUrl(grid: string[], palette: Palette, scale = 6): stri
 }
 
 export const GRIDS = {
-  pipDown: banded(PIP_DOWN_A),
+  pipDown: slim(PIP_DOWN_A),
   pipPalette: PIP_PALETTE,
-  /** dark surfaces put Pip on a paper sticker tile instead of recoloring him */
-  pipOnDark: PIP_PALETTE,
+  /** for dark surfaces — ink Pip disappears on plum */
+  pipOnDark: { ...PIP_PALETTE, X: TANGERINE } as Palette,
   snatcherA: SNATCHER_A,
   snatcherB: SNATCHER_B,
   snatcherPalette: SNATCHER_PALETTE,

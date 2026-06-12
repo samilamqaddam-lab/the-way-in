@@ -28,7 +28,7 @@ export function TestDrive() {
         />
         <p className="mt-8 text-center">
           <a href="./missions/" className="btn-pop text-sm">
-            🕹 see all eight missions — the Mission Deck ↗
+            🎬 see all eight missions — the Mission Deck ↗
           </a>
         </p>
       </div>

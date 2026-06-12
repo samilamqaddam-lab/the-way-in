@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Pip } from './Pip'
 import { popSpring } from '../lib/motion'
-import { ROOMS } from '../lib/links'
+import { ROOMS, ROOM_EMOJI } from '../lib/links'
 
 const LINKS = [
   { id: 'start', label: 'start' },
@@ -13,15 +13,6 @@ const LINKS = [
   { id: 'first-prompts', label: 'first prompts' },
   { id: 'send-off', label: 'the door' },
 ]
-
-const ROOM_EMOJI: Record<string, string> = {
-  prompts: '🧺',
-  missions: '🕹',
-  'first-day': '🌅',
-  help: '🛟',
-  quest: '👾',
-  tools: '🧰',
-}
 
 /**
  * Floating section nav: dots on desktop, a pocket menu on phones.

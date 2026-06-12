@@ -61,6 +61,16 @@ export const ROOMS: Room[] = [
 
 export const HOME = { fromRoot: './', fromSub: '../' }
 
+/** one icon per room — the joystick belongs to the game, nothing else */
+export const ROOM_EMOJI: Record<RoomId, string> = {
+  prompts: '🧺',
+  missions: '🎬',
+  'first-day': '🌅',
+  help: '🛟',
+  tools: '🧰',
+  quest: '🕹',
+}
+
 export function room(id: RoomId): Room {
   const found = ROOMS.find((r) => r.id === id)
   if (!found) throw new Error(`unknown room: ${id}`)

@@ -356,7 +356,7 @@ export class Game {
             const bank = this.sprites.npc[key.slice(4)] ?? this.sprites.npc.leaf
             const frame = e.moving ? (Math.floor(this.elapsed * 8) % 2) : 0
             const lift = e.def.id === 'vendor' ? 8 : 0 // standing behind the stall counter
-            ctx.drawImage(bank[e.dir][frame], sx + 2, sy - 2 - lift)
+            ctx.drawImage(bank[e.dir][frame], sx + 3, sy - 2 - lift)
           }
           // 'sign' sprites draw nothing — the tile is the visual
           if (e.def.ambient === 'sleep') {
@@ -378,7 +378,7 @@ export class Game {
       py: this.pPy + 0.1,
       fn: () => {
         const frame = this.pMoving ? this.walkFrame : 0
-        this.ctx.drawImage(this.sprites.pip[this.pDir][frame], psx + 2, psy - 2)
+        this.ctx.drawImage(this.sprites.pip[this.pDir][frame], psx + 3, psy - 2)
       },
     })
 

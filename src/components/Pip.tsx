@@ -15,6 +15,8 @@ interface PipProps {
   look?: PipLook
   /** false renders a plain caret — the face hasn't "woken up" yet */
   eyes?: boolean
+  /** tiny construction helmet — agent mode */
+  hat?: boolean
   /** gentle idle float (CSS, disabled under reduced motion) */
   bob?: boolean
   className?: string
@@ -44,6 +46,7 @@ export function Pip({
   mood = 'idle',
   look = 'ahead',
   eyes = true,
+  hat = false,
   bob = false,
   className = '',
 }: PipProps) {
@@ -66,9 +69,16 @@ export function Pip({
         height={fluid ? undefined : size}
         className={fluid ? 'h-full w-auto' : undefined}
         viewBox="0 0 48 72"
+        overflow={hat ? 'visible' : undefined}
         fill="none"
       >
         <rect x="3" y="3" width="42" height="66" rx="13" fill={body} />
+        {hat && (
+          <g>
+            <path d="M8 2 Q 24 -14 40 2 Z" fill="#FFC83D" stroke="#1B1611" strokeWidth="2.5" strokeLinejoin="round" />
+            <rect x="1" y="0" width="46" height="6" rx="3" fill="#FFC83D" stroke="#1B1611" strokeWidth="2.5" />
+          </g>
+        )}
         {eyes && (
           <motion.g
             initial={{ scale: 0 }}

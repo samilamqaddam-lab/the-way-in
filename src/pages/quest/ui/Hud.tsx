@@ -4,23 +4,35 @@ import { SHARDS } from '../data/script'
 
 interface HudProps {
   collected: Set<string>
+  /** tap an empty slot → the game points you there */
+  onGuide: (shardId: string) => void
 }
 
-/** Shard slots — the knowledge you're carrying. */
-export function ShardBar({ collected }: HudProps) {
+/** Shard slots, in-screen — tap an empty one and an arrow shows the way. */
+export function ShardBar({ collected, onGuide }: HudProps) {
   return (
-    <div className="flex items-center gap-1.5" role="status" aria-label={`Knowledge shards: ${collected.size} of ${SHARDS.length}`}>
-      {SHARDS.map((s) => (
-        <span
-          key={s.id}
-          title={s.title}
-          className={`grid h-8 w-8 place-items-center rounded-lg border-[2.5px] border-ink text-base ${
-            collected.has(s.id) ? 'bg-sun' : 'bg-paper-deep opacity-50'
-          }`}
-        >
-          <span aria-hidden="true">{collected.has(s.id) ? s.emoji : '·'}</span>
-        </span>
-      ))}
+    <div
+      className="flex items-center gap-1 rounded-xl border-2 border-ink/60 bg-plum-deep/80 p-1"
+      role="status"
+      aria-label={`Knowledge shards: ${collected.size} of ${SHARDS.length}. Tap an empty slot to get directions.`}
+    >
+      {SHARDS.map((s) => {
+        const has = collected.has(s.id)
+        return (
+          <button
+            key={s.id}
+            type="button"
+            title={has ? `✓ ${s.title}` : `Where do I get “${s.title}”?`}
+            aria-label={has ? `Collected: ${s.title}` : `Show the way to: ${s.title}`}
+            onClick={() => !has && onGuide(s.id)}
+            className={`grid h-7 w-7 place-items-center rounded-md border-2 text-sm ${
+              has ? 'border-ink bg-sun' : 'cursor-pointer border-on-plum-dim/50 bg-plum text-on-plum-dim hover:border-sun'
+            }`}
+          >
+            <span aria-hidden="true">{has ? s.emoji : '?'}</span>
+          </button>
+        )
+      })}
     </div>
   )
 }
@@ -47,10 +59,10 @@ export function TouchPad({ onDir, onAction }: PadProps) {
     onPointerLeave: () => onDir(dir, false),
   })
   const btn =
-    'grid h-12 w-12 place-items-center rounded-xl border-[2.5px] border-ink bg-paper text-lg font-bold shadow-pop-sm select-none touch-none active:translate-y-0.5'
+    'pointer-events-auto grid h-12 w-12 place-items-center rounded-xl border-[2.5px] border-ink bg-paper/90 text-lg font-bold shadow-pop-sm select-none touch-none active:translate-y-0.5'
   if (!touchy) return null
   return (
-    <div className="mt-3 flex items-end justify-between">
+    <div className="pointer-events-none absolute inset-x-2 bottom-2 z-10 flex items-end justify-between">
       <div className="grid grid-cols-3 gap-1.5">
         <span />
         <button type="button" className={btn} aria-label="Walk up" {...hold('up')}>
@@ -71,7 +83,7 @@ export function TouchPad({ onDir, onAction }: PadProps) {
         type="button"
         onClick={onAction}
         aria-label="Talk / interact"
-        className="grid h-16 w-16 place-items-center rounded-full border-[3px] border-ink bg-tangerine font-display text-xl font-extrabold text-ink shadow-pop select-none active:translate-y-0.5"
+        className="pointer-events-auto grid h-16 w-16 place-items-center rounded-full border-[3px] border-ink bg-tangerine/95 font-display text-xl font-extrabold text-ink shadow-pop select-none active:translate-y-0.5"
       >
         A
       </button>

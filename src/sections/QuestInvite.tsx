@@ -4,7 +4,7 @@ import { fadeUp, popSpring, viewportOnce } from '../lib/motion'
 import { GRIDS, spriteDataUrl } from '../pages/quest/engine/sprites'
 
 function usePixelPip(scale = 6) {
-  return useMemo(() => spriteDataUrl(GRIDS.pipDown, GRIDS.pipPalette, scale), [scale])
+  return useMemo(() => spriteDataUrl(GRIDS.pipDown, GRIDS.pipOnDark, scale), [scale])
 }
 
 /** The invite strip on the home scroll: learning, but as a tiny video game. */

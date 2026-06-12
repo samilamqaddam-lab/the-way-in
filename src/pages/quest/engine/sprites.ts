@@ -192,7 +192,8 @@ const SNATCHER_B = [
   '...............',
 ]
 
-const SNATCHER_PALETTE: Palette = { X: PLUM_DEEP, O: BLUSH, o: INK, W: PAPER }
+/** body lighter than the plum-deep arena so the blob reads on dark screens */
+const SNATCHER_PALETTE: Palette = { X: '#4a3878', O: BLUSH, o: INK, W: PAPER }
 
 /** quest marker `!` shown above NPCs with something to give */
 const MARKER = ['..AA..', '..AA..', '..AA..', '..AA..', '......', '..AA..']
@@ -249,6 +250,8 @@ export function spriteDataUrl(grid: string[], palette: Palette, scale = 6): stri
 export const GRIDS = {
   pipDown: PIP_DOWN_A,
   pipPalette: PIP_PALETTE,
+  /** for dark surfaces — ink Pip disappears on plum */
+  pipOnDark: { ...PIP_PALETTE, X: TANGERINE } as Palette,
   snatcherA: SNATCHER_A,
   snatcherB: SNATCHER_B,
   snatcherPalette: SNATCHER_PALETTE,

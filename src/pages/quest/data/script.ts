@@ -39,15 +39,15 @@ export const DIALOGS: Record<string, DialogRun> = {
   bubbles: D(
     'bubbles',
     [
-      { speaker: 'Bubbles', tone: 'sun', text: "Pip! You made it. This gazebo is the Chat — cozy, isn't it? Everyone starts here." },
-      { speaker: 'Bubbles', tone: 'sun', text: 'Here you ask, and AI answers. Lovely. But up the path live the agents — AI that can actually DO things: make files, build pages, fix stuff.' },
-      { speaker: 'Bubbles', tone: 'sun', text: "Here's the secret nobody tells beginners: talking to them works exactly like talking to me. You already speak the language." },
-      { speaker: 'Bubbles', tone: 'sun', text: 'Take this shard to remember it. Now go meet Termi at the old desk, up the path and to the east!' },
+      { speaker: 'Chachapiti', tone: 'sun', text: "Pip! You made it. I'm Chachapiti — yes, like the famous one. We're, eh... distant cousins. This gazebo is the Chat. Everyone starts here." },
+      { speaker: 'Chachapiti', tone: 'sun', text: 'Here you ask, and AI answers. Lovely. But up the path live the agents — AI that can actually DO things: make files, build pages, fix stuff.' },
+      { speaker: 'Chachapiti', tone: 'sun', text: "Here's the secret nobody tells beginners: talking to them works exactly like talking to me. You already speak the language." },
+      { speaker: 'Chachapiti', tone: 'sun', text: 'Take this shard to remember it. Now go meet Termi at the old desk, up the path and to the east!' },
     ],
     { grantsShard: 'language' },
   ),
   bubblesAfter: D('bubblesAfter', [
-    { speaker: 'Bubbles', tone: 'sun', text: 'The valley is yours! Termi to the north-east, the App Grove to the west, the Office up north. The big door leaves the valley — but it has a... guardian.' },
+    { speaker: 'Chachapiti', tone: 'sun', text: 'The valley is yours! Termi to the north-east, the App Stand to the west, the Office up north. The big door leaves the valley — but it has a... guardian.' },
   ]),
 
   /* ── Termi, the terminal ─────────────────────────────────────────────── */
@@ -59,7 +59,7 @@ export const DIALOGS: Record<string, DialogRun> = {
       { speaker: 'Termi', tone: 'plum', text: '❯ got Claude Pro? Claude Code runs in me. Got ChatGPT Plus? Codex runs in me. Want free? OpenCode is free and open-source, and lives in me too.' },
       { speaker: 'Termi', tone: 'plum', text: "❯ fun fact: I'm older than the computer mouse. Still here. The cursor blinking in me? That's your cousin, by the way." },
       { speaker: 'Termi', tone: 'plum', text: '❯ how it works, simply: you type a message, the agent answers, and before it touches anything it asks you first. Same chat, more muscles.' },
-      { speaker: 'Termi', tone: 'plum', text: '❯ take this shard. And if you prefer pretty buttons — no offense taken. Visit the App Grove, west side of the valley.' },
+      { speaker: 'Termi', tone: 'plum', text: '❯ take this shard. And if you prefer pretty buttons — no offense taken. Visit the App Stand, west side of the valley.' },
     ],
     { grantsShard: 'terminal' },
   ),
@@ -67,21 +67,14 @@ export const DIALOGS: Record<string, DialogRun> = {
     { speaker: 'Termi', tone: 'plum', text: "❯ back so soon? blink once if you missed me. ...that was a blink. I'm sure of it." },
   ]),
 
-  /* ── the App Grove ───────────────────────────────────────────────────── */
-  claudeKiosk: D('claudeKiosk', [
-    { speaker: 'Claude Code House', tone: 'tangerine', text: 'The easiest tangerine door: Claude Code lives right inside the Claude app. Download it, sign in, and it comes included in Claude Pro.' },
-    { speaker: 'Claude Code House', tone: 'tangerine', text: 'App or terminal — your choice. Same agent, same manners: it always asks before changing anything.' },
-  ]),
-  codexKiosk: D('codexKiosk', [
-    { speaker: 'Codex House', tone: 'sky', text: "The sky-blue door: Codex is OpenAI's agent. It lives inside ChatGPT and as its own app — and it comes included in ChatGPT Plus." },
-    { speaker: 'Codex House', tone: 'sky', text: 'If ChatGPT already feels like home, this door opens with the key you own.' },
-  ]),
-  groveSign: D(
-    'groveSign',
+  /* ── the App Stand ───────────────────────────────────────────────────── */
+  vendor: D(
+    'vendor',
     [
-      { speaker: 'Signpost', tone: 'ink', text: '← Claude Code house · Codex house →\nBoth are easy doors: real apps, no setup drama.' },
-      { speaker: 'Signpost', tone: 'ink', text: 'Small print: fancy editors like Cursor and VS Code can run agents too. A fine road — for later. Beginners take the easy doors.' },
-      { speaker: 'Signpost', tone: 'ink', text: 'You now know all three kinds of doors: apps, the terminal, and the free trail. Have a shard!' },
+      { speaker: 'Stand Pip', tone: 'sun', text: 'Step right up! I stock DOORS — the easy kind. Today on the shelf: Claude Code, which lives right inside the Claude app, included in Claude Pro.' },
+      { speaker: 'Stand Pip', tone: 'sun', text: "Also in stock: Codex — OpenAI's agent, its own app, included in ChatGPT Plus. And mind you, new doors arrive every season. This stand never looks the same twice." },
+      { speaker: 'Stand Pip', tone: 'sun', text: 'Fancy editors like Cursor and VS Code can run agents too — a fine road, for later. And the free trail to OpenCode starts just south of here.' },
+      { speaker: 'Stand Pip', tone: 'sun', text: "The stand's real secret, free of charge: tools change. The skill — saying what you want, deciding when asked — moves with you. Take a shard!" },
     ],
     { grantsShard: 'apps' },
   ),

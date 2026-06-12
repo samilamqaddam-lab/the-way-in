@@ -69,6 +69,10 @@ export class Game {
   private actionQueued = false
   paused = false
 
+  // quest guide: a temporary arrow pointing at a target tile
+  private guide: { x: number; y: number } | null = null
+  private guideUntil = 0
+
   private raf = 0
   private lastT = 0
   private elapsed = 0
@@ -168,6 +172,16 @@ export class Game {
     this.loadMap(map, { x, y })
   }
 
+  /** point the player toward a tile for a few seconds (cleared when reached) */
+  setGuide(x: number, y: number) {
+    this.guide = { x, y }
+    this.guideUntil = this.elapsed + 9
+  }
+
+  get mapId() {
+    return this.map.id
+  }
+
   /* ── queries ───────────────────────────────────────────────────────── */
 
   private tileAt(x: number, y: number): string {
@@ -190,6 +204,11 @@ export class Game {
   private update(dt: number) {
     this.elapsed += dt
     if (this.paused) return
+
+    if (this.guide) {
+      const d = Math.hypot(this.guide.x - this.pX, this.guide.y - this.pY)
+      if (d < 2.5 || this.elapsed > this.guideUntil) this.guide = null
+    }
 
     // interaction
     if (this.actionQueued) {
@@ -305,14 +324,16 @@ export class Game {
         py: e.py,
         fn: () => {
           if (key === 'termi') {
-            ctx.drawImage(this.sprites.termi, sx, sy - 6)
+            // drawn at 2× so the computer reads as a computer
+            ctx.drawImage(this.sprites.termi, sx - 8, sy - 22, 32, 32)
           } else if (key === 'bubbles') {
             const bob = this.reduced ? 0 : Math.round(Math.sin(this.elapsed * 2.2) * 2)
             ctx.drawImage(this.sprites.bubbles, sx, sy - 2 + bob)
           } else if (key.startsWith('npc:')) {
             const bank = this.sprites.npc[key.slice(4)] ?? this.sprites.npc.leaf
             const frame = e.moving ? (Math.floor(this.elapsed * 8) % 2) : 0
-            ctx.drawImage(bank[e.dir][frame], sx + 2, sy - 2)
+            const lift = e.def.id === 'vendor' ? 8 : 0 // standing behind the stall counter
+            ctx.drawImage(bank[e.dir][frame], sx + 2, sy - 2 - lift)
           }
           // 'sign' sprites draw nothing — the tile is the visual
           if (e.def.ambient === 'sleep') {
@@ -340,5 +361,41 @@ export class Game {
 
     drawables.sort((a, b) => a.py - b.py)
     for (const d of drawables) d.fn()
+
+    // the quest guide arrow
+    if (this.guide) {
+      const bob = this.reduced ? 0 : Math.sin(this.elapsed * 4) * 2.5
+      const gx = this.guide.x * TILE + TILE / 2 - camX
+      const gy = this.guide.y * TILE + TILE / 2 - camY
+      const margin = 14
+      const onScreen = gx > margin && gx < VIEW_W - margin && gy > margin && gy < VIEW_H - margin
+      ctx.save()
+      if (onScreen) {
+        // bouncing arrow above the target, pointing down
+        ctx.translate(gx, gy - 22 + bob)
+        ctx.rotate(Math.PI)
+      } else {
+        // edge arrow pointing toward the target
+        const cx = VIEW_W / 2
+        const cy = VIEW_H / 2
+        const dx = gx - cx
+        const dy = gy - cy
+        const t = Math.min((cx - margin) / Math.abs(dx || 0.001), (cy - margin) / Math.abs(dy || 0.001))
+        ctx.translate(cx + dx * t, cy + dy * t)
+        ctx.rotate(Math.atan2(dy, dx) - Math.PI / 2)
+        ctx.translate(0, this.reduced ? 0 : Math.abs(bob))
+      }
+      ctx.beginPath()
+      ctx.moveTo(0, -8)
+      ctx.lineTo(7, 4)
+      ctx.lineTo(-7, 4)
+      ctx.closePath()
+      ctx.fillStyle = '#f4581c'
+      ctx.fill()
+      ctx.lineWidth = 2
+      ctx.strokeStyle = '#1b1611'
+      ctx.stroke()
+      ctx.restore()
+    }
   }
 }

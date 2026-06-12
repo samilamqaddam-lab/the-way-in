@@ -71,24 +71,24 @@ function buildValley(): string[] {
   p.rect(3, 2, 11, 6, 'O')
   p.set(8, 7, 'o')
 
-  // the Computer Clearing (north-east): desk + flower ring
+  // the Computer Clearing (north-east): a wide desk so it reads as a computer corner
+  p.set(27, 9, 'P')
   p.set(28, 9, 'P')
   p.sprinkle(
     [
-      [26, 8],
+      [25, 8],
       [30, 8],
       [25, 10],
       [31, 10],
       [26, 12],
       [30, 12],
-      [28, 12],
     ],
     '*',
   )
 
-  // App Grove (west): two kiosks (signpost + trail marker placed after the paths)
-  p.rect(4, 12, 3, 2, 'K')
-  p.rect(9, 12, 3, 2, 'X')
+  // the App Stand (west): one open market stall — many doors, one skill
+  p.hline(6, 8, 12, 'A')
+  p.hline(6, 8, 13, 'k')
 
   // the Chat Gazebo (south-center): sun-wood ring, opening to the north
   p.rect(14, 20, 7, 5, 'f')
@@ -98,15 +98,14 @@ function buildValley(): string[] {
   // pond (south-east)
   p.rect(26, 21, 7, 5, 'w')
 
-  // paths
+  // paths — the main road is two tiles wide so nobody can wall it off
   p.vline(17, 9, 20, '=') // gazebo → plaza → north
-  p.hline(8, 28, 14, '=') // main east–west road
+  p.hline(7, 28, 14, '=') // main east–west road
+  p.hline(7, 28, 15, '=')
   p.vline(8, 8, 14, '=') // office door ↓ to road
   p.vline(28, 10, 14, '=') // clearing ↓ to road
   p.vline(30, 2, 8, '=') // exit door ↓
   p.hline(28, 30, 8, '=') // clearing ← exit junction
-  p.hline(5, 8, 15, '=') // grove spur
-  p.vline(5, 14, 15, '=')
 
   // trees & texture
   p.sprinkle(
@@ -160,8 +159,7 @@ function buildValley(): string[] {
   )
 
   // furniture — placed after the paths so nothing paves over it
-  p.set(7, 15, 's') // the grove signpost
-  p.set(4, 18, 'p') // OpenCode trail marker
+  p.set(4, 17, 'p') // OpenCode trail marker, on the free trail
   p.set(22, 19, 'b') // bench near the plaza
   p.set(13, 21, 'm') // mailbox by the gazebo
 
@@ -218,15 +216,13 @@ export const VALLEY: QuestMap = {
   entities: [
     { id: 'bubbles', sprite: 'bubbles', x: 16, y: 22, dialog: 'bubbles', solid: true, shard: 'language' },
     { id: 'termi', sprite: 'termi', x: 28, y: 9, dialog: 'termi', solid: true, shard: 'terminal' },
-    { id: 'claude-kiosk', sprite: 'sign', x: 5, y: 13, dialog: 'claudeKiosk', solid: false },
-    { id: 'codex-kiosk', sprite: 'sign', x: 10, y: 13, dialog: 'codexKiosk', solid: false },
-    { id: 'grove-sign', sprite: 'sign', x: 7, y: 15, dialog: 'groveSign', solid: false },
-    { id: 'opencode-marker', sprite: 'sign', x: 4, y: 18, dialog: 'opencodeMarker', solid: false },
+    { id: 'vendor', sprite: 'npc:sun', x: 7, y: 13, dialog: 'vendor', solid: true, shard: 'apps' },
+    { id: 'opencode-marker', sprite: 'sign', x: 4, y: 17, dialog: 'opencodeMarker', solid: false },
     {
       id: 'roamer',
       sprite: 'npc:leaf',
       x: 20,
-      y: 14,
+      y: 17,
       dialog: 'roamer',
       solid: true,
       shard: 'safety',

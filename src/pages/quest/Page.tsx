@@ -50,6 +50,7 @@ export function QuestPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameRef = useRef<Game | null>(null)
 
+  const frameRef = useRef<HTMLDivElement>(null)
   const [shards, setShards] = useState<Set<string>>(() => loadShards())
   const [dialog, setDialog] = useState<{ run: DialogRun; n: number } | null>(null)
   const [boss, setBoss] = useState(false)
@@ -57,6 +58,11 @@ export function QuestPage() {
   const [sad, setSad] = useState<number | null>(null)
   const [toast, setToast] = useState<string | null>(null)
   const [fading, setFading] = useState(false)
+  const [mapId, setMapId] = useState('valley')
+  const [fs, setFs] = useState(false)
+  const [fsSupported, setFsSupported] = useState(false)
+  const mapIdRef = useRef(mapId)
+  mapIdRef.current = mapId
 
   const shardsRef = useRef(shards)
   shardsRef.current = shards
@@ -86,7 +92,8 @@ export function QuestPage() {
           if (shardsRef.current.size === SHARDS.length) setBoss(true)
           else setDialog((d) => ({ run: DIALOGS.exitNeedShards, n: (d?.n ?? 0) + 1 }))
         },
-        onMapChange: () => {
+        onMapChange: (id: string) => {
+          setMapId(id)
           setFading(true)
           window.setTimeout(() => setFading(false), 240)
         },
@@ -161,6 +168,37 @@ export function QuestPage() {
     }
   }, [])
 
+  // fullscreen support + state
+  useEffect(() => {
+    setFsSupported(!!document.documentElement.requestFullscreen)
+    const onFs = () => setFs(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', onFs)
+    return () => document.removeEventListener('fullscreenchange', onFs)
+  }, [])
+
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) void document.exitFullscreen()
+    else void frameRef.current?.requestFullscreen().catch(() => setFsSupported(false))
+  }
+
+  // tap an empty shard slot → arrow toward where it's earned
+  const guideTo = (shardId: string) => {
+    const VALLEY_SPOTS: Record<string, { x: number; y: number }> = {
+      language: { x: 16, y: 22 },
+      terminal: { x: 28, y: 9 },
+      apps: { x: 7, y: 13 },
+      safety: { x: 21, y: 17 },
+      orchestra: { x: 8, y: 7 }, // the office door
+    }
+    const spot =
+      mapIdRef.current === 'office'
+        ? shardId === 'orchestra'
+          ? { x: 17, y: 4 } // the Chief
+          : { x: 10, y: 13 } // back out the door first
+        : VALLEY_SPOTS[shardId]
+    if (spot) gameRef.current?.setGuide(spot.x, spot.y)
+  }
+
   /* ── flows ───────────────────────────────────────────────────────────── */
 
   const closeDialog = () => {
@@ -195,7 +233,6 @@ export function QuestPage() {
         <a href="../" className="inline-flex items-center gap-1.5">
           <span aria-hidden="true">←</span> <Wordmark />
         </a>
-        <ShardBar collected={shards} />
       </header>
 
       <main className="mx-auto w-full max-w-3xl px-4 pb-16">
@@ -207,12 +244,41 @@ export function QuestPage() {
         </div>
 
         {/* the screen */}
-        <div className="relative mx-auto mt-5 overflow-hidden rounded-[1.2rem] border-[3px] border-ink bg-plum-deep shadow-pop-lg">
+        <div
+          ref={frameRef}
+          className={`relative mx-auto mt-5 overflow-hidden rounded-[1.2rem] border-[3px] border-ink bg-plum-deep shadow-pop-lg ${
+            fs ? 'flex items-center justify-center rounded-none border-0' : ''
+          }`}
+        >
           <canvas
             ref={canvasRef}
-            className="block w-full"
-            style={{ imageRendering: 'pixelated', aspectRatio: '4 / 3' }}
+            className="block"
+            style={
+              fs
+                ? { imageRendering: 'pixelated', aspectRatio: '4 / 3', height: '100%', maxHeight: '100vh', maxWidth: '100vw' }
+                : { imageRendering: 'pixelated', aspectRatio: '4 / 3', width: '100%' }
+            }
             aria-label="Pip's Quest — a tiny pixel world. Walk with the arrow keys, talk with Enter."
+          />
+
+          {/* in-screen quest HUD */}
+          <div className="absolute left-1/2 top-2 z-10 -translate-x-1/2">
+            <ShardBar collected={shards} onGuide={guideTo} />
+          </div>
+          {fsSupported && (
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              aria-label={fs ? 'Exit fullscreen' : 'Play fullscreen'}
+              className="absolute right-2 top-2 z-10 grid h-8 w-8 place-items-center rounded-md border-2 border-ink/60 bg-plum-deep/80 font-mono text-sm text-on-plum hover:border-sun"
+            >
+              {fs ? '🗗' : '⛶'}
+            </button>
+          )}
+
+          <TouchPad
+            onDir={(dir, downHeld) => gameRef.current?.setHeld(dir, downHeld)}
+            onAction={() => gameRef.current?.pressAction()}
           />
           <AnimatePresence>
             {fading && !reduced && (
@@ -232,7 +298,7 @@ export function QuestPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={popSpring}
-                className="absolute left-1/2 top-2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border-[2.5px] border-ink bg-sun px-3.5 py-1.5 font-mono text-xs font-bold shadow-pop-sm"
+                className="absolute left-1/2 top-12 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border-[2.5px] border-ink bg-sun px-3.5 py-1.5 font-mono text-xs font-bold shadow-pop-sm"
                 role="status"
               >
                 {toast}
@@ -262,11 +328,6 @@ export function QuestPage() {
             </div>
           )}
         </div>
-
-        <TouchPad
-          onDir={(dir, downHeld) => gameRef.current?.setHeld(dir, downHeld)}
-          onAction={() => gameRef.current?.pressAction()}
-        />
 
         <p className="mt-4 hidden text-center font-mono text-xs text-ink-soft [@media(pointer:fine)]:block">
           walk: arrow keys or WASD · talk: Enter, Space or E

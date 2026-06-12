@@ -3,7 +3,7 @@ import { INK, LEAF, PAPER, PLUM, PLUM_DEEP, SKY, SUN, TANGERINE } from './sprite
 export const TILE = 16
 
 /** tiles the player cannot walk through */
-export const SOLID = new Set(['T', 'h', 'w', 'f', 'P', 'O', 'K', 'X', 's', 'p', 'm', 'b', 'W', 'd', 'q', 'k', 'j', 'D'])
+export const SOLID = new Set(['T', 'h', 'w', 'f', 'P', 'O', 'K', 'X', 'A', 's', 'p', 'm', 'b', 'W', 'd', 'q', 'k', 'j', 'D'])
 
 /** tiles that trigger something when stepped on or bumped */
 export const DOOR_OFFICE = 'o'
@@ -135,6 +135,15 @@ export function drawTile(ctx: CanvasRenderingContext2D, ch: string, x: number, y
       px(ctx, x, y, TILE, TILE, '#dfe9f7')
       px(ctx, x, y, TILE, 6, SKY)
       px(ctx, x + 5, y + 9, 6, 7, PLUM_DEEP)
+      break
+    }
+    case 'A': {
+      // striped market awning
+      px(ctx, x, y, TILE, TILE, GRASS)
+      for (let i = 0; i < 4; i++) px(ctx, x + i * 4, y + 2, 4, 7, i % 2 === 0 ? SUN : PAPER)
+      px(ctx, x, y + 8, TILE, 2, TANGERINE)
+      px(ctx, x + 1, y + 10, 2, 6, WOOD_DARK)
+      px(ctx, x + 13, y + 10, 2, 6, WOOD_DARK)
       break
     }
     case 'o': {

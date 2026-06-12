@@ -26,7 +26,7 @@ export function BossQuiz({ shardsAtStart, onDone }: BossQuizProps) {
   const [picked, setPicked] = useState<number | null>(null)
 
   const snatcher = useMemo(() => spriteDataUrl(GRIDS.snatcherA, GRIDS.snatcherPalette, 7), [])
-  const pip = useMemo(() => spriteDataUrl(GRIDS.pipDown, GRIDS.pipPalette, 5), [])
+  const pip = useMemo(() => spriteDataUrl(GRIDS.pipDown, GRIDS.pipOnDark, 5), [])
 
   const q = BOSS_QUESTIONS[qi]
   const correct = picked !== null && picked === q.correct

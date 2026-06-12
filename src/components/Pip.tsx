@@ -15,8 +15,8 @@ interface PipProps {
   look?: PipLook
   /** false renders a plain caret — the face hasn't "woken up" yet */
   eyes?: boolean
-  /** tiny construction helmet — agent mode */
-  hat?: boolean
+  /** tiny headwear: construction helmet (agent mode) or chef's toque (pantry) */
+  hat?: boolean | 'hard' | 'chef'
   /** gentle idle float (CSS, disabled under reduced motion) */
   bob?: boolean
   className?: string
@@ -73,10 +73,22 @@ export function Pip({
         fill="none"
       >
         <rect x="3" y="3" width="42" height="66" rx="13" fill={body} />
-        {hat && (
+        {(hat === true || hat === 'hard') && (
           <g>
             <path d="M8 2 Q 24 -14 40 2 Z" fill="#FFC83D" stroke="#1B1611" strokeWidth="2.5" strokeLinejoin="round" />
             <rect x="1" y="0" width="46" height="6" rx="3" fill="#FFC83D" stroke="#1B1611" strokeWidth="2.5" />
+          </g>
+        )}
+        {hat === 'chef' && (
+          <g>
+            <path
+              d="M9 -1 C 3 -11 13 -18 18 -12 C 20 -21 30 -21 32 -13 C 38 -18 46 -10 39 -1 Z"
+              fill="#FBF5EB"
+              stroke="#1B1611"
+              strokeWidth="2.5"
+              strokeLinejoin="round"
+            />
+            <rect x="7" y="-3" width="34" height="7" rx="3" fill="#FBF5EB" stroke="#1B1611" strokeWidth="2.5" />
           </g>
         )}
         {eyes && (

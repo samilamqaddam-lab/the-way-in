@@ -47,6 +47,13 @@ export function FirstPrompts() {
         <a href="#pick-your-door" className="font-semibold text-ink underline decoration-tangerine decoration-[3px] underline-offset-4">
           pick your door ↑
         </a>
+        <span className="mt-3 block">
+          Hungry for more? The{' '}
+          <a href="./prompts/" className="font-semibold text-ink underline decoration-grape decoration-[3px] underline-offset-4">
+            Prompt Pantry ↗
+          </a>{' '}
+          holds twenty-plus — for gifts, school, hobbies, and the rest of life.
+        </span>
       </motion.p>
     </SectionShell>
   )

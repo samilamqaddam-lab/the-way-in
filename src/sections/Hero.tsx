@@ -21,24 +21,29 @@ const MADE_BY_BEGINNERS = [
 ]
 
 const CHIPS = [
-  { text: 'make me a birthday page', cls: 'bg-sun/40', pos: 'left-[2%] top-[6%] -rotate-6', delay: '0s' },
-  { text: 'build a chore wheel for us', cls: 'bg-paper-deep/70', pos: 'right-[2%] top-[10%] rotate-[5deg]', delay: '-2.1s' },
+  { text: 'make me a birthday page', cls: 'bg-sun/40', pos: 'left-0 top-0 -rotate-6 md:top-1', delay: '0s' },
+  {
+    text: 'build a chore wheel for us',
+    cls: 'bg-paper-deep/70',
+    pos: 'right-0 top-10 rotate-[5deg] md:top-2',
+    delay: '-2.1s',
+  },
   {
     text: "explain this like I'm twelve",
     cls: 'bg-blush/35',
-    pos: 'left-[5%] bottom-[14%] rotate-[3deg] hidden md:block',
+    pos: 'left-[24%] top-10 rotate-[3deg] hidden md:block',
     delay: '-3.4s',
   },
   {
     text: 'turn my notes into a study site',
     cls: 'bg-paper-deep/70',
-    pos: 'right-[4%] bottom-[20%] -rotate-[4deg] hidden md:block',
+    pos: 'right-[20%] top-11 -rotate-[4deg] hidden md:block',
     delay: '-1.2s',
   },
   {
     text: 'a page for my plant babies',
     cls: 'bg-leaf/20',
-    pos: 'right-[16%] bottom-[6%] rotate-[2deg] hidden lg:block',
+    pos: 'left-1/2 top-0 -translate-x-1/2 rotate-[2deg] hidden lg:block',
     delay: '-4.6s',
   },
 ]
@@ -83,17 +88,20 @@ export function Hero() {
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-5 py-16 text-center">
         {/* drifting prompt chips — other people's first messages */}
-        {/* dashed + flat + muted = "example text", never "tap me" — buttons keep the solid pop look */}
-        {CHIPS.map((chip) => (
-          <span
-            key={chip.text}
-            aria-hidden="true"
-            className={`anim-ambient pointer-events-none absolute select-none rounded-full border-2 border-dashed border-ink/40 px-4 py-1.5 font-mono text-[0.72rem] font-medium text-ink-soft ${chip.cls} ${chip.pos}`}
-            style={{ animation: 'bob 6.5s ease-in-out infinite', animationDelay: chip.delay }}
-          >
-            {chip.text}
-          </span>
-        ))}
+        {/* dashed + flat + muted = "example text", never "tap me" — buttons keep the solid pop look.
+            The chips live in their own reserved band above the headline (flow layout), so they can
+            never drift next to the buttons, whatever the viewport. */}
+        <div className="relative mb-6 h-20 w-full max-w-4xl md:mb-8 md:h-24" aria-hidden="true">
+          {CHIPS.map((chip) => (
+            <span
+              key={chip.text}
+              className={`anim-ambient pointer-events-none absolute select-none whitespace-nowrap rounded-full border-2 border-dashed border-ink/40 px-4 py-1.5 font-mono text-[0.72rem] font-medium text-ink-soft ${chip.cls} ${chip.pos}`}
+              style={{ animation: 'bob 6.5s ease-in-out infinite', animationDelay: chip.delay }}
+            >
+              {chip.text}
+            </span>
+          ))}
+        </div>
 
         <h1
           aria-label={HEADLINE}

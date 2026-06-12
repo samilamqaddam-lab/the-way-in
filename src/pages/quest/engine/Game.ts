@@ -1,5 +1,5 @@
 import { DOOR_EXIT, DOOR_OFFICE, SOLID, TILE, prerenderMap } from './tiles'
-import { PLUM_DEEP, bakeSprites } from './sprites'
+import { INK, PAPER, PLUM_DEEP, bakeSprites } from './sprites'
 import type { SpriteBank } from './sprites'
 import { MAPS } from '../data/maps'
 import type { EntityDef, QuestMap } from '../data/maps'
@@ -81,11 +81,14 @@ export class Game {
   private cb: GameCallbacks
 
   constructor(canvas: HTMLCanvasElement, cb: GameCallbacks, reducedMotion: boolean) {
-    canvas.width = VIEW_W
-    canvas.height = VIEW_H
+    // 2× internal resolution: pixel art stays chunky (smoothing off),
+    // but text and vector shapes rasterize crisp.
+    canvas.width = VIEW_W * 2
+    canvas.height = VIEW_H * 2
     const ctx = canvas.getContext('2d')
     if (!ctx) throw new Error('no canvas 2d context')
     this.ctx = ctx
+    this.ctx.scale(2, 2)
     this.ctx.imageSmoothingEnabled = false
     this.cb = cb
     this.reduced = reducedMotion
@@ -139,7 +142,7 @@ export class Game {
 
   loadMap(id: string, at?: { x: number; y: number }) {
     this.map = MAPS[id]
-    this.mapCanvas = prerenderMap(this.map.grid, this.map.labels)
+    this.mapCanvas = prerenderMap(this.map.grid)
     const spawn = at ?? this.map.spawn
     this.pX = spawn.x
     this.pY = spawn.y
@@ -313,6 +316,26 @@ export class Game {
 
     ctx.drawImage(this.mapCanvas, -Math.round(camX), -Math.round(camY))
 
+    // building name plates — drawn live so the 2× context keeps them crisp
+    if (this.map.labels) {
+      ctx.font = 'bold 7px "JetBrains Mono Variable", ui-monospace, monospace'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      for (const l of this.map.labels) {
+        const lx = Math.round(l.x * TILE + TILE / 2 - camX)
+        const ly = Math.round(l.y * TILE + TILE / 2 - camY)
+        if (lx < -60 || lx > VIEW_W + 60 || ly < -20 || ly > VIEW_H + 20) continue
+        const wpx = Math.ceil(ctx.measureText(l.text).width) + 8
+        ctx.fillStyle = PAPER
+        ctx.fillRect(lx - wpx / 2, ly - 6, wpx, 12)
+        ctx.strokeStyle = INK
+        ctx.lineWidth = 1
+        ctx.strokeRect(lx - wpx / 2 + 0.5, ly - 5.5, wpx - 1, 11)
+        ctx.fillStyle = INK
+        ctx.fillText(l.text, lx, ly + 0.5)
+      }
+    }
+
     // draw order: everything sorted by feet position
     const drawables: Array<{ py: number; fn: () => void }> = []
 
@@ -342,7 +365,7 @@ export class Game {
           }
           if (e.def.shard && !this.collected.has(e.def.shard)) {
             const bob = this.reduced ? 0 : Math.round(Math.sin(this.elapsed * 3) * 2)
-            ctx.drawImage(this.sprites.marker, sx + 5, sy - 12 + bob)
+            ctx.drawImage(this.sprites.marker, sx + 5, sy - 16 + bob)
           }
         },
       })
@@ -365,7 +388,7 @@ export class Game {
     // all five shards? the exit door gets its own ! marker
     if (this.map.id === 'valley' && this.collected.size === SHARDS.length) {
       const bob = this.reduced ? 0 : Math.round(Math.sin(this.elapsed * 3) * 2)
-      ctx.drawImage(this.sprites.marker, Math.round(30 * TILE + 5 - camX), Math.round(TILE + 4 - camY + bob))
+      ctx.drawImage(this.sprites.marker, Math.round(30 * TILE + 5 - camX), Math.round(TILE + 6 - camY + bob))
     }
 
     // the quest guide arrow

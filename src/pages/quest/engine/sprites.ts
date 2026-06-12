@@ -193,9 +193,20 @@ const SNATCHER_B = [
 /** body lighter than the plum-deep arena so the blob reads on dark screens */
 const SNATCHER_PALETTE: Palette = { X: '#4a3878', O: BLUSH, o: INK, W: PAPER }
 
-/** quest marker `!` shown above NPCs with something to give */
-const MARKER = ['..AA..', '..AA..', '..AA..', '..AA..', '......', '..AA..']
-const MARKER_PALETTE: Palette = { A: TANGERINE }
+/** quest marker `!` shown above NPCs with something to give — outlined, unmissable */
+const MARKER = [
+  '.KKKK.',
+  'KAAAAK',
+  'KAAAAK',
+  'KAAAAK',
+  '.KAAK.',
+  '.KAAK.',
+  '..KK..',
+  '.KKKK.',
+  'KAAAAK',
+  '.KKKK.',
+]
+const MARKER_PALETTE: Palette = { A: TANGERINE, K: INK }
 
 /** zzz bubble for sleepers */
 const ZZZ = ['AAA...', '..A...', 'AAA.AA', '.....A', '....AA']

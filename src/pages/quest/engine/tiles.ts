@@ -225,15 +225,8 @@ export function drawTile(ctx: CanvasRenderingContext2D, ch: string, x: number, y
   }
 }
 
-export interface MapLabel {
-  /** tile coords of the label's center */
-  x: number
-  y: number
-  text: string
-}
-
 /** Pre-render a whole map once; per frame we only blit the visible part. */
-export function prerenderMap(grid: string[], labels: MapLabel[] = []): HTMLCanvasElement {
+export function prerenderMap(grid: string[]): HTMLCanvasElement {
   const h = grid.length
   const w = grid[0].length
   const c = document.createElement('canvas')
@@ -244,22 +237,6 @@ export function prerenderMap(grid: string[], labels: MapLabel[] = []): HTMLCanva
     for (let tx = 0; tx < w; tx++) {
       drawTile(ctx, grid[ty][tx], tx * TILE, ty * TILE, tx, ty)
     }
-  }
-  // building name plates — chunky pixel signage
-  ctx.font = 'bold 7px monospace'
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
-  for (const l of labels) {
-    const cx = l.x * TILE + TILE / 2
-    const cy = l.y * TILE + TILE / 2
-    const wpx = ctx.measureText(l.text).width + 8
-    ctx.fillStyle = PAPER
-    ctx.fillRect(Math.round(cx - wpx / 2), cy - 6, Math.round(wpx), 12)
-    ctx.strokeStyle = INK
-    ctx.lineWidth = 1
-    ctx.strokeRect(Math.round(cx - wpx / 2) + 0.5, cy - 5.5, Math.round(wpx) - 1, 11)
-    ctx.fillStyle = INK
-    ctx.fillText(l.text, cx, cy + 0.5)
   }
   return c
 }

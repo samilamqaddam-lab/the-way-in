@@ -365,7 +365,7 @@ export class Game {
           }
           if (e.def.shard && !this.collected.has(e.def.shard)) {
             const bob = this.reduced ? 0 : Math.round(Math.sin(this.elapsed * 3) * 2)
-            ctx.drawImage(this.sprites.marker, sx + 5, sy - 16 + bob)
+            ctx.drawImage(this.sprites.marker, sx + 6, sy - 12 + bob)
           }
         },
       })
@@ -388,7 +388,7 @@ export class Game {
     // all five shards? the exit door gets its own ! marker
     if (this.map.id === 'valley' && this.collected.size === SHARDS.length) {
       const bob = this.reduced ? 0 : Math.round(Math.sin(this.elapsed * 3) * 2)
-      ctx.drawImage(this.sprites.marker, Math.round(30 * TILE + 5 - camX), Math.round(TILE + 6 - camY + bob))
+      ctx.drawImage(this.sprites.marker, Math.round(30 * TILE + 6 - camX), Math.round(TILE + 6 - camY + bob))
     }
 
     // the quest guide arrow

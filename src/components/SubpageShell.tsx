@@ -5,7 +5,8 @@ import { Pip } from './Pip'
 import { SiteFooter } from './SiteFooter'
 import { Wordmark } from './Wordmark'
 import { fadeUp, staggerKids } from '../lib/motion'
-import { HOME, ROOMS } from '../lib/links'
+import { HOME, ROOMS, roomLabel } from '../lib/links'
+import { pick, useLocale } from '../i18n/locale'
 import type { RoomId } from '../lib/links'
 
 interface SubpageShellProps {
@@ -20,10 +21,11 @@ interface SubpageShellProps {
 
 /** Shared frame for the four rooms: header nav, page hero, footer garden. */
 export function SubpageShell({ page, eyebrow, title, kicker, pip, children }: SubpageShellProps) {
+  const locale = useLocale()
   return (
     <MotionConfig reducedMotion="user">
       <a className="skip-link btn-pop" href="#content">
-        Skip to content
+        {pick(locale, 'Skip to content', 'Aller au contenu')}
       </a>
       <div className="grain" aria-hidden="true" />
 
@@ -32,7 +34,7 @@ export function SubpageShell({ page, eyebrow, title, kicker, pip, children }: Su
           <span aria-hidden="true">←</span> <Wordmark />
         </a>
         <div className="flex min-w-0 max-w-full items-center gap-3">
-          <nav aria-label="Rooms" className="flex min-w-0 gap-2 overflow-x-auto pb-1">
+          <nav aria-label={pick(locale, 'Rooms', 'Pièces')} className="flex min-w-0 gap-2 overflow-x-auto pb-1">
             {ROOMS.map((r) => (
               <a
                 key={r.id}
@@ -42,7 +44,7 @@ export function SubpageShell({ page, eyebrow, title, kicker, pip, children }: Su
                   r.id === page ? 'bg-sun' : 'bg-paper hover:bg-paper-deep'
                 }`}
               >
-                {r.label}
+                {roomLabel(r, locale)}
               </a>
             ))}
           </nav>

@@ -2,23 +2,46 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Pip } from './Pip'
 import { popSpring } from '../lib/motion'
-import { ROOMS, ROOM_EMOJI } from '../lib/links'
+import { ROOMS, ROOM_EMOJI, roomLabel, roomTitle } from '../lib/links'
+import { useLocale } from '../i18n/locale'
+import type { Locale } from '../i18n/locale'
 
 const LINKS = [
-  { id: 'start', label: 'start' },
-  { id: 'chat-vs-agent', label: 'chat vs agent' },
-  { id: 'test-drive', label: 'test drive' },
-  { id: 'no-fear', label: 'nothing breaks' },
-  { id: 'pick-your-door', label: 'pick a tool' },
-  { id: 'first-prompts', label: 'first prompts' },
-  { id: 'send-off', label: 'the door' },
+  { id: 'start', en: 'start', fr: 'départ' },
+  { id: 'chat-vs-agent', en: 'chat vs agent', fr: 'chat vs agent' },
+  { id: 'test-drive', en: 'test drive', fr: 'tour d’essai' },
+  { id: 'no-fear', en: 'nothing breaks', fr: 'rien ne casse' },
+  { id: 'pick-your-door', en: 'pick a tool', fr: 'choisir un outil' },
+  { id: 'first-prompts', en: 'first prompts', fr: 'premiers prompts' },
+  { id: 'send-off', en: 'the door', fr: 'la porte' },
 ]
+
+const NAV_COPY = {
+  en: {
+    navAria: 'Sections and rooms',
+    roomPrefix: 'Room:',
+    onThisPage: 'on this page',
+    theRooms: 'the rooms',
+    menuAria: 'Section menu',
+    closeAria: 'Close section menu',
+  },
+  fr: {
+    navAria: 'Sections et pièces',
+    roomPrefix: 'Pièce :',
+    onThisPage: 'sur cette page',
+    theRooms: 'les pièces',
+    menuAria: 'Menu des sections',
+    closeAria: 'Fermer le menu',
+  },
+} satisfies Record<Locale, Record<string, string>>
 
 /**
  * Floating section nav: dots on desktop, a pocket menu on phones.
  * Appears once the visitor has scrolled past the hero.
  */
 export function QuickNav() {
+  const locale = useLocale()
+  const t = NAV_COPY[locale]
   const [active, setActive] = useState('start')
   const [visible, setVisible] = useState(false)
   const [open, setOpen] = useState(false)
@@ -59,7 +82,7 @@ export function QuickNav() {
     <>
       {/* Desktop: side dots for sections, tiny doors for the rooms */}
       <nav
-        aria-label="Sections and rooms"
+        aria-label={t.navAria}
         className="fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-3 transition-opacity duration-300 lg:flex"
         style={hiddenStyle}
       >
@@ -67,7 +90,7 @@ export function QuickNav() {
           <a
             key={link.id}
             href={`#${link.id}`}
-            aria-label={link.label}
+            aria-label={link[locale]}
             className="group relative flex h-5 w-5 items-center justify-center"
           >
             <span
@@ -76,7 +99,7 @@ export function QuickNav() {
               }`}
             />
             <span className="card-pop pointer-events-none absolute right-7 whitespace-nowrap rounded-full px-2.5 py-1 font-mono text-[0.7rem] opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-              {link.label}
+              {link[locale]}
             </span>
           </a>
         ))}
@@ -85,7 +108,7 @@ export function QuickNav() {
           <a
             key={room.id}
             href={room.fromRoot}
-            aria-label={`Room: ${room.title}`}
+            aria-label={`${t.roomPrefix} ${roomTitle(room, locale)}`}
             className="group relative flex h-6 w-5 items-center justify-center"
           >
             {/* a tiny door — because that's what the rooms are */}
@@ -93,7 +116,7 @@ export function QuickNav() {
               <span aria-hidden="true">{ROOM_EMOJI[room.id] ?? '·'}</span>
             </span>
             <span className="card-pop pointer-events-none absolute right-7 whitespace-nowrap rounded-full px-2.5 py-1 font-mono text-[0.7rem] opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-              {room.title} ↗
+              {roomTitle(room, locale)} ↗
             </span>
           </a>
         ))}
@@ -104,7 +127,7 @@ export function QuickNav() {
         <AnimatePresence>
           {open && (
             <motion.nav
-              aria-label="Sections and rooms"
+              aria-label={t.navAria}
               initial={{ opacity: 0, y: 14, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.97 }}
@@ -112,7 +135,7 @@ export function QuickNav() {
               className="card-pop absolute bottom-16 right-0 flex max-h-[70vh] min-w-48 flex-col gap-1 overflow-y-auto p-2.5"
             >
               <span className="px-3.5 pt-1 font-mono text-[0.62rem] font-bold uppercase tracking-[0.16em] text-ink-soft">
-                on this page
+                {t.onThisPage}
               </span>
               {LINKS.map((link) => (
                 <a
@@ -123,16 +146,16 @@ export function QuickNav() {
                     active === link.id ? 'bg-sun font-bold' : ''
                   }`}
                 >
-                  {link.label}
+                  {link[locale]}
                 </a>
               ))}
               <span className="mt-1 border-t-2 border-line px-3.5 pt-2 font-mono text-[0.62rem] font-bold uppercase tracking-[0.16em] text-ink-soft">
-                the rooms
+                {t.theRooms}
               </span>
               {ROOMS.map((room) => (
                 <a key={room.id} href={room.fromRoot} className="rounded-full px-3.5 py-2 font-mono text-sm">
                   <span aria-hidden="true">{ROOM_EMOJI[room.id] ?? '·'} </span>
-                  {room.label}
+                  {roomLabel(room, locale)}
                 </a>
               ))}
             </motion.nav>
@@ -142,7 +165,7 @@ export function QuickNav() {
           type="button"
           className="btn-pop h-14 w-14 rounded-full p-0"
           aria-expanded={open}
-          aria-label="Section menu"
+          aria-label={t.menuAria}
           onClick={() => setOpen((o) => !o)}
         >
           <Pip size={30} tone={open ? 'tangerine' : 'ink'} mood={open ? 'wink' : 'idle'} />
@@ -151,7 +174,7 @@ export function QuickNav() {
       {open && (
         <button
           type="button"
-          aria-label="Close section menu"
+          aria-label={t.closeAria}
           className="fixed inset-0 z-30 cursor-default bg-transparent lg:hidden"
           onClick={() => setOpen(false)}
         />

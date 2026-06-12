@@ -1,63 +1,27 @@
 import { useState } from 'react'
-import type { ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { SectionShell } from '../components/SectionShell'
-import { GlossaryTip } from '../components/GlossaryTip'
 import { Sticker } from '../components/Sticker'
 import { fadeUp, popSpring, staggerKids, viewportOnce } from '../lib/motion'
+import { pick, useLocale } from '../i18n/locale'
 import { tools } from '../data/tools'
+import { toolsFr } from '../data/fr/tools'
 import type { Tool } from '../data/tools'
+import { PICK_YOUR_DOOR_COPY } from './PickYourDoor.copy'
 
 type Step = 'q1' | 'q2' | 'result'
+type ResultKey = 'claude' | 'plus' | 'easiest' | 'free'
 
-interface QuizResult {
-  ids: Tool['id'][]
-  names: string
-  reason: string
-}
-
-const RESULTS: Record<string, QuizResult> = {
-  claude: {
-    ids: ['claude-code'],
-    names: 'Claude Code',
-    reason: 'You already have it — it comes included in Claude Pro, as a friendly app. You could start tonight.',
-  },
-  plus: {
-    ids: ['codex'],
-    names: 'OpenAI Codex',
-    reason: 'You already have it — it comes included in ChatGPT Plus and lives right inside ChatGPT.',
-  },
-  easiest: {
-    ids: ['claude-code', 'codex'],
-    names: 'Claude Code or Codex',
-    reason:
-      "Both come as friendly apps, included with their chat subscriptions (Claude Pro or ChatGPT Plus). Pick whichever assistant you'd rather talk to every day.",
-  },
-  free: {
-    ids: ['opencode'],
-    names: 'OpenCode',
-    reason: 'The tool itself is free — you bring the AI: a subscription you already have, or your own API key.',
-  },
-}
-
-/** Rich blurbs: same facts as data/tools.ts, with glossary tips woven in. */
-const RICH_BLURBS: Partial<Record<Tool['id'], ReactNode>> = {
-  opencode: (
-    <>
-      A free, <GlossaryTip k="openSource">open-source</GlossaryTip> coding agent. The tool costs nothing — you bring
-      the AI: a Claude or ChatGPT subscription you already have, or your own{' '}
-      <GlossaryTip k="apiKey">API keys</GlossaryTip>.
-    </>
-  ),
-  hermes: (
-    <>
-      A free, open-source agent that is <GlossaryTip k="selfHosted">self-hosted</GlossaryTip> — you run it yourself.
-      Maximum freedom, a bit more setup.
-    </>
-  ),
+/** which tool cards each quiz outcome highlights — language-independent */
+const RESULT_IDS: Record<ResultKey, Tool['id'][]> = {
+  claude: ['claude-code'],
+  plus: ['codex'],
+  easiest: ['claude-code', 'codex'],
+  free: ['opencode'],
 }
 
 function ToolCard({ tool, highlighted, index }: { tool: Tool; highlighted: boolean; index: number }) {
+  const t = PICK_YOUR_DOOR_COPY[useLocale()]
   return (
     <motion.article
       id={`tool-${tool.id}`}
@@ -69,29 +33,29 @@ function ToolCard({ tool, highlighted, index }: { tool: Tool; highlighted: boole
     >
       {highlighted && (
         <Sticker color="tangerine" rotate={-5} className="absolute -top-3.5 left-5">
-          our pick for you
+          {t.pickSticker}
         </Sticker>
       )}
       {tool.forLater && (
         <Sticker color="grape" rotate={6} className="absolute -top-3.5 right-5">
-          for later
+          {t.laterSticker}
         </Sticker>
       )}
       <header>
         <h3 className="font-display text-2xl font-extrabold leading-tight">{tool.name}</h3>
         <p className="mt-0.5 font-mono text-xs text-ink-soft">{tool.by}</p>
       </header>
-      <p className="leading-snug">{RICH_BLURBS[tool.id] ?? tool.blurb}</p>
+      <p className="leading-snug">{t.richBlurbs[tool.id] ?? tool.blurb}</p>
       <dl className="space-y-2 text-[0.95rem]">
         <div className="flex gap-3">
           <dt className="w-12 shrink-0 pt-0.5 font-mono text-[0.68rem] font-bold uppercase tracking-[0.12em] text-ink-soft">
-            lives
+            {t.livesLabel}
           </dt>
           <dd className="leading-snug">{tool.lives}</dd>
         </div>
         <div className="flex items-center gap-3">
           <dt className="w-12 shrink-0 font-mono text-[0.68rem] font-bold uppercase tracking-[0.12em] text-ink-soft">
-            costs
+            {t.costsLabel}
           </dt>
           <dd>
             <span
@@ -107,7 +71,7 @@ function ToolCard({ tool, highlighted, index }: { tool: Tool; highlighted: boole
       <p className="text-[0.95rem] text-ink-soft">{tool.goodIf}</p>
       <div className="mt-auto flex flex-wrap items-center gap-4 pt-2">
         <a className="btn-pop btn-ink text-sm" href={tool.url} target="_blank" rel="noreferrer">
-          Visit site ↗
+          {t.visitSite}
         </a>
         {tool.docsUrl && (
           <a
@@ -125,26 +89,25 @@ function ToolCard({ tool, highlighted, index }: { tool: Tool; highlighted: boole
 }
 
 export function PickYourDoor() {
+  const locale = useLocale()
+  const t = PICK_YOUR_DOOR_COPY[locale]
+  const localTools = pick(locale, tools, toolsFr)
   const [step, setStep] = useState<Step>('q1')
-  const [result, setResult] = useState<QuizResult | null>(null)
+  const [resultKey, setResultKey] = useState<ResultKey | null>(null)
+  const result = resultKey ? { ids: RESULT_IDS[resultKey], ...t.results[resultKey] } : null
 
-  const finish = (key: keyof typeof RESULTS) => {
-    setResult(RESULTS[key])
+  const finish = (key: ResultKey) => {
+    setResultKey(key)
     setStep('result')
   }
 
   const restart = () => {
-    setResult(null)
+    setResultKey(null)
     setStep('q1')
   }
 
   return (
-    <SectionShell
-      id="pick-your-door"
-      eyebrow="tools"
-      title="Pick your door."
-      kicker="Four good tools, no wrong answers — and we earn nothing from these links."
-    >
+    <SectionShell id="pick-your-door" eyebrow={t.eyebrow} title={t.title} kicker={t.kicker}>
       {/* the 30-second matchmaker */}
       <motion.div
         variants={fadeUp}
@@ -154,10 +117,8 @@ export function PickYourDoor() {
         className="card-pop mx-auto mt-12 max-w-2xl overflow-hidden p-6 md:p-8"
       >
         <div className="flex items-baseline justify-between gap-3">
-          <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-ink-soft">
-            the 30-second matchmaker
-          </p>
-          <p className="hidden font-mono text-xs text-ink-soft sm:block">or just browse below ↓</p>
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-ink-soft">{t.matchmaker}</p>
+          <p className="hidden font-mono text-xs text-ink-soft sm:block">{t.orBrowse}</p>
         </div>
         <AnimatePresence mode="wait" initial={false}>
           {step === 'q1' && (
@@ -168,16 +129,16 @@ export function PickYourDoor() {
               exit={{ opacity: 0, x: -26 }}
               transition={popSpring}
             >
-              <p className="mt-3 font-display text-xl font-bold md:text-2xl">Do you already pay for one of these?</p>
+              <p className="mt-3 font-display text-xl font-bold md:text-2xl">{t.q1}</p>
               <div className="mt-5 flex flex-col gap-3">
                 <button type="button" className="btn-pop w-full" onClick={() => finish('claude')}>
-                  Claude Pro
+                  {t.q1Claude}
                 </button>
                 <button type="button" className="btn-pop w-full" onClick={() => finish('plus')}>
-                  ChatGPT Plus
+                  {t.q1Plus}
                 </button>
                 <button type="button" className="btn-pop w-full" onClick={() => setStep('q2')}>
-                  Neither — or not sure
+                  {t.q1Neither}
                 </button>
               </div>
             </motion.div>
@@ -190,15 +151,13 @@ export function PickYourDoor() {
               exit={{ opacity: 0, x: -26 }}
               transition={popSpring}
             >
-              <p className="mt-3 font-display text-xl font-bold md:text-2xl">
-                What matters most for your first try?
-              </p>
+              <p className="mt-3 font-display text-xl font-bold md:text-2xl">{t.q2}</p>
               <div className="mt-5 flex flex-col gap-3">
                 <button type="button" className="btn-pop w-full" onClick={() => finish('easiest')}>
-                  The easiest possible start
+                  {t.q2Easiest}
                 </button>
                 <button type="button" className="btn-pop w-full" onClick={() => finish('free')}>
-                  Free — I don't mind a little setup
+                  {t.q2Free}
                 </button>
               </div>
             </motion.div>
@@ -213,20 +172,20 @@ export function PickYourDoor() {
               className="mt-4 text-center"
             >
               <Sticker color="tangerine" rotate={-3}>
-                our pick for you
+                {t.pickSticker}
               </Sticker>
               <p className="mt-3 font-display text-2xl font-extrabold md:text-3xl">{result.names}</p>
               <p className="mx-auto mt-2 max-w-md leading-snug text-ink-soft">{result.reason}</p>
               <div className="mt-5 flex flex-wrap items-center justify-center gap-4">
                 <a href={`#tool-${result.ids[0]}`} className="btn-pop btn-ink text-sm">
-                  See the card ↓
+                  {t.seeCard}
                 </a>
                 <button
                   type="button"
                   onClick={restart}
                   className="font-mono text-xs underline decoration-2 underline-offset-4 hover:text-tangerine"
                 >
-                  ↺ start over
+                  {t.startOver}
                 </button>
               </div>
             </motion.div>
@@ -241,7 +200,7 @@ export function PickYourDoor() {
         viewport={viewportOnce}
         className="mt-14 grid gap-6 sm:grid-cols-2"
       >
-        {tools.map((tool, i) => (
+        {localTools.map((tool, i) => (
           <ToolCard key={tool.id} tool={tool} index={i} highlighted={result?.ids.includes(tool.id) ?? false} />
         ))}
       </motion.div>
@@ -253,10 +212,9 @@ export function PickYourDoor() {
         viewport={viewportOnce}
         className="mt-10 text-center text-ink-soft"
       >
-        In plain words: two of these come included with chat subscriptions you might already pay for. Two are free.
-        Want every way in, side by side?{' '}
+        {t.bottomA}
         <a href="./tools/" className="font-semibold text-ink underline decoration-tangerine decoration-[3px] underline-offset-4">
-          the Toolshed ↗
+          {t.bottomLink}
         </a>
       </motion.p>
     </SectionShell>

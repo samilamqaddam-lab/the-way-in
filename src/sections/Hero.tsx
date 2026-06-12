@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { useTypewriter } from '../lib/useTypewriter'
+import { useLocale } from '../i18n/locale'
 import { LangToggle } from '../components/LangToggle'
 import { Pip } from '../components/Pip'
 import { Squiggle } from '../components/Squiggle'
 import { Marquee } from '../components/Marquee'
 import { Wordmark } from '../components/Wordmark'
+import { HERO_COPY } from './Hero.copy'
 
 type Gesture = 'idle' | 'wink' | 'left' | 'right' | 'hop'
 
@@ -70,23 +72,10 @@ function HeroPip({ awake }: { awake: boolean }) {
   )
 }
 
-const HEAD_A = 'You can already do '
-const HEAD_B = 'the hard part.'
-const HEADLINE = HEAD_A + HEAD_B
-
-const MADE_BY_BEGINNERS = [
-  'a birthday page for a best friend',
-  'a chore wheel for the kids',
-  'a poem book for grandma',
-  'a fan page for a football club',
-  'a study timer',
-  'a recipe card that never gets lost',
-  'a countdown to vacation',
-  'a tiny quiz for friends',
-]
-
 export function Hero() {
-  const { shown, done } = useTypewriter(HEADLINE, { cps: 36 })
+  const t = HERO_COPY[useLocale()]
+  const headline = t.headA + t.headB
+  const { shown, done } = useTypewriter(headline, { cps: 36 })
   const count = shown.length
 
   // Every character is laid out from frame one and revealed by opacity —
@@ -121,17 +110,17 @@ export function Hero() {
           <span className="text-tangerine-deep" aria-hidden="true">
             ✳{' '}
           </span>
-          a free little guide to AI agents
+          {t.eyebrow}
         </p>
 
         <h1
-          aria-label={HEADLINE}
+          aria-label={headline}
           className="relative max-w-4xl text-balance font-display text-[clamp(2.75rem,9.5vw,6.1rem)] font-extrabold leading-[0.98] tracking-[-0.02em]"
         >
           <span aria-hidden="true">
-            {HEAD_A.split('').map(charSpan)}
+            {t.headA.split('').map(charSpan)}
             <span className="relative inline-block">
-              {HEAD_B.split('').map((c, i) => charSpan(c, HEAD_A.length + i))}
+              {t.headB.split('').map((c, i) => charSpan(c, t.headA.length + i))}
               {done && (
                 <Squiggle
                   kind="underline"
@@ -152,9 +141,7 @@ export function Hero() {
           transition={{ delay: 0.45, duration: 0.5 }}
           className="mx-auto mt-7 max-w-4xl text-balance text-lg text-ink-soft md:text-xl"
         >
-          An agent is the AI that doesn't just answer — it builds the thing. If you've ever written a good message to
-          ChatGPT or Claude, you already speak its language. This site walks you through the door, and nothing here
-          can break.
+          {t.sub}
         </motion.p>
 
         <motion.div
@@ -164,10 +151,10 @@ export function Hero() {
           className="mt-9 flex flex-wrap items-center justify-center gap-4"
         >
           <a href="#test-drive" className="btn-pop btn-ink px-7 py-3.5 text-lg">
-            Take the test drive ↓
+            {t.ctaPrimary}
           </a>
           <a href="./quest/" className="btn-pop">
-            or learn it by playing 🕹
+            {t.ctaSecondary}
           </a>
         </motion.div>
 
@@ -178,7 +165,7 @@ export function Hero() {
           transition={{ delay: 0.85, duration: 0.5 }}
           className="mt-7 px-2 font-mono text-[0.72rem] text-ink-soft"
         >
-          free · no signup · ~10 minutes · you leave with a ready-to-paste prompt
+          {t.finePrint}
         </motion.p>
 
         <motion.p
@@ -187,7 +174,7 @@ export function Hero() {
           transition={{ delay: 1.1, duration: 0.6 }}
           className="mt-12 font-mono text-xs text-ink-soft"
         >
-          scroll — the door's this way{' '}
+          {t.scrollHint}{' '}
           <span className="anim-ambient inline-block" style={{ animation: 'bob 1.8s ease-in-out infinite' }} aria-hidden="true">
             ↓
           </span>
@@ -195,8 +182,10 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 -mx-[2%] w-[104%] -rotate-[1.2deg] pb-3">
-        <Marquee items={MADE_BY_BEGINNERS} />
-        <p className="sr-only">Things beginners made recently: {MADE_BY_BEGINNERS.join(', ')}</p>
+        <Marquee items={t.marquee} />
+        <p className="sr-only">
+          {t.marqueeSr} {t.marquee.join(', ')}
+        </p>
       </div>
     </section>
   )

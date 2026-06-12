@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { useTypewriter } from '../../lib/useTypewriter'
+import { useLocale } from '../../i18n/locale'
 import { PermissionCard } from './PermissionCard'
+import { TEST_DRIVE_COPY } from './copy'
 import type { Awaiting, LogItem } from './engine'
 import type { Beat } from '../../data/missions'
 
@@ -61,6 +63,7 @@ export function Terminal({
   onSkip,
   onTyped,
 }: TerminalProps) {
+  const t = TEST_DRIVE_COPY[useLocale()]
   const reduced = useReducedMotion()
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -131,7 +134,7 @@ export function Terminal({
           onClick={onSkip}
           className="self-start font-mono text-xs text-on-plum-dim underline decoration-dotted underline-offset-4 hover:text-on-plum"
         >
-          skip the typing ▸▸
+          {t.skipTyping}
         </button>
       )}
 
@@ -152,7 +155,7 @@ export function Terminal({
           className="rounded-2xl border-[2.5px] border-plum-line bg-plum-deep p-3.5"
         >
           <p className="mb-2 font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-on-plum-dim">
-            your message — already written for you
+            {t.yourMessage}
           </p>
           <p className="leading-snug text-on-plum">{beat.text}</p>
           <motion.button
@@ -162,7 +165,7 @@ export function Terminal({
             animate={reduced ? undefined : { scale: [1, 1.02, 1] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
           >
-            Send it ▸
+            {t.sendIt}
           </motion.button>
         </motion.div>
       )}

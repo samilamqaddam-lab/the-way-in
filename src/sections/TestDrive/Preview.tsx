@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ConfettiBurst } from '../../components/ConfettiBurst'
+import { useLocale } from '../../i18n/locale'
+import { TEST_DRIVE_COPY } from './copy'
 import { BirthdayPreview } from './previews/BirthdayPreview'
 import { QuizPreview } from './previews/QuizPreview'
 import { RecipePreview } from './previews/RecipePreview'
@@ -25,6 +27,7 @@ interface PreviewProps {
  * every screen the agent has shown so far.
  */
 export function Preview({ missionId, folder, stage, burst, href }: PreviewProps) {
+  const t = TEST_DRIVE_COPY[useLocale()]
   const [view, setView] = useState(stage)
 
   // follow the live build as it grows; the visitor can rewind any time
@@ -39,13 +42,13 @@ export function Preview({ missionId, folder, stage, burst, href }: PreviewProps)
         <span className="h-2.5 w-2.5 rounded-full bg-sun" aria-hidden="true" />
         <span className="h-2.5 w-2.5 rounded-full bg-leaf" aria-hidden="true" />
         <span className="ml-2 min-w-0 flex-1 truncate rounded-full bg-plum px-3 py-1 font-mono text-[0.65rem] text-on-plum-dim">
-          your-computer/{folder}/index.html
+          {t.computerSlug}/{folder}/index.html
         </span>
       </div>
       <div className="relative">
         {stage === 0 ? (
           <div className="flex min-h-52 items-center justify-center bg-plum-deep p-4">
-            <p className="font-mono text-xs italic text-on-plum-dim">the page will appear here…</p>
+            <p className="font-mono text-xs italic text-on-plum-dim">{t.previewPlaceholder}</p>
           </div>
         ) : (
           <>
@@ -63,10 +66,10 @@ export function Preview({ missionId, folder, stage, burst, href }: PreviewProps)
         {href && stage > 0 && (
           <a
             href={href}
-            aria-label="Open the matching starter prompt in the Pantry"
+            aria-label={t.getPromptAria}
             className="absolute right-1.5 top-1.5 rounded-full border-2 border-ink bg-paper/90 px-2 py-0.5 font-mono text-[0.6rem] font-bold text-ink opacity-80 transition-opacity hover:opacity-100"
           >
-            get this prompt ↗
+            {t.getPrompt}
           </a>
         )}
 
@@ -75,13 +78,13 @@ export function Preview({ missionId, folder, stage, burst, href }: PreviewProps)
           <div
             className="absolute bottom-1.5 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full border-2 border-ink bg-paper/90 px-1.5 py-0.5"
             role="group"
-            aria-label="Browse the screens built so far"
+            aria-label={t.pagerAria}
           >
             <button
               type="button"
               onClick={() => setView((v) => Math.max(1, v - 1))}
               disabled={shown <= 1}
-              aria-label="Previous screen"
+              aria-label={t.prevAria}
               className="px-1 font-mono text-xs font-bold text-ink disabled:opacity-30"
             >
               ‹
@@ -91,7 +94,7 @@ export function Preview({ missionId, folder, stage, burst, href }: PreviewProps)
                 key={n}
                 type="button"
                 onClick={() => setView(n)}
-                aria-label={`Screen ${n}`}
+                aria-label={`${t.screenWord} ${n}`}
                 aria-current={shown === n}
                 className={`h-2.5 w-2.5 rounded-full border border-ink ${shown === n ? 'bg-tangerine' : 'bg-paper'}`}
               />
@@ -100,7 +103,7 @@ export function Preview({ missionId, folder, stage, burst, href }: PreviewProps)
               type="button"
               onClick={() => setView((v) => Math.min(stage, v + 1))}
               disabled={shown >= stage}
-              aria-label="Next screen"
+              aria-label={t.nextAria}
               className="px-1 font-mono text-xs font-bold text-ink disabled:opacity-30"
             >
               ›

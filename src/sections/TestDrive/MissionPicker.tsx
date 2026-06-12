@@ -1,5 +1,7 @@
 import { motion } from 'motion/react'
 import { fadeUp, staggerKids, viewportOnce } from '../../lib/motion'
+import { useLocale } from '../../i18n/locale'
+import { TEST_DRIVE_COPY } from './copy'
 import type { Mission } from '../../data/missions'
 
 interface MissionPickerProps {
@@ -10,6 +12,7 @@ interface MissionPickerProps {
 const TILTS = [-1.1, 0.7, -0.5, 0.9, -0.8, 0.6, -0.4, 1.0]
 
 export function MissionPicker({ missions, onPick }: MissionPickerProps) {
+  const t = TEST_DRIVE_COPY[useLocale()]
   return (
     <motion.div variants={staggerKids} initial="hidden" whileInView="show" viewport={viewportOnce}>
       <div className={`grid gap-5 sm:grid-cols-3 ${missions.length > 4 ? 'lg:grid-cols-4' : ''}`}>
@@ -28,13 +31,13 @@ export function MissionPicker({ missions, onPick }: MissionPickerProps) {
             <span className="mt-3 block font-display text-xl font-bold leading-tight">{mission.label}</span>
             <span className="mt-1 block text-ink-soft">{mission.tagline}</span>
             <span className="mt-4 block font-mono text-xs font-bold uppercase tracking-[0.14em] text-tangerine-deep">
-              play this one ▸
+              {t.playThis}
             </span>
           </motion.button>
         ))}
       </div>
       <motion.p variants={fadeUp} className="mt-6 text-center font-mono text-sm text-ink-soft">
-        all of these are make-believe — the same moves as the real thing, with zero risk.
+        {t.allPretend}
       </motion.p>
     </motion.div>
   )

@@ -3,10 +3,42 @@ import { LangToggle } from './LangToggle'
 import { Wordmark } from './Wordmark'
 import { fadeUp, staggerKids, viewportOnce } from '../lib/motion'
 import { chatLinks, mdnCommandLine, tools } from '../data/tools'
-import { HOME, ROOMS } from '../lib/links'
+import { chatLinksFr, mdnCommandLineFr, toolsFr } from '../data/fr/tools'
+import { HOME, ROOMS, roomTitle } from '../lib/links'
+import { pick, useLocale } from '../i18n/locale'
+import type { Locale } from '../i18n/locale'
 
 const linkCls =
   'underline decoration-plum-line decoration-2 underline-offset-4 transition-colors hover:text-sun hover:decoration-sun'
+
+const FOOTER_COPY = {
+  en: {
+    srTitle: 'Around the site',
+    explore: 'keep exploring',
+    backHome: '← the way in',
+    theTools: 'the tools',
+    theDocs: '· the docs',
+    chatsYouKnow: 'the chats you know',
+    chatNote: 'writing good messages there is the exact same skill.',
+    curious: 'when you get curious',
+    mdnNote: 'a gentle explainer of what the terminal really is — for whenever you feel like peeking behind the curtain.',
+    honesty: 'No accounts. No tracking. Nothing for sale.',
+    builtWith: 'Built with one of these tools, naturally.',
+  },
+  fr: {
+    srTitle: 'Autour du site',
+    explore: 'continuer l’exploration',
+    backHome: '← the way in',
+    theTools: 'les outils',
+    theDocs: '· la doc',
+    chatsYouKnow: 'les chats que tu connais',
+    chatNote: 'écrire de bons messages là-bas, c’est exactement la même compétence.',
+    curious: 'quand la curiosité te prend',
+    mdnNote: 'une explication douce de ce qu’est vraiment le terminal — pour le jour où tu voudras regarder derrière le rideau.',
+    honesty: 'Pas de compte. Pas de tracking. Rien à vendre.',
+    builtWith: 'Construit avec l’un de ces outils, forcément.',
+  },
+} satisfies Record<Locale, Record<string, string>>
 
 interface SiteFooterProps {
   /** which page family we're on — picks the right relative paths */
@@ -17,10 +49,15 @@ interface SiteFooterProps {
 
 /** The shared link garden + honesty footer. Lives on plum, on every page. */
 export function SiteFooter({ from, current }: SiteFooterProps) {
+  const locale = useLocale()
+  const t = FOOTER_COPY[locale]
+  const localTools = pick(locale, tools, toolsFr)
+  const localChats = pick(locale, chatLinks, chatLinksFr)
+  const mdn = pick(locale, mdnCommandLine, mdnCommandLineFr)
   const roomHref = (r: (typeof ROOMS)[number]) => (from === 'root' ? r.fromRoot : r.fromSub)
   return (
     <>
-      <h2 className="sr-only">Around the site</h2>
+      <h2 className="sr-only">{t.srTitle}</h2>
       <motion.div
         variants={staggerKids}
         initial="hidden"
@@ -30,29 +67,31 @@ export function SiteFooter({ from, current }: SiteFooterProps) {
       >
         <motion.div variants={fadeUp}>
           <h3 className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.16em] text-on-plum-dim">
-            keep exploring
+            {t.explore}
           </h3>
           <ul className="space-y-2.5">
             {from === 'sub' && (
               <li>
                 <a className={linkCls} href={HOME.fromSub}>
-                  ← the way in
+                  {t.backHome}
                 </a>
               </li>
             )}
             {ROOMS.filter((r) => r.id !== current).map((r) => (
               <li key={r.id}>
                 <a className={linkCls} href={roomHref(r)}>
-                  {r.title}
+                  {roomTitle(r, locale)}
                 </a>
               </li>
             ))}
           </ul>
         </motion.div>
         <motion.div variants={fadeUp}>
-          <h3 className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.16em] text-on-plum-dim">the tools</h3>
+          <h3 className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.16em] text-on-plum-dim">
+            {t.theTools}
+          </h3>
           <ul className="space-y-2.5">
-            {tools.map((tool) => (
+            {localTools.map((tool) => (
               <li key={tool.id}>
                 <a className={linkCls} href={tool.url} target="_blank" rel="noreferrer">
                   {tool.name}
@@ -66,7 +105,7 @@ export function SiteFooter({ from, current }: SiteFooterProps) {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      · the docs
+                      {t.theDocs}
                     </a>
                   </>
                 )}
@@ -76,10 +115,10 @@ export function SiteFooter({ from, current }: SiteFooterProps) {
         </motion.div>
         <motion.div variants={fadeUp}>
           <h3 className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.16em] text-on-plum-dim">
-            the chats you know
+            {t.chatsYouKnow}
           </h3>
           <ul className="space-y-2.5">
-            {chatLinks.map((link) => (
+            {localChats.map((link) => (
               <li key={link.name}>
                 <a className={linkCls} href={link.url} target="_blank" rel="noreferrer">
                   {link.name}
@@ -87,27 +126,23 @@ export function SiteFooter({ from, current }: SiteFooterProps) {
               </li>
             ))}
           </ul>
-          <p className="mt-3 text-xs leading-relaxed text-on-plum-dim">
-            writing good messages there is the exact same skill.
-          </p>
+          <p className="mt-3 text-xs leading-relaxed text-on-plum-dim">{t.chatNote}</p>
         </motion.div>
         <motion.div variants={fadeUp}>
           <h3 className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.16em] text-on-plum-dim">
-            when you get curious
+            {t.curious}
           </h3>
-          <a className={linkCls} href={mdnCommandLine.url} target="_blank" rel="noreferrer">
-            {mdnCommandLine.name}
+          <a className={linkCls} href={mdn.url} target="_blank" rel="noreferrer">
+            {mdn.name}
           </a>
-          <p className="mt-3 text-xs leading-relaxed text-on-plum-dim">
-            a gentle explainer of what the terminal really is — for whenever you feel like peeking behind the curtain.
-          </p>
+          <p className="mt-3 text-xs leading-relaxed text-on-plum-dim">{t.mdnNote}</p>
         </motion.div>
       </motion.div>
 
       <footer className="mt-16 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t-[2.5px] border-plum-line pt-7 font-mono text-xs text-on-plum-dim">
         <Wordmark dark />
-        <span>No accounts. No tracking. Nothing for sale.</span>
-        <span>Built with one of these tools, naturally.</span>
+        <span>{t.honesty}</span>
+        <span>{t.builtWith}</span>
         <LangToggle dark />
       </footer>
     </>

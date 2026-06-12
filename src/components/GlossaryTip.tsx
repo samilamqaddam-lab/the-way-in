@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { glossary } from '../data/glossary'
+import { glossaryFr } from '../data/fr/glossary'
 import type { GlossaryKey } from '../data/glossary'
 import { popSpring } from '../lib/motion'
+import { pick, useLocale } from '../i18n/locale'
 
 interface GlossaryTipProps {
   k: GlossaryKey
@@ -20,7 +22,7 @@ const CARD_W = 272
  * definition announced politely to screen readers.
  */
 export function GlossaryTip({ k, children }: GlossaryTipProps) {
-  const entry = glossary[k]
+  const entry = pick(useLocale(), glossary, glossaryFr)[k]
   const [open, setOpen] = useState(false)
   const [align, setAlign] = useState<Align>('center')
   const wrapRef = useRef<HTMLSpanElement>(null)

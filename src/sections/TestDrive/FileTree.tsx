@@ -1,5 +1,7 @@
 import { motion } from 'motion/react'
 import { popSpring } from '../../lib/motion'
+import { useLocale } from '../../i18n/locale'
+import { TEST_DRIVE_COPY } from './copy'
 import type { MissionFile } from '../../data/missions'
 
 interface FileTreeProps {
@@ -21,15 +23,14 @@ function fileDot(name: string) {
 
 /** The pretend folder. Starts empty — that's the safety lesson. */
 export function FileTree({ folder, created, files }: FileTreeProps) {
+  const t = TEST_DRIVE_COPY[useLocale()]
   return (
     <div className="rounded-2xl border-[2.5px] border-plum-line bg-plum-deep p-4">
       <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.16em] text-on-plum-dim">
-        files <span className="normal-case tracking-normal">— started empty</span>
+        {t.filesLabel} <span className="normal-case tracking-normal">{t.startedEmpty}</span>
       </p>
       {!created ? (
-        <p className="mt-3 text-sm italic text-on-plum-dim">
-          nothing here yet. an empty folder has nothing to lose.
-        </p>
+        <p className="mt-3 text-sm italic text-on-plum-dim">{t.emptyNote}</p>
       ) : (
         <ul className="mt-3 space-y-1.5 font-mono text-sm text-on-plum">
           <motion.li initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={popSpring}>

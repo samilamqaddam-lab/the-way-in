@@ -1,4 +1,5 @@
 import { MotionConfig } from 'motion/react'
+import { pick, useLocale } from './i18n/locale'
 import { QuickNav } from './components/QuickNav'
 import { Hero } from './sections/Hero'
 import { ChatVsAgent } from './sections/ChatVsAgent'
@@ -11,10 +12,11 @@ import { FirstPrompts } from './sections/FirstPrompts'
 import { SendOff } from './sections/SendOff'
 
 export default function App() {
+  const locale = useLocale()
   return (
     <MotionConfig reducedMotion="user">
       <a className="skip-link btn-pop" href="#test-drive">
-        Skip to the interactive part
+        {pick(locale, 'Skip to the interactive part', 'Aller à la partie interactive')}
       </a>
       <div className="grain" aria-hidden="true" />
       <QuickNav />

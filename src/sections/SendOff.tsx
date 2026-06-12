@@ -2,15 +2,11 @@ import { motion } from 'motion/react'
 import { Pip } from '../components/Pip'
 import { SiteFooter } from '../components/SiteFooter'
 import { fadeUp, staggerKids, staggerKidsSlow, viewportOnce } from '../lib/motion'
-
-const CHECKLIST = [
-  'You know what an agent is — a doer, not just an answerer.',
-  "You've felt a session: message → permission → result.",
-  'You know which tool fits your pocket.',
-  'Your first prompt is one paste away.',
-]
+import { useLocale } from '../i18n/locale'
+import { SEND_OFF_COPY } from './SendOff.copy'
 
 export function SendOff() {
+  const t = SEND_OFF_COPY[useLocale()]
   return (
     <section id="send-off" className="on-dark relative overflow-x-clip border-t-[3px] border-ink bg-plum px-5 py-16 text-on-plum md:py-24">
       <div className="mx-auto w-full max-w-5xl">
@@ -25,15 +21,15 @@ export function SendOff() {
             <span className="text-sun" aria-hidden="true">
               ✳{' '}
             </span>
-            the secret
+            {t.eyebrow}
           </motion.p>
           <motion.h2
             variants={fadeUp}
             className="font-display text-[clamp(2.3rem,7vw,4.6rem)] font-extrabold leading-[1.02] tracking-[-0.015em]"
           >
-            The wall was a door
+            {t.titleA}
             <br />
-            the whole time.
+            {t.titleB}
           </motion.h2>
         </motion.header>
 
@@ -63,7 +59,7 @@ export function SendOff() {
           viewport={viewportOnce}
           className="mx-auto mt-14 max-w-md space-y-4 text-left"
         >
-          {CHECKLIST.map((item) => (
+          {t.checklist.map((item) => (
             <motion.li key={item} variants={fadeUp} className="flex items-start gap-3.5">
               <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border-[2.5px] border-ink bg-leaf text-sm font-bold text-paper">
                 ✓
@@ -81,12 +77,12 @@ export function SendOff() {
           className="mt-14 text-center"
         >
           <p className="font-display text-xl font-bold leading-snug md:text-2xl">
-            Open a tool. Paste a prompt.
+            {t.finalA}
             <br />
-            Make a thing for someone you like.
+            {t.finalB}
           </p>
           <a href="#first-prompts" className="btn-pop btn-sun mt-6">
-            Grab a prompt again ↑
+            {t.cta}
           </a>
         </motion.div>
 

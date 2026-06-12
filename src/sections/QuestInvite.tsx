@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'motion/react'
 import { fadeUp, popSpring, viewportOnce } from '../lib/motion'
+import { useLocale } from '../i18n/locale'
 import { GRIDS, spriteDataUrl } from '../pages/quest/engine/sprites'
+import { QUEST_INVITE_COPY } from './QuestInvite.copy'
 
 function usePixelPip(scale = 6) {
   return useMemo(() => spriteDataUrl(GRIDS.pipDown, GRIDS.pipOnDark, scale), [scale])
@@ -9,6 +11,7 @@ function usePixelPip(scale = 6) {
 
 /** The invite strip on the home scroll: learning, but as a tiny video game. */
 export function QuestInvite() {
+  const t = QUEST_INVITE_COPY[useLocale()]
   const pip = usePixelPip(7)
   const snatcher = useMemo(() => spriteDataUrl(GRIDS.snatcherA, GRIDS.snatcherPalette, 5), [])
   return (
@@ -27,17 +30,14 @@ export function QuestInvite() {
         </span>
         <span className="flex-1 text-center sm:text-left">
           <span className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em] text-sun">
-            ▶ press start — pip's quest
+            {t.pressStart}
           </span>
           <span className="mt-1.5 block font-display text-2xl font-extrabold leading-tight md:text-3xl">
-            Prefer to learn by playing?
+            {t.title}
           </span>
-          <span className="mt-1.5 block text-sm leading-snug text-on-plum-dim md:text-base">
-            Walk a tiny pixel valley, meet the Terminal in person, peek inside an agent office — and outsmart the Data
-            Snatcher at the door. ~10 minutes, one boss, zero risk.
-          </span>
+          <span className="mt-1.5 block text-sm leading-snug text-on-plum-dim md:text-base">{t.body}</span>
         </span>
-        <span className="btn-pop btn-sun whitespace-nowrap">Play the quest 🕹</span>
+        <span className="btn-pop btn-sun whitespace-nowrap">{t.cta}</span>
       </motion.a>
     </section>
   )
@@ -45,6 +45,7 @@ export function QuestInvite() {
 
 /** Desktop-only side tab: the quest waves at you mid-scroll, dismissible. */
 export function QuestSideTab() {
+  const t = QUEST_INVITE_COPY[useLocale()]
   const pip = usePixelPip(4)
   const [shown, setShown] = useState(false)
   const [dismissed, setDismissed] = useState(false)
@@ -79,14 +80,14 @@ export function QuestSideTab() {
         >
           <img src={pip} alt="" style={{ imageRendering: 'pixelated', width: 26 }} aria-hidden="true" />
           <span className="font-mono text-xs font-bold leading-tight">
-            play
+            {t.sideTabA}
             <br />
-            Pip's Quest
+            {t.sideTabB}
           </span>
         </a>
         <button
           type="button"
-          aria-label="Hide the quest invitation"
+          aria-label={t.dismissAria}
           onClick={() => setDismissed(true)}
           className="ml-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-ink bg-paper font-mono text-[0.65rem] font-bold shadow-pop-sm"
         >

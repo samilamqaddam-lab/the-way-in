@@ -1,5 +1,7 @@
 /** Tiny hand-built mockup thumbnails for prompt cards. */
 
+import { pick, useLocale } from '../i18n/locale'
+
 export function AboutMeThumb() {
   return (
     <div className="flex h-full items-center justify-center gap-4 bg-[#FFE8D6]">
@@ -40,6 +42,7 @@ export function PresentationThumb() {
 }
 
 export function WheelThumb() {
+  const locale = useLocale()
   return (
     <div className="flex h-full items-center justify-center gap-4 bg-[#E4F6EC]">
       <span className="relative inline-block">
@@ -55,7 +58,7 @@ export function WheelThumb() {
         </span>
       </span>
       <span className="rounded-full border-[2.5px] border-ink bg-tangerine px-3.5 py-1.5 text-xs font-bold text-paper shadow-pop-sm">
-        SPIN!
+        {pick(locale, 'SPIN!', 'TOURNE !')}
       </span>
     </div>
   )

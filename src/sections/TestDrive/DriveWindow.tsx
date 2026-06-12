@@ -3,28 +3,31 @@ import type { ReactNode } from 'react'
 import { motion } from 'motion/react'
 import { Pip } from '../../components/Pip'
 import { popIn } from '../../lib/motion'
+import { useLocale } from '../../i18n/locale'
 import { MissionPicker } from './MissionPicker'
 import { Terminal } from './Terminal'
 import { FileTree } from './FileTree'
 import { Preview } from './Preview'
 import { AUTO_DELAY, PAUSE_DELAY, driveReducer, initialDrive } from './engine'
 import type { DriveState } from './engine'
+import { TEST_DRIVE_COPY } from './copy'
 import type { Beat, Mission } from '../../data/missions'
 
-function annotation(state: DriveState, beatKind: Beat['kind'] | undefined): string {
-  if (state.status === 'done') return "Now imagine it with your idea in the message. That's the whole move."
+type Copy = (typeof TEST_DRIVE_COPY)['en']
+
+function annotation(t: Copy, state: DriveState, beatKind: Beat['kind'] | undefined): string {
+  if (state.status === 'done') return t.noteDone
   switch (state.awaiting) {
     case 'send':
-      return 'Your message is pre-written — just send it.'
+      return t.noteSend
     case 'typing':
-      return 'Agents narrate as they go. (Feel free to skip the typing.)'
+      return t.noteTyping
     case 'permission':
-      return "Real agents always ask first. You're the boss."
+      return t.notePermission
     case 'auto':
     case 'pause':
-      if (beatKind === 'filesAppear' || beatKind === 'previewStage')
-        return 'Watch the side panes — the pretend folder is filling up.'
-      return 'The agent is doing the fiddly part.'
+      if (beatKind === 'filesAppear' || beatKind === 'previewStage') return t.noteWatch
+      return t.noteFiddly
     default:
       return ' '
   }
@@ -48,6 +51,7 @@ interface DriveWindowProps {
  * shared by the home Test Drive section and the Mission Deck page.
  */
 export function DriveWindow({ missions, initialMissionId, doneCta, previewHref, extraControls }: DriveWindowProps) {
+  const t = TEST_DRIVE_COPY[useLocale()]
   const [state, dispatch] = useReducer(driveReducer, initialDrive)
   const beat = state.mission?.beats[state.cursor]
 
@@ -98,7 +102,7 @@ export function DriveWindow({ missions, initialMissionId, doneCta, previewHref, 
             <span className="h-3 w-3 rounded-full bg-sun" aria-hidden="true" />
             <span className="h-3 w-3 rounded-full bg-leaf" aria-hidden="true" />
             <span className="flex-1 text-center font-mono text-xs text-on-plum-dim">
-              pretend agent — scripted replay {state.mission.emoji}
+              {t.windowTitle} {state.mission.emoji}
             </span>
             <span className="w-12" aria-hidden="true" />
           </div>
@@ -129,7 +133,7 @@ export function DriveWindow({ missions, initialMissionId, doneCta, previewHref, 
         </div>
       </div>
 
-      <p className="mt-5 min-h-6 text-center font-mono text-sm text-ink-soft">{annotation(state, beat?.kind)}</p>
+      <p className="mt-5 min-h-6 text-center font-mono text-sm text-ink-soft">{annotation(t, state, beat?.kind)}</p>
 
       <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
         {cta && (
@@ -138,10 +142,10 @@ export function DriveWindow({ missions, initialMissionId, doneCta, previewHref, 
           </a>
         )}
         <button type="button" className="btn-pop text-sm" onClick={() => dispatch({ type: 'REPLAY' })}>
-          ↺ replay this mission
+          {t.replayBtn}
         </button>
         <button type="button" className="btn-pop text-sm" onClick={() => dispatch({ type: 'RESET' })}>
-          choose another mission
+          {t.chooseBtn}
         </button>
         {extraControls}
       </div>

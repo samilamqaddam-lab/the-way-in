@@ -1,9 +1,66 @@
-import { motion } from 'motion/react'
+import { useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'motion/react'
 import { useTypewriter } from '../lib/useTypewriter'
 import { Pip } from '../components/Pip'
 import { Squiggle } from '../components/Squiggle'
 import { Marquee } from '../components/Marquee'
 import { Wordmark } from '../components/Wordmark'
+
+type Gesture = 'idle' | 'wink' | 'left' | 'right' | 'hop'
+
+/** The headline caret, alive: a bouncy wake-up, then idle mischief. */
+function HeroPip({ awake }: { awake: boolean }) {
+  const reduced = useReducedMotion()
+  const [gesture, setGesture] = useState<Gesture>('idle')
+
+  useEffect(() => {
+    if (!awake || reduced) return
+    let timer = 0
+    let revert = 0
+    const loop = () => {
+      const options: Gesture[] = ['wink', 'left', 'right', 'hop', 'wink']
+      const g = options[Math.floor(Math.random() * options.length)]
+      setGesture(g)
+      revert = window.setTimeout(() => setGesture('idle'), g === 'hop' ? 550 : 850)
+      timer = window.setTimeout(loop, 2600 + Math.random() * 2800)
+    }
+    timer = window.setTimeout(loop, 1500)
+    return () => {
+      window.clearTimeout(timer)
+      window.clearTimeout(revert)
+    }
+  }, [awake, reduced])
+
+  return (
+    <motion.span
+      className="inline-block h-full"
+      // wake-up: a squashy little pop the moment the eyes arrive
+      animate={
+        !reduced && awake
+          ? gesture === 'hop'
+            ? { y: [0, -9, 0], scaleY: [1, 1.12, 0.9, 1] }
+            : { y: 0, scaleY: 1 }
+          : { y: 0, scaleY: 1 }
+      }
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+    >
+      <motion.span
+        className="inline-block h-full"
+        initial={false}
+        animate={!reduced && awake ? { rotate: [0, -7, 4, 0], scale: [0.6, 1.18, 1] } : { rotate: 0, scale: 1 }}
+        transition={{ duration: 0.55, ease: 'easeOut' }}
+      >
+        <Pip
+          fluid
+          tone="ink"
+          eyes={awake}
+          mood={gesture === 'wink' ? 'wink' : 'idle'}
+          look={gesture === 'left' ? 'left' : gesture === 'right' ? 'right' : 'ahead'}
+        />
+      </motion.span>
+    </motion.span>
+  )
+}
 
 const HEAD_A = 'You can already do '
 const HEAD_B = 'the hard part.'
@@ -69,13 +126,13 @@ export function Hero() {
               {done && (
                 <Squiggle
                   kind="underline"
-                  className="absolute -bottom-3 left-0 h-3.5 w-full text-tangerine md:-bottom-4"
+                  className="absolute -bottom-3 left-[-4%] h-3.5 w-[108%] text-tangerine md:-bottom-4"
                   strokeWidth={6}
                 />
               )}
             </span>
             <span className="ml-[0.06em] inline-block h-[0.74em] translate-y-[0.06em]">
-              <Pip fluid tone="ink" eyes={done} bob={false} />
+              <HeroPip awake={done} />
             </span>
           </span>
         </h1>
@@ -84,7 +141,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45, duration: 0.5 }}
-          className="mx-auto mt-7 max-w-xl text-balance text-lg text-ink-soft md:text-xl"
+          className="mx-auto mt-7 max-w-4xl text-balance text-lg text-ink-soft md:text-xl"
         >
           An agent is the AI that doesn't just answer — it builds the thing. If you've ever written a good message to
           ChatGPT or Claude, you already speak its language. This site walks you through the door, and nothing here

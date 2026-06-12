@@ -28,6 +28,8 @@ export const categories: PantryCategory[] = [
   { id: 'thing', label: 'the thing you do', emoji: '🎪', tint: 'bg-tangerine/15' },
 ]
 
+export type PromptForm = 'page' | 'app' | 'slides'
+
 export interface PantryPrompt {
   id: string
   category: CategoryId
@@ -38,10 +40,30 @@ export interface PantryPrompt {
   what: string
   prompt: string
   classic?: boolean
+  /** what kind of thing it builds — used by the Mixer's shelf-matching */
+  form: PromptForm
+  /** plain-words search keywords, occasions included */
+  tags: string[]
 }
 
-const fresh: PantryPrompt[] = [
+type RawPrompt = Omit<PantryPrompt, 'form' | 'tags'>
+
+const fresh: RawPrompt[] = [
   // ─── for someone you love ────────────────────────────────────────────────
+  {
+    id: 'birthday-page',
+    category: 'love',
+    emoji: '🎂',
+    title: 'The birthday page',
+    forWho: 'for the birthday human',
+    time: '~15 min',
+    what: 'The classic first build — a big cheerful page for someone’s day, confetti button included.',
+    prompt: `Hi! I'm brand new to this — please be my friendly guide as well as my builder. Someone's birthday is coming and I want to make them a page. Before you write any code, ask me, one at a time: their name, how we know each other, three things I genuinely love about them, whether an inside joke is welcome, and their favorite color.
+
+Then create a new empty folder called "birthday-page" and work only inside it, using plain HTML, CSS and JavaScript — no installs, no frameworks. Build one joyful page: a huge happy-birthday headline with their name, the three things I love about them as warm little cards, and a big button that fires confetti when pressed. Cheerful but not chaotic, and perfect on a phone — that's where they'll open it.
+
+When you're done, explain what each file does in simple words, tell me how to open it in my browser, and give me three ideas to make it even more theirs.`,
+  },
   {
     id: 'thank-you',
     category: 'love',
@@ -329,7 +351,7 @@ const CLASSIC_META: Record<string, { category: CategoryId; emoji: string }> = {
   'tiny-app': { category: 'helpers', emoji: '🎡' },
 }
 
-const classics: PantryPrompt[] = starterPrompts.map((sp) => ({
+const classics: RawPrompt[] = starterPrompts.map((sp) => ({
   id: sp.id,
   category: CLASSIC_META[sp.id].category,
   emoji: CLASSIC_META[sp.id].emoji,
@@ -341,7 +363,38 @@ const classics: PantryPrompt[] = starterPrompts.map((sp) => ({
   classic: true,
 }))
 
-export const pantry: PantryPrompt[] = [...classics, ...fresh]
+/** Form + search tags per prompt — the Pantry's relevance layer. */
+const FACETS: Record<string, { form: PromptForm; tags: string[] }> = {
+  'about-me': { form: 'page', tags: ['me', 'personal', 'portfolio', 'introduce', 'hobby'] },
+  presentation: { form: 'slides', tags: ['school', 'topic', 'explain', 'slideshow', 'talk'] },
+  'tiny-app': { form: 'app', tags: ['decide', 'dinner', 'family', 'game', 'wheel', 'party'] },
+  'birthday-page': { form: 'page', tags: ['birthday', 'party', 'celebrate', 'friend', 'gift'] },
+  'thank-you': { form: 'page', tags: ['thanks', 'thank you', 'gift', 'kindness', 'teacher', 'friend'] },
+  'our-story': { form: 'page', tags: ['anniversary', 'love', 'couple', 'timeline', 'valentine', 'gift'] },
+  'baby-hello': { form: 'page', tags: ['baby', 'birth', 'announcement', 'family', 'welcome'] },
+  'get-well': { form: 'page', tags: ['sick', 'cheer up', 'hospital', 'friend', 'care'] },
+  'shopping-list': { form: 'app', tags: ['groceries', 'home', 'family', 'list', 'shopping'] },
+  'recipe-book': { form: 'page', tags: ['cooking', 'family', 'food', 'recipes', 'heirloom'] },
+  potluck: { form: 'app', tags: ['party', 'gathering', 'event', 'food', 'holidays', 'planning'] },
+  flashcards: { form: 'app', tags: ['school', 'exam', 'study', 'revision', 'learning'] },
+  explainer: { form: 'page', tags: ['school', 'teach', 'topic', 'explain', 'learning'] },
+  'exam-countdown': { form: 'app', tags: ['school', 'exam', 'study', 'plan', 'countdown'] },
+  collection: { form: 'page', tags: ['hobby', 'showcase', 'collection', 'display'] },
+  'club-page': { form: 'page', tags: ['club', 'team', 'sport', 'group', 'schedule'] },
+  'plant-tracker': { form: 'app', tags: ['plants', 'home', 'care', 'reminder', 'garden'] },
+  'split-bill': { form: 'app', tags: ['dinner', 'money', 'friends', 'restaurant', 'tip'] },
+  'packing-list': { form: 'app', tags: ['travel', 'trip', 'vacation', 'holiday', 'packing'] },
+  'recipe-scaler': { form: 'app', tags: ['cooking', 'kitchen', 'food', 'servings'] },
+  'little-book': { form: 'page', tags: ['poems', 'quotes', 'words', 'gift', 'book'] },
+  'future-letter': { form: 'app', tags: ['letter', 'future', 'new year', 'birthday', 'time capsule'] },
+  'my-thing': { form: 'page', tags: ['band', 'business', 'market', 'shop', 'flyer', 'event'] },
+}
+
+export const pantry: PantryPrompt[] = [...classics, ...fresh].map((p) => {
+  const facets = FACETS[p.id]
+  if (!facets) throw new Error(`missing facets for prompt ${p.id}`)
+  return { ...p, ...facets }
+})
 
 export function categoryOf(p: PantryPrompt): PantryCategory {
   const found = categories.find((c) => c.id === p.category)

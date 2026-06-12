@@ -45,6 +45,7 @@ export const missions: Mission[] = [
     label: 'A birthday page',
     tagline: 'for someone you like',
     folder: 'birthday-page',
+    pantryId: 'birthday-page',
     beats: [
       {
         kind: 'youSend',

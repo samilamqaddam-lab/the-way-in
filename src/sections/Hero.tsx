@@ -103,6 +103,14 @@ export function Hero() {
           ))}
         </div>
 
+        {/* the plain-words promise — visible from the very first paint, no metaphor */}
+        <p className="mb-5 text-balance px-2 font-mono text-[0.8rem] font-semibold text-ink-soft md:text-sm">
+          <span className="text-tangerine-deep" aria-hidden="true">
+            ✳{' '}
+          </span>
+          a free little guide to AI agents — the kind that builds for you, not just chats
+        </p>
+
         <h1
           aria-label={HEADLINE}
           className="relative max-w-4xl text-balance font-display text-[clamp(2.75rem,9.5vw,6.1rem)] font-extrabold leading-[0.98] tracking-[-0.02em]"
@@ -147,6 +155,28 @@ export function Hero() {
           <a href="#first-prompts" className="btn-pop">
             Skip to my first prompt
           </a>
+        </motion.div>
+
+        {/* the contract — the send-off checklist confirms these exact four, as receipts */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.85, duration: 0.5 }}
+          className="mt-8 flex max-w-xl flex-wrap items-center justify-center gap-x-2 gap-y-2 px-2"
+        >
+          <span className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.14em] text-ink-soft">
+            in one visit:
+          </span>
+          {['get what an agent is', 'try one, safely', 'pick your tool & cost', 'leave with a ready prompt'].map(
+            (promise) => (
+              <span
+                key={promise}
+                className="rounded-full border-2 border-ink bg-paper-deep px-3 py-1 text-[0.78rem] font-semibold"
+              >
+                {promise}
+              </span>
+            ),
+          )}
         </motion.div>
 
         <motion.p

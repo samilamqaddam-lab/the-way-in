@@ -1,16 +1,18 @@
 import { motion } from 'motion/react'
 import { fadeUp, staggerKids, viewportOnce } from '../../lib/motion'
-import { missions } from '../../data/missions'
 import type { Mission } from '../../data/missions'
 
 interface MissionPickerProps {
+  missions: Mission[]
   onPick: (mission: Mission) => void
 }
 
-export function MissionPicker({ onPick }: MissionPickerProps) {
+const TILTS = [-1.1, 0.7, -0.5, 0.9, -0.8, 0.6, -0.4, 1.0]
+
+export function MissionPicker({ missions, onPick }: MissionPickerProps) {
   return (
     <motion.div variants={staggerKids} initial="hidden" whileInView="show" viewport={viewportOnce}>
-      <div className="grid gap-5 sm:grid-cols-3">
+      <div className={`grid gap-5 sm:grid-cols-3 ${missions.length > 4 ? 'lg:grid-cols-4' : ''}`}>
         {missions.map((mission, i) => (
           <motion.button
             key={mission.id}
@@ -18,7 +20,7 @@ export function MissionPicker({ onPick }: MissionPickerProps) {
             variants={fadeUp}
             onClick={() => onPick(mission)}
             className="card-pop group p-6 text-left transition-transform duration-150 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
-            style={{ rotate: `${[-1.1, 0.7, -0.5][i]}deg` }}
+            style={{ rotate: `${TILTS[i % TILTS.length]}deg` }}
           >
             <span className="block text-4xl" aria-hidden="true">
               {mission.emoji}
@@ -32,7 +34,7 @@ export function MissionPicker({ onPick }: MissionPickerProps) {
         ))}
       </div>
       <motion.p variants={fadeUp} className="mt-6 text-center font-mono text-sm text-ink-soft">
-        all three are make-believe — the same moves as the real thing, with zero risk.
+        all of these are make-believe — the same moves as the real thing, with zero risk.
       </motion.p>
     </motion.div>
   )

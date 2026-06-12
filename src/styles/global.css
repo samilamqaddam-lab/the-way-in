@@ -1,0 +1,364 @@
+@import 'tailwindcss';
+
+/* Self-hosted latin variable fonts (preloaded from index.html — keeps the
+   font swap off the critical path and layout shift near zero). */
+@font-face {
+  font-family: 'Bricolage Grotesque Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('../assets/fonts/bricolage-latin.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Instrument Sans Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  src: url('../assets/fonts/instrument-latin.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url('../assets/fonts/jetbrains-latin.woff2') format('woff2-variations');
+}
+
+/* ---------------------------------------------------------------------------
+   The Way In — design tokens
+   Warm paper world, candy accents, one friendly-dark terminal.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-paper: #fbf5eb;
+  --color-paper-deep: #f4ead8;
+  --color-ink: #1b1611;
+  --color-ink-soft: #57503f;
+  --color-line: #e3d8c3;
+
+  --color-tangerine: #f4581c;
+  --color-sun: #ffc83d;
+  --color-grape: #6c4df4;
+  --color-leaf: #1f9d5b;
+  --color-sky: #2d8cff;
+  --color-blush: #ff7e9d;
+  --color-alarm: #e03e2d;
+
+  --color-plum: #241836;
+  --color-plum-deep: #1a1128;
+  --color-plum-line: #3d2c5c;
+  --color-on-plum: #f5ede0;
+  --color-on-plum-dim: #b3a4cd;
+  --color-term-green: #7be0a2;
+  --color-term-yellow: #ffd66b;
+  --color-term-blue: #8fc2ff;
+  --color-term-pink: #ff9ec0;
+
+  --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', Georgia, serif;
+  --font-body: 'Instrument Sans Variable', 'Instrument Sans', 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --shadow-pop: 0.28rem 0.28rem 0 0 var(--color-ink);
+  --shadow-pop-lg: 0.55rem 0.55rem 0 0 var(--color-ink);
+  --shadow-pop-sm: 0.18rem 0.18rem 0 0 var(--color-ink);
+
+  --radius-blob: 1.6rem;
+  --radius-soft: 1rem;
+
+  --animate-marquee: marquee 36s linear infinite;
+  --animate-bob: bob 5.2s ease-in-out infinite;
+  --animate-bob-slow: bob 7.4s ease-in-out infinite;
+  --animate-blink: blink 4.4s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.1s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+@layer base {
+  html {
+    background: var(--color-paper);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-sun);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-grape);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-sun);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Keyframes — ambient motion lives in CSS; everything is transform/opacity.
+   Anything tagged .anim-ambient stops entirely under reduced motion.
+--------------------------------------------------------------------------- */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--bob-tilt, 0deg));
+  }
+  50% {
+    transform: translateY(-9px) rotate(var(--bob-tilt, 0deg));
+  }
+}
+
+@keyframes blink {
+  0%,
+  91%,
+  100% {
+    transform: scaleY(1);
+  }
+  93%,
+  96% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: rotate(0deg) translateX(0);
+  }
+  15% {
+    transform: rotate(-1.2deg) translateX(-6px);
+  }
+  35% {
+    transform: rotate(1.1deg) translateX(5px);
+  }
+  55% {
+    transform: rotate(-0.7deg) translateX(-3px);
+  }
+  75% {
+    transform: rotate(0.4deg) translateX(2px);
+  }
+}
+
+@keyframes caret-pulse {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  60%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-ambient {
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Recurring pieces — in @layer components so Tailwind utilities can override
+--------------------------------------------------------------------------- */
+@layer components {
+.wobbling {
+  animation: wobble 0.55s ease-in-out both;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--color-ink-soft);
+}
+
+.card-pop {
+  background: var(--color-paper);
+  border: 3px solid var(--color-ink);
+  border-radius: var(--radius-blob);
+  box-shadow: var(--shadow-pop);
+}
+
+.btn-pop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.7rem 1.4rem;
+  border: 3px solid var(--color-ink);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-pop);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.btn-pop:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 0.45rem 0.45rem 0 0 var(--color-ink);
+}
+
+.btn-pop:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0.05rem 0.05rem 0 0 var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-pop,
+  .btn-pop:hover,
+  .btn-pop:active {
+    transition: none;
+    transform: none;
+    box-shadow: var(--shadow-pop);
+  }
+}
+
+.btn-ink {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.btn-tangerine {
+  background: var(--color-tangerine);
+  color: var(--color-paper);
+}
+
+.btn-sun {
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+/* Dotted glossary word */
+.tip-word {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-bottom: 3px dotted var(--color-tangerine);
+  font-weight: 600;
+}
+
+.tip-word:hover {
+  background: color-mix(in oklab, var(--color-sun) 45%, transparent);
+}
+
+/* Paper grain — one static composited layer, painted once. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Dot-grid texture for section backdrops */
+.dot-grid {
+  background-image: radial-gradient(var(--color-line) 1.6px, transparent 1.6px);
+  background-size: 26px 26px;
+}
+
+/* Terminal scrollbar, gentle */
+.term-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-plum-line) transparent;
+}
+
+.term-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.term-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-plum-line);
+  border-radius: 999px;
+}
+
+.prompt-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+.prompt-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.prompt-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 999px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-300%);
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+}

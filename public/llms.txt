@@ -1,0 +1,30 @@
+# The Way In
+
+> A free, single-page site that welcomes complete beginners — teenagers to retirees, zero technical background — into agentic AI coding tools. Its message: if you can write a good chat message, you already have the core skill; an agent is an AI that doesn't just answer but does things on your computer, always asking permission first.
+
+## What's on the page
+
+- Chat vs. agent, explained side by side with the same request
+- A fully scripted in-browser "test drive" of an agent session (pure theater — nothing executes; the visitor sends a pre-written message and personally grants or denies permission)
+- Honest fear-calming: agents ask first, practice happens in an empty folder, worst case you delete one folder
+- A tool picker quiz and four tool cards (see Tools below)
+- Three complete copy-paste starter prompts: a personal "about me" page, a tiny presentation site, and a small decision-wheel web app
+
+## Tools
+
+- [Claude Code](https://claude.com/product/claude-code): Anthropic's coding agent; app or terminal; included in Claude Pro
+- [Claude Code docs](https://code.claude.com/docs/en/overview): official documentation
+- [OpenAI Codex](https://developers.openai.com/codex): OpenAI's coding agent; inside ChatGPT or the terminal; included in ChatGPT Plus
+- [OpenCode](https://opencode.ai): free, open-source terminal coding agent; works with an existing Claude/ChatGPT subscription or your own API keys
+- [Hermes Agent](https://hermes-agent.nousresearch.com): free, open-source, self-hosted, by Nous Research; for when you're ready for more
+
+## Further reading
+
+- [Claude](https://claude.ai): the chat assistant many visitors already use
+- [ChatGPT](https://chatgpt.com): likewise
+- [MDN command line crash course](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line): a gentle explainer of what the terminal really is
+
+## Notes
+
+- Static site, no accounts, no tracking, nothing for sale.
+- The in-page "agent session" is scripted demonstration data, not a real agent.

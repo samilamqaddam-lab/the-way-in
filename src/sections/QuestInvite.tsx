@@ -22,8 +22,10 @@ export function QuestInvite() {
         className="on-dark mx-auto flex w-full max-w-4xl flex-col items-center gap-5 rounded-[1.6rem] border-[3px] border-ink bg-plum-deep p-6 text-on-plum shadow-pop-lg transition-transform duration-150 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:flex-row sm:gap-7 sm:p-8"
       >
         <span className="flex items-end gap-3" aria-hidden="true">
-          <img src={pip} alt="" style={{ imageRendering: 'pixelated', width: 64 }} />
-          <img src={snatcher} alt="" className="opacity-70" style={{ imageRendering: 'pixelated', width: 58 }} />
+          <span className="inline-block rounded-xl border-2 border-ink bg-paper p-1.5">
+            <img src={pip} alt="" style={{ imageRendering: 'pixelated', width: 54, display: 'block' }} />
+          </span>
+          <img src={snatcher} alt="" className="opacity-80" style={{ imageRendering: 'pixelated', width: 58 }} />
         </span>
         <span className="flex-1 text-center sm:text-left">
           <span className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em] text-sun">

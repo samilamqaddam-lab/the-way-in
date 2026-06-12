@@ -5,6 +5,7 @@ import { ChatVsAgent } from './sections/ChatVsAgent'
 import { TestDrive } from './sections/TestDrive'
 import { NothingToBreak } from './sections/NothingToBreak'
 import { QuestInvite, QuestSideTab } from './sections/QuestInvite'
+import { RoomsRibbon } from './sections/RoomsRibbon'
 import { PickYourDoor } from './sections/PickYourDoor'
 import { FirstPrompts } from './sections/FirstPrompts'
 import { SendOff } from './sections/SendOff'
@@ -20,6 +21,7 @@ export default function App() {
       <QuestSideTab />
       <main>
         <Hero />
+        <RoomsRibbon />
         <ChatVsAgent />
         <TestDrive />
         <NothingToBreak />

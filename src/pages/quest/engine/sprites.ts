@@ -23,6 +23,16 @@ const PIP_PALETTE: Palette = {
   o: INK,
   F: INK,
   A: TANGERINE,
+  B: TANGERINE, // the eye-level band — every pip wears it
+}
+
+/** Paint the uniform: turn body pixels into band pixels around the eye rows. */
+function banded(grid: string[]): string[] {
+  let eyeRow = grid.findIndex((r) => r.includes('O'))
+  if (eyeRow === -1) eyeRow = 4 // the back of the head wears the band too
+  return grid.map((row, i) =>
+    i >= eyeRow - 1 && i <= eyeRow + 1 ? row.replace(/X/g, 'B') : row,
+  )
 }
 
 /** 12 wide × 16 tall, drawn into a 16×16 cell (2px left offset). */
@@ -231,10 +241,10 @@ export function bake(grid: string[], palette: Palette, scale = 1): HTMLCanvasEle
 function pipWith(palette: Palette): Record<string, HTMLCanvasElement[]> {
   const p = { ...PIP_PALETTE, ...palette }
   return {
-    down: [bake(PIP_DOWN_A, p), bake(PIP_DOWN_B, p)],
-    up: [bake(PIP_UP_A, p), bake(PIP_UP_B, p)],
-    left: [bake(PIP_LEFT_A, p), bake(PIP_LEFT_B, p)],
-    right: [bake(PIP_RIGHT_A, p), bake(PIP_RIGHT_B, p)],
+    down: [bake(banded(PIP_DOWN_A), p), bake(banded(PIP_DOWN_B), p)],
+    up: [bake(banded(PIP_UP_A), p), bake(banded(PIP_UP_B), p)],
+    left: [bake(banded(PIP_LEFT_A), p), bake(banded(PIP_LEFT_B), p)],
+    right: [bake(banded(PIP_RIGHT_A), p), bake(banded(PIP_RIGHT_B), p)],
   }
 }
 
@@ -254,10 +264,10 @@ export function spriteDataUrl(grid: string[], palette: Palette, scale = 6): stri
 }
 
 export const GRIDS = {
-  pipDown: PIP_DOWN_A,
+  pipDown: banded(PIP_DOWN_A),
   pipPalette: PIP_PALETTE,
-  /** for dark surfaces — ink Pip disappears on plum */
-  pipOnDark: { ...PIP_PALETTE, X: TANGERINE } as Palette,
+  /** dark surfaces put Pip on a paper sticker tile instead of recoloring him */
+  pipOnDark: PIP_PALETTE,
   snatcherA: SNATCHER_A,
   snatcherB: SNATCHER_B,
   snatcherPalette: SNATCHER_PALETTE,

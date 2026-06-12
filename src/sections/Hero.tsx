@@ -164,8 +164,8 @@ export function Hero() {
           <a href="#test-drive" className="btn-pop btn-ink px-7 py-3.5 text-lg">
             Take the test drive ↓
           </a>
-          <a href="#first-prompts" className="btn-pop">
-            Skip to my first prompt
+          <a href="./quest/" className="btn-pop">
+            or learn it by playing 🕹
           </a>
         </motion.div>
 

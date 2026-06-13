@@ -58,4 +58,20 @@ export const glossaryFr: Record<GlossaryKey, GlossaryEntry> = {
     term: 'navigateur',
     def: 'L’appli avec laquelle tu lis les sites web — Chrome, Safari, Firefox. Ce que tu construis s’ouvre directement dedans.',
   },
+  model: {
+    term: 'modèle',
+    def: 'Le « cerveau » de l’IA à qui tu parles — certains sont plus puissants que d’autres. Les plus forts inventent moins et suivent mieux les consignes (ce qui les rend aussi plus sûrs).',
+  },
+  rateLimit: {
+    term: 'limite de débit',
+    def: 'Un petit plafond de vitesse : après un gros usage, l’outil te met en pause un moment, puis te laisse repartir. Pas une punition — juste le compteur qui reprend son souffle.',
+  },
+  promptInjection: {
+    term: 'injection de prompt',
+    def: 'Quand des instructions cachées se glissent dans ce que lit l’IA — comme un e-mail — et tentent de la détourner. C’est pour ça qu’un débutant garde sa boîte mail hors de l’agent.',
+  },
+  orchestration: {
+    term: 'orchestration',
+    def: 'Un agent principal qui découpe un gros travail en morceaux et confie chacun à un agent assistant — comme un chef dans sa cuisine. Tu gardes le dernier mot.',
+  },
 }

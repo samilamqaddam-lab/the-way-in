@@ -164,7 +164,7 @@ export const DIALOGS: Record<string, DialogRun> = {
     { speaker: 'Runner Pip', tone: 'sun', text: "Coming through! Hand-offs, hand-offs! The researcher's notes go to the writer, the writer's draft goes to review — teamwork, but with version numbers!" },
   ]),
   sleeper: D('sleeper', [
-    { speaker: 'Sleeping Pip', tone: 'sky', text: 'zzz... rate limit... zzz... agents don\'t get tired, but every plan has a breath rhythm... zzz... nap time is rate-limit time...' },
+    { speaker: 'Sleeping Pip', tone: 'sky', text: 'zzz... rate limit... zzz... agents don\'t get tired, but every plan has a breath rhythm... zzz... nap time is rate-limit time...', terms: ['rateLimit'] },
   ]),
   sleeper2: D('sleeper2', [
     { speaker: 'Sleeping Pip', tone: 'blush', text: 'zzz... five hundred files reviewed... zzz... wake me when the humans decide... zzz...' },
@@ -173,7 +173,7 @@ export const DIALOGS: Record<string, DialogRun> = {
     { speaker: 'Cafeteria Pip', tone: 'leaf', text: "We don't drink coffee. We can't drink coffee. We just deeply respect the vibe of a break room." },
   ]),
   cafeteria2: D('cafeteria2', [
-    { speaker: 'Cafeteria Pip', tone: 'grape', text: 'Half the team works together, some work alone, two are asleep — and somehow everything ships. The Chief calls it "orchestration". I call it Tuesday.' },
+    { speaker: 'Cafeteria Pip', tone: 'grape', text: 'Half the team works together, some work alone, two are asleep — and somehow everything ships. The Chief calls it "orchestration". I call it Tuesday.', terms: ['orchestration'] },
   ]),
 }
 
@@ -184,6 +184,8 @@ export interface BossQuestion {
   options: string[]
   correct: number
   why: string
+  /** technical words in this question — shown as tap-to-explain chips */
+  terms?: GlossaryKey[]
 }
 
 export const BOSS_QUESTIONS: BossQuestion[] = [
@@ -212,6 +214,7 @@ export const BOSS_QUESTIONS: BossQuestion[] = [
     ],
     correct: 1,
     why: 'A stranger’s email can contain hidden instructions the agent might read as commands. Keep your inbox out of it while you learn — power up later, carefully.',
+    terms: ['promptInjection'],
   },
   {
     q: 'Which model should you pick for important work?',
@@ -222,6 +225,7 @@ export const BOSS_QUESTIONS: BossQuestion[] = [
     ],
     correct: 0,
     why: 'Stronger models make fewer things up and follow instructions more carefully — that makes them safer too. But no model is magic: you still check the result.',
+    terms: ['model'],
   },
   {
     q: 'The agent is doing something you don’t like. What’s true?',

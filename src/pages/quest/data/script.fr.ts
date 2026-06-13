@@ -142,7 +142,7 @@ export const DIALOGS_FR: Record<string, DialogRun> = {
     { speaker: 'Pip coursier', tone: 'sun', text: 'Je passe, je passe ! Des relais, des relais ! Les notes du chercheur vont à la plume, le brouillon de la plume part en relecture — du travail d’équipe, mais avec des numéros de version !' },
   ]),
   sleeper: D('sleeper', [
-    { speaker: 'Pip qui dort', tone: 'sky', text: 'zzz... limite de débit... zzz... les agents ne fatiguent pas, mais chaque plan a son rythme de respiration... zzz... la sieste, c’est l’heure de la limite de débit...' },
+    { speaker: 'Pip qui dort', tone: 'sky', text: 'zzz... limite de débit... zzz... les agents ne fatiguent pas, mais chaque plan a son rythme de respiration... zzz... la sieste, c’est l’heure de la limite de débit...', terms: ['rateLimit'] },
   ]),
   sleeper2: D('sleeper2', [
     { speaker: 'Pip qui dort', tone: 'blush', text: 'zzz... cinq cents fichiers relus... zzz... réveillez-moi quand les humains décident... zzz...' },
@@ -151,7 +151,7 @@ export const DIALOGS_FR: Record<string, DialogRun> = {
     { speaker: 'Pip de la cafèt', tone: 'leaf', text: 'On ne boit pas de café. On ne peut pas boire de café. On respecte juste profondément l’ambiance d’une salle de pause.' },
   ]),
   cafeteria2: D('cafeteria2', [
-    { speaker: 'Pip de la cafèt', tone: 'grape', text: 'La moitié de l’équipe travaille ensemble, certains travaillent seuls, deux dorment — et pourtant tout finit livré. Le Chef appelle ça « l’orchestration ». Moi, j’appelle ça mardi.' },
+    { speaker: 'Pip de la cafèt', tone: 'grape', text: 'La moitié de l’équipe travaille ensemble, certains travaillent seuls, deux dorment — et pourtant tout finit livré. Le Chef appelle ça « l’orchestration ». Moi, j’appelle ça mardi.', terms: ['orchestration'] },
   ]),
 }
 
@@ -183,6 +183,7 @@ export const BOSS_QUESTIONS_FR: BossQuestion[] = [
     ],
     correct: 1,
     why: 'Le mail d’un inconnu peut contenir des instructions cachées que l’agent risque de lire comme des ordres. Garde ta boîte mail en dehors pendant que tu apprends — tu monteras en puissance plus tard, prudemment.',
+    terms: ['promptInjection'],
   },
   {
     q: 'Quel modèle choisir pour un travail important ?',
@@ -193,6 +194,7 @@ export const BOSS_QUESTIONS_FR: BossQuestion[] = [
     ],
     correct: 0,
     why: 'Les modèles plus puissants inventent moins de choses et suivent les consignes plus soigneusement — ça les rend aussi plus sûrs. Mais aucun modèle n’est magique : tu vérifies quand même le résultat.',
+    terms: ['model'],
   },
   {
     q: 'L’agent fait quelque chose qui ne te plaît pas. Qu’est-ce qui est vrai ?',

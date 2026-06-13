@@ -64,6 +64,22 @@ export const glossary = {
     term: 'browser',
     def: 'The app you read websites with — Chrome, Safari, Firefox. The things you build open right in it.',
   },
+  model: {
+    term: 'model',
+    def: "The AI's “brain” you're talking to — some are stronger than others. Stronger ones make fewer things up and follow instructions more carefully (which makes them safer too).",
+  },
+  rateLimit: {
+    term: 'rate limit',
+    def: 'A gentle speed cap: after a burst of heavy use, the tool pauses you for a while, then lets you carry on. Not a punishment — just the meter catching its breath.',
+  },
+  promptInjection: {
+    term: 'prompt injection',
+    def: 'When hidden instructions sneak into something the AI reads — like an email — and try to hijack it. That’s why beginners keep their inbox out of an agent.',
+  },
+  orchestration: {
+    term: 'orchestration',
+    def: 'One main agent splitting a big job into pieces and handing each to a helper agent — like a chef running a kitchen. You still keep the last word.',
+  },
 } as const satisfies Record<string, GlossaryEntry>
 
 export type GlossaryKey = keyof typeof glossary

@@ -6,6 +6,7 @@ import { BOSS_QUESTIONS, SHARDS } from '../data/script'
 import { BOSS_QUESTIONS_FR, SHARDS_FR } from '../data/script.fr'
 import { pick, useLocale } from '../../../i18n/locale'
 import type { Locale } from '../../../i18n/locale'
+import { TermChips } from './TermChips'
 
 const BOSS_COPY = {
   en: {
@@ -190,6 +191,7 @@ export function BossQuiz({ shardsAtStart, onDone }: BossQuizProps) {
                   </button>
                 ))}
               </div>
+              {q.terms && q.terms.length > 0 && <TermChips key={qi} terms={q.terms} />}
             </motion.div>
           )}
 

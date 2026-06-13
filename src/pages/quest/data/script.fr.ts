@@ -22,7 +22,7 @@ export const DIALOGS_FR: Record<string, DialogRun> = {
     'bubbles',
     [
       { speaker: 'Chachapiti', tone: 'sun', text: 'Pip ! Te voilà. Moi, c’est Chachapiti — oui, comme le célèbre. On est, euh... des cousins éloignés. Ce kiosque, c’est le Chat. Tout le monde commence ici.' },
-      { speaker: 'Chachapiti', tone: 'sun', text: 'Ici, tu demandes, et l’IA répond. Charmant. Mais en haut du chemin vivent les agents — des IA qui peuvent vraiment FAIRE des choses : créer des fichiers, construire des pages, réparer des trucs.' },
+      { speaker: 'Chachapiti', tone: 'sun', text: 'Ici, tu demandes, et l’IA répond. Charmant. Mais en haut du chemin vivent les agents — des IA qui peuvent vraiment FAIRE des choses : créer des fichiers, construire des pages, réparer des trucs.', terms: ['agent'] },
       { speaker: 'Chachapiti', tone: 'sun', text: 'Et voici le secret qu’on ne dit jamais aux débutants : leur parler marche exactement comme me parler à moi. Tu parles déjà la langue.' },
       { speaker: 'Chachapiti', tone: 'sun', text: 'Prends cet éclat pour t’en souvenir. Maintenant va voir Termi au vieux bureau, en haut du chemin puis vers l’est !' },
     ],
@@ -36,12 +36,12 @@ export const DIALOGS_FR: Record<string, DialogRun> = {
   termi: D(
     'termi',
     [
-      { speaker: 'Termi', tone: 'plum', text: '❯ oh ! de la visite. Je suis Termi — un terminal. Les gens me trouvent effrayant. Je suis littéralement une boîte de texte.' },
+      { speaker: 'Termi', tone: 'plum', text: '❯ oh ! de la visite. Je suis Termi — un terminal. Les gens me trouvent effrayant. Je suis littéralement une boîte de texte.', terms: ['terminal'] },
       { speaker: 'Termi', tone: 'plum', text: '❯ mon superpouvoir : je suis la porte la plus POLYVALENTE vers les agents. Je tourne sur n’importe quel ordinateur — PC ou Mac — sans app store.' },
-      { speaker: 'Termi', tone: 'plum', text: '❯ tu as Claude Pro ? Claude Code tourne en moi. ChatGPT Plus ? Codex tourne en moi. Tu veux du gratuit ? OpenCode est gratuit et open source, et vit en moi aussi.' },
+      { speaker: 'Termi', tone: 'plum', text: '❯ tu as Claude Pro ? Claude Code tourne en moi. ChatGPT Plus ? Codex tourne en moi. Tu veux du gratuit ? OpenCode est gratuit et open source, et vit en moi aussi.', terms: ['openSource'] },
       { speaker: 'Termi', tone: 'plum', text: '❯ anecdote : je suis plus vieux que la souris d’ordinateur. Toujours là. Le curseur qui clignote en moi ? C’est ton cousin, au passage.' },
       { speaker: 'Termi', tone: 'plum', text: '❯ comment ça marche, simplement : tu tapes un message, l’agent répond, et avant de toucher à quoi que ce soit, il te demande d’abord. Le même chat, plus de muscles.' },
-      { speaker: 'Termi', tone: 'plum', text: '❯ en toute honnêteté : installer un agent en moi prend UNE commande à copier-coller depuis son guide officiel. Cinq minutes, une fois. Ensuite, tu tapes son nom et on discute.' },
+      { speaker: 'Termi', tone: 'plum', text: '❯ en toute honnêteté : installer un agent en moi prend UNE commande à copier-coller depuis son guide officiel. Cinq minutes, une fois. Ensuite, tu tapes son nom et on discute.', terms: ['command'] },
       { speaker: 'Termi', tone: 'plum', text: '❯ prends cet éclat. Et si tu préfères les jolis boutons — je ne me vexe pas. Va voir le Stand des Apps, côté ouest de la vallée.' },
     ],
     {
@@ -77,7 +77,7 @@ export const DIALOGS_FR: Record<string, DialogRun> = {
   opencodeMarker: D(
     'opencodeMarker',
     [
-      { speaker: 'Balise du sentier', tone: 'leaf', text: 'LE SENTIER GRATUIT — OpenCode : gratuit, open source, terminal uniquement. Apporte un abonnement Claude ou ChatGPT que tu as déjà, ou tes propres clés API.' },
+      { speaker: 'Balise du sentier', tone: 'leaf', text: 'LE SENTIER GRATUIT — OpenCode : gratuit, open source, terminal uniquement. Apporte un abonnement Claude ou ChatGPT que tu as déjà, ou tes propres clés API.', terms: ['openSource', 'apiKey'] },
     ],
     { links: [{ label: 'OpenCode', url: 'https://opencode.ai' }] },
   ),
@@ -88,7 +88,7 @@ export const DIALOGS_FR: Record<string, DialogRun> = {
     [
       { speaker: 'Pip vagabond', tone: 'leaf', text: 'Salut ! Je marche sur cette route tous les jours et rien n’a jamais cassé. Tu veux savoir pourquoi ? Deux règles.' },
       { speaker: 'Pip vagabond', tone: 'leaf', text: 'Règle un : les agents demandent avant de toucher à quoi que ce soit. Tu dis oui ou non. « Non » marche toujours.' },
-      { speaker: 'Pip vagabond', tone: 'leaf', text: 'Règle deux : entraîne-toi dans un dossier vide tout neuf. Vide, ça veut dire rien à perdre. Au pire ? Tu supprimes le dossier — comme si rien ne s’était passé.' },
+      { speaker: 'Pip vagabond', tone: 'leaf', text: 'Règle deux : entraîne-toi dans un dossier vide tout neuf. Vide, ça veut dire rien à perdre. Au pire ? Tu supprimes le dossier — comme si rien ne s’était passé.', terms: ['folder'] },
       { speaker: 'Pip vagabond', tone: 'leaf', text: 'Demander d’abord, ne rien casser. Garde-le en éclat — c’est celui que le gardien de la porte respecte le plus.' },
     ],
     {
@@ -100,7 +100,7 @@ export const DIALOGS_FR: Record<string, DialogRun> = {
     },
   ),
   mailbox: D('mailbox', [
-    { speaker: 'Boîte aux lettres', tone: 'tangerine', text: 'Un prospectus à l’intérieur : « PREMIERS PROMPTS, GRATUITS — la Réserve à Prompts. Colle, réponds aux questions, possède un site web avant le goûter. » Ça sonne inventé. Ça ne l’est pas.' },
+    { speaker: 'Boîte aux lettres', tone: 'tangerine', text: 'Un prospectus à l’intérieur : « PREMIERS PROMPTS, GRATUITS — la Réserve à Prompts. Colle, réponds aux questions, possède un site web avant le goûter. » Ça sonne inventé. Ça ne l’est pas.', terms: ['prompt'] },
   ]),
   bench: D('bench', [
     { speaker: 'Plaque du banc', tone: 'ink', text: '« À la mémoire de chaque débutant qui croyait qu’il allait casser l’ordinateur. Il ne l’a pas cassé. » — la Vallée' },
@@ -118,7 +118,7 @@ export const DIALOGS_FR: Record<string, DialogRun> = {
     [
       { speaker: 'Le Chef', tone: 'tangerine', text: 'Bienvenue au bureau ! Ici, un agent principal — moi — découpe un gros travail en morceaux et confie chaque morceau à un agent ouvrier.' },
       { speaker: 'Le Chef', tone: 'tangerine', text: 'La recherche va au chercheur, les mots à la plume, les bugs au réparateur. Ils se passent le travail. Moi, je tiens le plan. L’humain garde le dernier mot.' },
-      { speaker: 'Le Chef', tone: 'tangerine', text: 'C’est du niveau avancé — le grand bain. Des installations comme Hermes le rendent possible : gratuit, open source, auto-hébergé. Tu le fais tourner sur ta propre machine, quand tu seras prêt·e pour plus.' },
+      { speaker: 'Le Chef', tone: 'tangerine', text: 'C’est du niveau avancé — le grand bain. Des installations comme Hermes le rendent possible : gratuit, open source, auto-hébergé. Tu le fais tourner sur ta propre machine, quand tu seras prêt·e pour plus.', terms: ['openSource', 'selfHosted'] },
       { speaker: 'Le Chef', tone: 'tangerine', text: 'Mon conseil honnête : maîtrise UN agent d’abord. Le jour où un agent te semble facile, une équipe entière te semblera évidente. Prends cet éclat — et les ressources près de la porte.' },
     ],
     {
@@ -136,7 +136,7 @@ export const DIALOGS_FR: Record<string, DialogRun> = {
     { speaker: 'Pip plume', tone: 'blush', text: 'Je transforme les faits du chercheur en mots que les humains aiment lire. L’astuce ? Des phrases courtes. Chaleureuses. Comme celles-ci.' },
   ]),
   workerFixer: D('workerFixer', [
-    { speaker: 'Pip répare-tout', tone: 'grape', text: 'Le texte d’erreur rouge, c’est mon petit-déjeuner. Colle-moi une erreur et je ronronne. Anecdote : réparer, c’est la moitié du métier de tout agent — personne n’écrit parfait du premier coup.' },
+    { speaker: 'Pip répare-tout', tone: 'grape', text: 'Le texte d’erreur rouge, c’est mon petit-déjeuner. Colle-moi une erreur et je ronronne. Anecdote : réparer, c’est la moitié du métier de tout agent — personne n’écrit parfait du premier coup.', terms: ['error'] },
   ]),
   runner: D('runner', [
     { speaker: 'Pip coursier', tone: 'sun', text: 'Je passe, je passe ! Des relais, des relais ! Les notes du chercheur vont à la plume, le brouillon de la plume part en relecture — du travail d’équipe, mais avec des numéros de version !' },

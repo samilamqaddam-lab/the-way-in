@@ -433,10 +433,14 @@ export function QuestPage() {
             )}
           </div>
 
-          <TouchPad
-            onDir={(dir, downHeld) => gameRef.current?.setHeld(dir, downHeld)}
-            onAction={() => gameRef.current?.pressAction()}
-          />
+          {/* the touch D-pad is useless while an overlay is open (the game is
+              paused) and would collide with the dialogue's word chips — hide it */}
+          {!overlay && (
+            <TouchPad
+              onDir={(dir, downHeld) => gameRef.current?.setHeld(dir, downHeld)}
+              onAction={() => gameRef.current?.pressAction()}
+            />
+          )}
           <AnimatePresence>
             {fading && !reduced && (
               <motion.div

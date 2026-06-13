@@ -4,11 +4,15 @@
  * shard is granted when the run finishes.
  */
 
+import type { GlossaryKey } from '../../../data/glossary'
+
 export interface DialogPage {
   speaker: string
   text: string
   /** portrait color key for the nameplate chip */
   tone?: 'ink' | 'tangerine' | 'sun' | 'leaf' | 'sky' | 'grape' | 'blush' | 'plum'
+  /** technical words introduced on this page — shown as tap-to-explain chips */
+  terms?: GlossaryKey[]
 }
 
 export interface DialogRun {
@@ -40,7 +44,7 @@ export const DIALOGS: Record<string, DialogRun> = {
     'bubbles',
     [
       { speaker: 'Chachapiti', tone: 'sun', text: "Pip! You made it. I'm Chachapiti — yes, like the famous one. We're, eh... distant cousins. This gazebo is the Chat. Everyone starts here." },
-      { speaker: 'Chachapiti', tone: 'sun', text: 'Here you ask, and AI answers. Lovely. But up the path live the agents — AI that can actually DO things: make files, build pages, fix stuff.' },
+      { speaker: 'Chachapiti', tone: 'sun', text: 'Here you ask, and AI answers. Lovely. But up the path live the agents — AI that can actually DO things: make files, build pages, fix stuff.', terms: ['agent'] },
       { speaker: 'Chachapiti', tone: 'sun', text: "Here's the secret nobody tells beginners: talking to them works exactly like talking to me. You already speak the language." },
       { speaker: 'Chachapiti', tone: 'sun', text: 'Take this shard to remember it. Now go meet Termi at the old desk, up the path and to the east!' },
     ],
@@ -54,12 +58,12 @@ export const DIALOGS: Record<string, DialogRun> = {
   termi: D(
     'termi',
     [
-      { speaker: 'Termi', tone: 'plum', text: '❯ oh! a visitor. I am Termi — a terminal. People find me scary. I am literally a text box.' },
+      { speaker: 'Termi', tone: 'plum', text: '❯ oh! a visitor. I am Termi — a terminal. People find me scary. I am literally a text box.', terms: ['terminal'] },
       { speaker: 'Termi', tone: 'plum', text: "❯ here's my superpower: I am the most VERSATILE door to agents. I run on any computer — PC or Mac — no app store needed." },
-      { speaker: 'Termi', tone: 'plum', text: '❯ got Claude Pro? Claude Code runs in me. Got ChatGPT Plus? Codex runs in me. Want free? OpenCode is free and open-source, and lives in me too.' },
+      { speaker: 'Termi', tone: 'plum', text: '❯ got Claude Pro? Claude Code runs in me. Got ChatGPT Plus? Codex runs in me. Want free? OpenCode is free and open-source, and lives in me too.', terms: ['openSource'] },
       { speaker: 'Termi', tone: 'plum', text: "❯ fun fact: I'm older than the computer mouse. Still here. The cursor blinking in me? That's your cousin, by the way." },
       { speaker: 'Termi', tone: 'plum', text: '❯ how it works, simply: you type a message, the agent answers, and before it touches anything it asks you first. Same chat, more muscles.' },
-      { speaker: 'Termi', tone: 'plum', text: "❯ full honesty: moving an agent into me takes ONE copy-paste install command from its official guide. Five minutes, once. After that, you just type its name and we're talking." },
+      { speaker: 'Termi', tone: 'plum', text: "❯ full honesty: moving an agent into me takes ONE copy-paste install command from its official guide. Five minutes, once. After that, you just type its name and we're talking.", terms: ['command'] },
       { speaker: 'Termi', tone: 'plum', text: '❯ take this shard. And if you prefer pretty buttons — no offense taken. Visit the App Stand, west side of the valley.' },
     ],
     {
@@ -95,7 +99,7 @@ export const DIALOGS: Record<string, DialogRun> = {
   opencodeMarker: D(
     'opencodeMarker',
     [
-      { speaker: 'Trail marker', tone: 'leaf', text: 'THE FREE TRAIL — OpenCode: free, open-source, terminal-only. Bring a Claude or ChatGPT subscription you already have, or your own API keys.' },
+      { speaker: 'Trail marker', tone: 'leaf', text: 'THE FREE TRAIL — OpenCode: free, open-source, terminal-only. Bring a Claude or ChatGPT subscription you already have, or your own API keys.', terms: ['openSource', 'apiKey'] },
     ],
     { links: [{ label: 'OpenCode', url: 'https://opencode.ai' }] },
   ),
@@ -106,7 +110,7 @@ export const DIALOGS: Record<string, DialogRun> = {
     [
       { speaker: 'Wandering Pip', tone: 'leaf', text: "Hi! I walk this road every day and nothing has ever broken. Want to know why? Two rules." },
       { speaker: 'Wandering Pip', tone: 'leaf', text: 'Rule one: agents ask before they touch anything. You say yes or no. "No" always works.' },
-      { speaker: 'Wandering Pip', tone: 'leaf', text: 'Rule two: practice in a brand-new empty folder. Empty means nothing to lose. Worst case? Delete the folder — like it never happened.' },
+      { speaker: 'Wandering Pip', tone: 'leaf', text: 'Rule two: practice in a brand-new empty folder. Empty means nothing to lose. Worst case? Delete the folder — like it never happened.', terms: ['folder'] },
       { speaker: 'Wandering Pip', tone: 'leaf', text: 'Ask first, break nothing. Carry it as a shard — the guardian at the door respects this one most.' },
     ],
     {
@@ -118,7 +122,7 @@ export const DIALOGS: Record<string, DialogRun> = {
     },
   ),
   mailbox: D('mailbox', [
-    { speaker: 'Mailbox', tone: 'tangerine', text: 'A flyer inside: "FIRST PROMPTS, FREE — the Prompt Pantry. Paste, answer questions, own a website by teatime." Sounds made up. It isn\'t.' },
+    { speaker: 'Mailbox', tone: 'tangerine', text: 'A flyer inside: "FIRST PROMPTS, FREE — the Prompt Pantry. Paste, answer questions, own a website by teatime." Sounds made up. It isn\'t.', terms: ['prompt'] },
   ]),
   bench: D('bench', [
     { speaker: 'Bench plaque', tone: 'ink', text: '"In memory of every beginner who thought they\'d break the computer. They didn\'t." — the Valley' },
@@ -136,7 +140,7 @@ export const DIALOGS: Record<string, DialogRun> = {
     [
       { speaker: 'The Chief', tone: 'tangerine', text: 'Welcome to the office! Here, one main agent — me — breaks a big job into pieces and hands each piece to a worker agent.' },
       { speaker: 'The Chief', tone: 'tangerine', text: 'Research goes to the researcher, words to the writer, bugs to the fixer. They hand work to each other. I keep the plan. The human keeps the last word.' },
-      { speaker: 'The Chief', tone: 'tangerine', text: "This is advanced — the deep end of the pool. Setups like Hermes make it possible: free, open-source, self-hosted. You run it on your own machine, when you're ready for more." },
+      { speaker: 'The Chief', tone: 'tangerine', text: "This is advanced — the deep end of the pool. Setups like Hermes make it possible: free, open-source, self-hosted. You run it on your own machine, when you're ready for more.", terms: ['openSource', 'selfHosted'] },
       { speaker: 'The Chief', tone: 'tangerine', text: 'My honest tip: master ONE agent first. The day one agent feels easy, a team of them will feel obvious. Take this shard — and the resources by the door.' },
     ],
     {
@@ -154,7 +158,7 @@ export const DIALOGS: Record<string, DialogRun> = {
     { speaker: 'Writer Pip', tone: 'blush', text: "I turn the researcher's facts into words humans enjoy. The trick? Short sentences. Warm ones. Like these." },
   ]),
   workerFixer: D('workerFixer', [
-    { speaker: 'Fixer Pip', tone: 'grape', text: 'Red error text is my breakfast. Paste me an error and I purr. Fun fact: fixing is half of every agent\'s job — nobody writes it perfect first try.' },
+    { speaker: 'Fixer Pip', tone: 'grape', text: 'Red error text is my breakfast. Paste me an error and I purr. Fun fact: fixing is half of every agent\'s job — nobody writes it perfect first try.', terms: ['error'] },
   ]),
   runner: D('runner', [
     { speaker: 'Runner Pip', tone: 'sun', text: "Coming through! Hand-offs, hand-offs! The researcher's notes go to the writer, the writer's draft goes to review — teamwork, but with version numbers!" },
